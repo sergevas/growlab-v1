@@ -1,4 +1,15 @@
-app:
+camera:
+  width: 1920
+  height: 1080
+  quality: 100
+  brightness: 50
+  contrast: 0
+  saturation: 0
+  sharpness: 0
+  iso: 0
+  exposureMode: AUTO
+  automaticWhiteBalance: AUTO
+  encoding: JPEG
 
 server:
   port: 8088

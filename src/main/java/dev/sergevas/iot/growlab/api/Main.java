@@ -53,7 +53,7 @@ public final class Main {
                 .thenAccept(ws -> {
                     System.out.println("GrowLab server is up! http://localhost:" + ws.port() + "/picture");
                     ws.whenShutdown().thenRun(() -> {
-                        PiCamControl.piCamControl().closeCamera(); // TODO: refactor this
+                        PiCamControl.piCamControl().closeCamera(); //TODO: refactor this
                         System.out.println("GrowLab server is DOWN.");
                     });
                 })
