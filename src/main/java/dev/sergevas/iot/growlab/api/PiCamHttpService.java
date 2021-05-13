@@ -35,10 +35,18 @@ public class PiCamHttpService implements Service {
                 .saturation(config.get("camera.saturation").asInt().orElse(0))
                 .sharpness(config.get("camera.sharpness").asInt().orElse(0))
                 .iso(config.get("camera.iso").asInt().orElse(0))
-                .exposureMode(config.get("camera.exposureMode").as(ExposureMode.class).orElse(ExposureMode.AUTO))
-                .automaticWhiteBalance(config.get("camera.automaticWhiteBalance").as(AutomaticWhiteBalanceMode.class)
+                .exposureMode(config.get("camera.exposureMode")
+                        .asString()
+                        .as(ExposureMode::valueOf)
+                        .orElse(ExposureMode.AUTO))
+                .automaticWhiteBalance(config.get("camera.automaticWhiteBalance")
+                        .asString()
+                        .as(AutomaticWhiteBalanceMode::valueOf)
                         .orElse(AutomaticWhiteBalanceMode.AUTO))
-                .encoding(config.get("camera.encoding").as(Encoding.class).orElse(Encoding.JPEG)));
+                .encoding(config.get("camera.encoding")
+                        .asString()
+                        .as(Encoding::valueOf)
+                        .orElse(Encoding.JPEG)));
     }
 
     @Override

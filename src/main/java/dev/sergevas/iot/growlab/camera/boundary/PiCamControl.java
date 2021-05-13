@@ -9,15 +9,7 @@ import java.util.Optional;
 import static uk.co.caprica.picam.CameraConfiguration.cameraConfiguration;
 import static uk.co.caprica.picam.PicamNativeLibrary.installTempLibrary;
 
-public class PiCamControl {
-
-    static {
-        try {
-            installTempLibrary();
-        } catch (NativeLibraryException nle) {
-            throw new PiCamException("Unable to load picam native library", nle);
-        }
-    }
+public class PiCamControl implements IPiCamControl {
 
     private static PiCamControl piCamInitializer = null;
     private Camera camera;
@@ -31,10 +23,6 @@ public class PiCamControl {
             piCamInitializer = new PiCamControl();
         }
         return piCamInitializer;
-    }
-
-    public Camera getCamera() {
-        return camera;
     }
 
     public CameraConfiguration getCameraConfiguration() {
@@ -54,6 +42,12 @@ public class PiCamControl {
     }
 
     public Camera initCamera(CameraConfiguration cameraConfiguration) {
+        try {
+            installTempLibrary();
+        } catch (NativeLibraryException nle) {
+            throw new PiCamException("Unable to load picam native library", nle);
+        }
+
         try {
             this.closeCamera();
             this.camera = new Camera(cameraConfiguration);

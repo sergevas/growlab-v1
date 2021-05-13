@@ -1,7 +1,5 @@
 package dev.sergevas.iot.growlab.camera.boundary;
 
-import uk.co.caprica.picam.CameraException;
-
 public class PiCamException extends RuntimeException {
 
     public PiCamException() {
