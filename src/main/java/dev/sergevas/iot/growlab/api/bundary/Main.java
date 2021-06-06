@@ -1,5 +1,5 @@
 
-package dev.sergevas.iot.growlab.api;
+package dev.sergevas.iot.growlab.api.bundary;
 
 import dev.sergevas.iot.growlab.camera.boundary.PiCamControl;
 import io.helidon.common.LogConfig;
