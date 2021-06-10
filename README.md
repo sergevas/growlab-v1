@@ -45,3 +45,19 @@ with the following content:
 ```text
 connection_messages true
 ```
+Enable Username and Password Authentication:
+```bash
+cd /etc/mosquitto
+sudo mosquitto_passwd -c passwds garden
+#Enter password for garden user
+```
+Update config file /etc/mosquitto/conf.d/rpi.conf
+with the following content:
+```text
+allow_anonymous false
+password_file /etc/mosquitto/passwds
+```
+Restart "mosquitto" system service:
+```bash
+sudo systemctl restart mosquitto
+```
