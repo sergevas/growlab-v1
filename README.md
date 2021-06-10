@@ -37,3 +37,11 @@ Mosquitto starts on boot after the installation.
 ```bash
 sudo systemctl status mosquitto
 ```
+Add config file:
+```bash
+sudo nano /etc/mosquitto/conf.d/rpi.conf
+```
+with the following content:
+```text
+connection_messages true
+```
