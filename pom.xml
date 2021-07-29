@@ -5,6 +5,7 @@
   <groupId>dev.sergevas.iot</groupId>
   <artifactId>growlab-v1</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
@@ -12,13 +13,19 @@
     <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
-    <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-    <quarkus.platform.version>2.0.3.Final</quarkus.platform.version>
+    <mainClass>dev.sergevas.iot.growlabv1.Main</mainClass>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
     <pi4j.version>2.0-SNAPSHOT</pi4j.version>
     <slf4j.version>2.0.0-alpha2</slf4j.version>
+
   </properties>
+
+  <parent>
+    <groupId>io.helidon.applications</groupId>
+    <artifactId>helidon-se</artifactId>
+    <version>2.3.2</version>
+    <relativePath/>
+  </parent>
 
   <repositories>
     <repository>
@@ -34,45 +41,36 @@
     </repository>
   </repositories>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>${quarkus.platform.group-id}</groupId>
-        <artifactId>${quarkus.platform.artifact-id}</artifactId>
-        <version>${quarkus.platform.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   <dependencies>
     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-reactive-messaging-mqtt</artifactId>
+      <groupId>io.helidon.webserver</groupId>
+      <artifactId>helidon-webserver</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-jsonb</artifactId>
+      <groupId>io.helidon.media</groupId>
+      <artifactId>helidon-media-jsonp</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy</artifactId>
+      <groupId>io.helidon.config</groupId>
+      <artifactId>helidon-config-yaml</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-arc</artifactId>
+      <groupId>io.helidon.health</groupId>
+      <artifactId>helidon-health</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-junit5</artifactId>
+      <groupId>io.helidon.health</groupId>
+      <artifactId>helidon-health-checks</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.helidon.metrics</groupId>
+      <artifactId>helidon-metrics</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.helidon.webclient</groupId>
+      <artifactId>helidon-webclient</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
       <groupId>com.pi4j</groupId>
       <artifactId>pi4j-core</artifactId>
@@ -112,21 +110,6 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>${quarkus.platform.group-id}</groupId>
-        <artifactId>quarkus-maven-plugin</artifactId>
-        <version>${quarkus.platform.version}</version>
-        <extensions>true</extensions>
-        <executions>
-          <execution>
-            <goals>
-              <goal>build</goal>
-              <goal>generate-code</goal>
-              <goal>generate-code-tests</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${compiler-plugin.version}</version>
         <configuration>
@@ -134,15 +117,33 @@
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${surefire-plugin.version}</version>
-        <configuration>
-          <systemPropertyVariables>
-            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-            <maven.home>${maven.home}</maven.home>
-          </systemPropertyVariables>
-        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-libs</id>
+          </execution>
+        </executions>
       </plugin>
+      <plugin>
+        <groupId>io.helidon.build-tools</groupId>
+        <artifactId>helidon-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>third-party-license-report</id>
+          </execution>
+        </executions>
+      </plugin>
+<!--      <plugin>-->
+<!--        <artifactId>maven-surefire-plugin</artifactId>-->
+<!--        <version>${surefire-plugin.version}</version>-->
+<!--        <configuration>-->
+<!--          <systemPropertyVariables>-->
+<!--            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>-->
+<!--            <maven.home>${maven.home}</maven.home>-->
+<!--          </systemPropertyVariables>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
     </plugins>
   </build>
 </project>
