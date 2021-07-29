@@ -1,8 +1,5 @@
 package dev.sergevas.iot.bh1750.boundary;
 
-import java.io.IOException;
-import java.util.Arrays;
-
 import com.pi4j.Pi4J;
 import com.pi4j.io.i2c.I2C;
 import com.pi4j.io.i2c.I2CProvider;
@@ -18,8 +15,8 @@ public class Bh1750Adapter {
     public static final byte GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE_2 = (byte) 0x21;
     public static final int GY_302_BH1750_READINGS_DATA_LENGTH = 2;
 
-    public static void main(String[] args) {
-
+    public String getLightIntensity() {
+        String lightIntensity = null;
         final Console console = new Console();
         console.promptForExit();
 
@@ -39,9 +36,11 @@ public class Bh1750Adapter {
             byte[] readings = i2cDevice.readNBytes(GY_302_BH1750_READINGS_DATA_LENGTH);
             console.println("GY-302 BH1750 readings: " + StringUtil.toHexString(readings));
             i2cDevice.write(GY_302_BH1750_POWER_DOWN);
+            lightIntensity = StringUtil.toHexString(readings);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         pi4j.shutdown();
+        return lightIntensity;
     }
 }
