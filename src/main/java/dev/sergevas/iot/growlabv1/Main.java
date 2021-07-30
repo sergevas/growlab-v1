@@ -1,6 +1,7 @@
 
 package dev.sergevas.iot.growlabv1;
 
+import dev.sergevas.iot.growlabv1.shared.boundary.SensorsHttpervice;
 import io.helidon.common.LogConfig;
 import io.helidon.config.Config;
 import io.helidon.health.HealthSupport;

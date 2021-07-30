@@ -1,4 +1,4 @@
-package dev.sergevas.iot.growlabv1;
+package dev.sergevas.iot.growlabv1.shared.boundary;
 
 import dev.sergevas.iot.growlabv1.bh1750.boundary.Bh1750Adapter;
 import io.helidon.webserver.Routing;

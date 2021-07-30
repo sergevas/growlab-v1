@@ -4,6 +4,7 @@ import com.pi4j.Pi4J;
 import com.pi4j.io.i2c.I2C;
 import com.pi4j.io.i2c.I2CProvider;
 import com.pi4j.util.StringUtil;
+import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
 
 import java.util.logging.Logger;
 
@@ -37,7 +38,7 @@ public class Bh1750Adapter {
             i2cDevice.write(GY_302_BH1750_POWER_DOWN);
             lightIntensity = StringUtil.toHexString(readings);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new SensorException(e);
         }
         pi4j.shutdown();
         return lightIntensity;
