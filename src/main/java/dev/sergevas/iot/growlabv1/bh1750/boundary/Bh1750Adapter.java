@@ -6,7 +6,6 @@ import com.pi4j.io.i2c.I2CProvider;
 import com.pi4j.util.StringUtil;
 import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
 
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class Bh1750Adapter {
@@ -50,8 +49,7 @@ public class Bh1750Adapter {
     }
 
     public double fromRawReadingsToLightIntensity(byte[] i2cReadings) {
-        double lightIntensity = 0;
-        lightIntensity = (Byte.toUnsignedInt(i2cReadings[0]) << 8 | Byte.toUnsignedInt(i2cReadings[1])) / 1.2;
-        return lightIntensity;
+        return Math.round((Byte.toUnsignedInt(i2cReadings[0]) << 8
+                | Byte.toUnsignedInt(i2cReadings[1])) / 1.2 * 100.0) / 100.0;
     }
 }
