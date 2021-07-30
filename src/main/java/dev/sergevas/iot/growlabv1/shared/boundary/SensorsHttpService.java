@@ -5,8 +5,8 @@ import io.helidon.webserver.Routing;
 import io.helidon.webserver.Service;
 import java.util.logging.Logger;
 
-public class SensorsHttpervice implements Service {
-    private static final Logger LOG = Logger.getLogger(SensorsHttpervice.class.getName());
+public class SensorsHttpService implements Service {
+    private static final Logger LOG = Logger.getLogger(SensorsHttpService.class.getName());
 
     @Override
     public void update(Routing.Rules rules) {

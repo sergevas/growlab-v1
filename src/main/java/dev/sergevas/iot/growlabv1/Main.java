@@ -1,7 +1,7 @@
 
 package dev.sergevas.iot.growlabv1;
 
-import dev.sergevas.iot.growlabv1.shared.boundary.SensorsHttpervice;
+import dev.sergevas.iot.growlabv1.shared.boundary.SensorsHttpService;
 import io.helidon.common.LogConfig;
 import io.helidon.config.Config;
 import io.helidon.health.HealthSupport;
@@ -82,7 +82,7 @@ public final class Main {
         return Routing.builder()
                 .register(health)                   // Health at "/health"
                 .register(metrics)                  // Metrics at "/metrics"
-                .register("/growlab/api/v1/sensors", new SensorsHttpervice())
+                .register("/growlab/api/v1/sensors", new SensorsHttpService())
                 .build();
     }
 }
