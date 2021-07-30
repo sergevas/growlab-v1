@@ -6,6 +6,7 @@ import com.pi4j.io.i2c.I2CProvider;
 import com.pi4j.util.StringUtil;
 import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class Bh1750Adapter {
@@ -15,6 +16,7 @@ public class Bh1750Adapter {
     public static final byte GY_302_BH1750_POWER_DOWN = 0x00;
     public static final byte GY_302_BH1750_POWER_ON = 0x01;
     public static final byte GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE_2 = (byte) 0x21;
+    public static final byte GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE = (byte) 0x20;
     public static final int GY_302_BH1750_READINGS_DATA_LENGTH = 2;
 
     public String getLightIntensity() {
@@ -30,17 +32,26 @@ public class Bh1750Adapter {
         try (var i2cDevice = i2CProvider.create(config)) {
             i2cDevice.write(GY_302_BH1750_POWER_ON);
             Thread.sleep(1);
-            i2cDevice.write(GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE_2);
+            i2cDevice.write(GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE);
             Thread.sleep(200);
             LOG.info("Reading data from GY-302 BH1750...");
             byte[] readings = i2cDevice.readNBytes(GY_302_BH1750_READINGS_DATA_LENGTH);
-            LOG.info("GY-302 BH1750 readings: " + StringUtil.toHexString(readings));
+            LOG.info("GY-302 BH1750 readings...");
+            for (int i = 0; i < GY_302_BH1750_READINGS_DATA_LENGTH; i++) {
+                LOG.info("readings[" + i + "]=" + StringUtil.toHexString(readings[i]));
+            }
             i2cDevice.write(GY_302_BH1750_POWER_DOWN);
-            lightIntensity = StringUtil.toHexString(readings);
+            lightIntensity = Double.toString(fromRawReadingsToLightIntensity(readings));
         } catch (InterruptedException e) {
             throw new SensorException(e);
         }
         pi4j.shutdown();
+        return lightIntensity;
+    }
+
+    public double fromRawReadingsToLightIntensity(byte[] i2cReadings) {
+        double lightIntensity = 0;
+        lightIntensity = (Byte.toUnsignedInt(i2cReadings[0]) << 8 | Byte.toUnsignedInt(i2cReadings[1])) / 1.2;
         return lightIntensity;
     }
 }
