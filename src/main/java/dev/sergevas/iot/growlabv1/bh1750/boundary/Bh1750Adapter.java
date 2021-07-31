@@ -18,8 +18,8 @@ public class Bh1750Adapter {
     public static final byte GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE = (byte) 0x20;
     public static final int GY_302_BH1750_READINGS_DATA_LENGTH = 2;
 
-    public String getLightIntensity() {
-        String lightIntensity = null;
+    public Double getLightIntensity() {
+        Double lightIntensity = null;
 
         var pi4j = Pi4J.newAutoContext();
         var config = I2C.newConfigBuilder(pi4j)
@@ -40,7 +40,7 @@ public class Bh1750Adapter {
                 LOG.info("readings[" + i + "]=" + StringUtil.toHexString(readings[i]));
             }
             i2cDevice.write(GY_302_BH1750_POWER_DOWN);
-            lightIntensity = Double.toString(fromRawReadingsToLightIntensity(readings));
+            lightIntensity = fromRawReadingsToLightIntensity(readings);
         } catch (InterruptedException e) {
             throw new SensorException(e);
         }
