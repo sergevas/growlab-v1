@@ -7,7 +7,6 @@ import io.helidon.config.Config;
 import io.helidon.health.HealthSupport;
 import io.helidon.health.checks.HealthChecks;
 import io.helidon.media.jsonp.JsonpSupport;
-import io.helidon.metrics.MetricsSupport;
 import io.helidon.webserver.Routing;
 import io.helidon.webserver.WebServer;
 
@@ -74,14 +73,12 @@ public final class Main {
      * @param config configuration of this server
      */
     private static Routing createRouting(Config config) {
-        MetricsSupport metrics = MetricsSupport.create();
         HealthSupport health = HealthSupport.builder()
                 .addLiveness(HealthChecks.healthChecks())   // Adds a convenient set of checks
                 .build();
 
         return Routing.builder()
                 .register(health)                   // Health at "/health"
-                .register(metrics)                  // Metrics at "/metrics"
                 .register("/growlab/api/v1/sensors", new SensorsHttpService())
                 .build();
     }
