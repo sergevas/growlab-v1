@@ -4,6 +4,7 @@ import dev.sergevas.iot.growlabv1.shared.model.SensorType;
 
 public class SensorException extends RuntimeException {
 
+    private String eventId;
     private SensorType sensorType;
 
     public SensorException() {
@@ -21,13 +22,18 @@ public class SensorException extends RuntimeException {
         super(cause);
     }
 
-    public SensorException(SensorType sensorType, Throwable cause) {
-        super(cause);
+    public SensorException(String eventId, SensorType sensorType, String message, Throwable cause) {
+        super(message, cause);
+        this.eventId = eventId;
         this.sensorType = sensorType;
     }
 
     public SensorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    public String getEventId() {
+        return eventId;
     }
 
     public SensorType getSensorType() {

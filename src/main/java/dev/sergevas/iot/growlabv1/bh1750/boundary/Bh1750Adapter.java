@@ -42,15 +42,17 @@ public class Bh1750Adapter {
             }
             i2cDevice.write(GY_302_BH1750_POWER_DOWN);
             lightIntensity = fromRawReadingsToLightIntensity(readings);
-        } catch (InterruptedException e) {
-            throw new SensorException(SensorType.LIGHT, e);
+        } catch (Exception e) {
+            throw new SensorException("E-BH1750-0001", SensorType.LIGHT, "BH1750 data read error", e);
         }
         pi4j.shutdown();
         return lightIntensity;
     }
 
     public double fromRawReadingsToLightIntensity(byte[] i2cReadings) {
-        return Math.round((Byte.toUnsignedInt(i2cReadings[0]) << 8
+        double lightIntensity = Math.round((Byte.toUnsignedInt(i2cReadings[0]) << 8
                 | Byte.toUnsignedInt(i2cReadings[1])) / 1.2 * 100.0) / 100.0;
+        LOG.info("Light Intensity: " + lightIntensity + " lux");
+        return lightIntensity;
     }
 }

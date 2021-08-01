@@ -112,7 +112,36 @@
 
   </dependencies>
   <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>3.4.3</version>
+      </extension>
+    </extensions>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>2.0.2</version>
+        <executions>
+          <execution>
+            <id>uploadApp</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload</goal>
+            </goals>
+              <configuration>
+                <serverId>rpiAdev</serverId>
+                <overWrite>true</overWrite>
+                <fromDir>${project.build.directory}</fromDir>
+                <includes>libs/*,${project.build.finalName}.${project.packaging}</includes>
+                <url>scp://192.168.1.73/home/pi/growlab/helidon</url>
+              </configuration>
+          </execution>
+        </executions>
+
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${compiler-plugin.version}</version>

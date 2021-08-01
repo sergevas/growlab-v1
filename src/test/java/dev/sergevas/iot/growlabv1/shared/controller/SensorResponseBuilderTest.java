@@ -10,17 +10,19 @@ import javax.json.JsonValue;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Collections;
+import dev.sergevas.iot.growlabv1.shared.model.SensorType;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 class SensorResponseBuilderTest {
 
     private static  JsonObject expected;
-    private static OffsetDateTime sTimestamp = OffsetDateTime.of(2021, 7, 31, 23,
-            07, 00, 00, ZoneOffset.UTC);
+    private static OffsetDateTime sTimestamp;
 
     @BeforeAll
     static void setup() {
+        sTimestamp = OffsetDateTime.of(2021, 7, 31, 23,
+                07, 00, 00, ZoneOffset.UTC);
         expected =Json
                 .createBuilderFactory(Collections.emptyMap())
                 .createObjectBuilder()
@@ -34,7 +36,7 @@ class SensorResponseBuilderTest {
     @Test
     void buildJsonObject() {
         JsonObject actual = new SensorResponseBuilder()
-                .sType(SensorResponseBuilder.SensorType.LIGHT)
+                .sType(SensorType.LIGHT)
                 .sData("25.7")
                 .sTimestamp(sTimestamp)
                 .buildJsonObject();
