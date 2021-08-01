@@ -7,22 +7,10 @@ import javax.json.JsonValue;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.Objects;
-import java.util.Optional;
+import dev.sergevas.iot.growlabv1.shared.model.SensorType;
 
 public class SensorResponseBuilder {
 
-    public enum SensorType {
-        TEMP, HUMID, PRESS, CO2,
-        SOIL_TEMP, SOIL_HUMID,
-        LIGHT;
-    }
-/*
-{
-    "s_type": "some text",
-    "s_id": "some text",
-    "s_data": "some text",
-    "s_timestamp": "2018-02-10T09:30Z"
-*/
     private static final String S_ID = "s_id";
     private static final String S_DATA = "s_data";
     private static final String S_TYPE = "s_type";
