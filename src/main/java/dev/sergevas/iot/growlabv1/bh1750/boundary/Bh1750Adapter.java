@@ -52,7 +52,7 @@ public class Bh1750Adapter {
     public double fromRawReadingsToLightIntensity(byte[] i2cReadings) {
         double lightIntensity = Math.round((Byte.toUnsignedInt(i2cReadings[0]) << 8
                 | Byte.toUnsignedInt(i2cReadings[1])) / 1.2 * 100.0) / 100.0;
-        LOG.info("Light Intensity: " + lightIntensity + " lux");
+        LOG.info("Light intensity: " + lightIntensity + " lux");
         return lightIntensity;
     }
 }

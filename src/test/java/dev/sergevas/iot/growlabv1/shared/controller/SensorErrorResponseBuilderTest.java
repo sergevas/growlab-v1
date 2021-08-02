@@ -43,6 +43,10 @@ class SensorErrorResponseBuilderTest {
                 .sensorException(sensorException)
                 .eventTimestamp(eventTimestamp)
                 .buildJsonObject();
-        assertEquals(expected, actual);
+        assertEquals("E-BH1750-0001", actual.getString("event_id"));
+        assertEquals("BH1750 data read error", actual.getString("event_name"));
+        assertEquals("LIGHT", actual.getString("s_type"));
+        assertNotNull(actual.getString("desc"));
+        assertEquals("2021-07-31T23:07Z", actual.getString("event_timestamp"));
     }
 }

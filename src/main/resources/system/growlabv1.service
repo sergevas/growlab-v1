@@ -1,0 +1,13 @@
+[Unit]
+Description=growlab-v1 application service
+After=syslog.target network.target
+[Service]
+TimeoutStartSec=180
+SuccessExitStatus=143
+User=root
+Type=simple
+ExecStart=/usr/lib/jvm/jdk11.0.11/bin/java -Xms32m -Xmx64m -server -jar /home/pi/growlabv1/app/helidon/growlab-v1.jar
+ExecStop=/bin/kill -15 $MAINPID
+
+[Install]
+WantedBy=multi-user.target

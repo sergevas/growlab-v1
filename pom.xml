@@ -18,6 +18,7 @@
     <pi4j.version>2.0-SNAPSHOT</pi4j.version>
     <slf4j.version>2.0.0-alpha2</slf4j.version>
     <junit.version>5.7.2</junit.version>
+    <rpi.ip>192.168.1.73</rpi.ip>
 
   </properties>
 
@@ -130,17 +131,20 @@
             <phase>package</phase>
             <goals>
               <goal>upload</goal>
+              <goal>sshexec</goal>
             </goals>
               <configuration>
                 <serverId>rpiAdev</serverId>
-                <overWrite>true</overWrite>
                 <fromDir>${project.build.directory}</fromDir>
                 <includes>libs/*,${project.build.finalName}.${project.packaging}</includes>
-                <url>scp://192.168.1.73/home/pi/growlab/helidon</url>
+                <url>scp://${rpi.ip}/home/pi/growlabv1/app/helidon</url>
+                <commands>
+                  <command>systemctl restart growlabv1.service</command>
+                </commands>
+                <displayCommandOutputs>true</displayCommandOutputs>
               </configuration>
           </execution>
         </executions>
-
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

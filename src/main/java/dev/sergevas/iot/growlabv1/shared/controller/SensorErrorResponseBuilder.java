@@ -81,8 +81,8 @@ public class SensorErrorResponseBuilder {
                 .add(S_TYPE, Optional.ofNullable(sensorException.getSensorType())
                         .map(Enum::toString).orElse("UNKNOWN"))
                 .add(EVENT_DESCRIPTION, this.desc != null
-                        ? Json.createValue(this.desc) : sensorException.getCause().getMessage() != null
-                            ? Json.createValue(sensorException.getCause().getMessage()) : JsonValue.NULL)
+                        ? Json.createValue(this.desc) : ExceptionUtils.getStackTrace(sensorException) != null
+                            ? Json.createValue(ExceptionUtils.getStackTrace(sensorException)) : JsonValue.NULL)
                 .add(EVENT_TIMESTAMP, this.eventTimestamp.toString())
                 .build();
     }

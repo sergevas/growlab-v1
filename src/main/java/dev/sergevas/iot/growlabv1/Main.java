@@ -1,6 +1,7 @@
 
 package dev.sergevas.iot.growlabv1;
 
+import dev.sergevas.iot.growlabv1.shared.boundary.ActuatorsHttpService;
 import dev.sergevas.iot.growlabv1.shared.boundary.SensorsErrorHandler;
 import dev.sergevas.iot.growlabv1.shared.boundary.SensorsHttpService;
 import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
@@ -82,6 +83,7 @@ public final class Main {
         return Routing.builder()
                 .register(health)                   // Health at "/health"
                 .register("/growlab/api/v1/sensors", new SensorsHttpService())
+                .register("/growlab/api/v1/actuators", new ActuatorsHttpService())
                 .error(SensorException.class, new SensorsErrorHandler())
                 .build();
     }
