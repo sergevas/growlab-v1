@@ -8,6 +8,7 @@ import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
 import dev.sergevas.iot.growlabv1.shared.model.SensorType;
 
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 public class Bh1750Adapter {
     private static final Logger LOG = Logger.getLogger(Bh1750Adapter.class.getName());
@@ -37,9 +38,8 @@ public class Bh1750Adapter {
             LOG.info("Reading data from GY-302 BH1750...");
             byte[] readings = i2cDevice.readNBytes(GY_302_BH1750_READINGS_DATA_LENGTH);
             LOG.info("GY-302 BH1750 readings...");
-            for (int i = 0; i < GY_302_BH1750_READINGS_DATA_LENGTH; i++) {
-                LOG.info("readings[" + i + "]=" + StringUtil.toHexString(readings[i]));
-            }
+            IntStream.range(0, GY_302_BH1750_READINGS_DATA_LENGTH)
+                .forEach(i -> LOG.info("readings[" + i + "]=" + StringUtil.toHexString(readings[i])));
             i2cDevice.write(GY_302_BH1750_POWER_DOWN);
             lightIntensity = fromRawReadingsToLightIntensity(readings);
         } catch (Exception e) {
