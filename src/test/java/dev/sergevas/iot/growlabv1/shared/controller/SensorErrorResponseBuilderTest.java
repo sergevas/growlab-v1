@@ -39,7 +39,7 @@ class SensorErrorResponseBuilderTest {
 
     @Test
     void buildJsonObject() {
-        JsonObject actual = new SensorErrorResponseBuilder()
+        JsonObject actual = new ErrorResponseBuilder()
                 .sensorException(sensorException)
                 .eventTimestamp(eventTimestamp)
                 .buildJsonObject();

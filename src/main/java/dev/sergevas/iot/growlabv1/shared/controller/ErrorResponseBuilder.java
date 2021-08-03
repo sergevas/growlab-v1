@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
 
-public class SensorErrorResponseBuilder {
+public class ErrorResponseBuilder {
 
     private static final String EVENT_ID = "event_id";
     private static final String EVENT_NAME = "event_name";
@@ -31,7 +31,7 @@ public class SensorErrorResponseBuilder {
         return sensorException;
     }
 
-    public SensorErrorResponseBuilder sensorException(SensorException sensorException) {
+    public ErrorResponseBuilder sensorException(SensorException sensorException) {
         this.sensorException = sensorException;
         return this;
     }
@@ -40,7 +40,7 @@ public class SensorErrorResponseBuilder {
         return eventId;
     }
 
-    public SensorErrorResponseBuilder eventId(String eventId) {
+    public ErrorResponseBuilder eventId(String eventId) {
         this.eventId = eventId;
         return this;
     }
@@ -49,7 +49,7 @@ public class SensorErrorResponseBuilder {
         return eventName;
     }
 
-    public SensorErrorResponseBuilder eventName(String eventName) {
+    public ErrorResponseBuilder eventName(String eventName) {
         this.eventName = eventName;
         return this;
     }
@@ -58,7 +58,7 @@ public class SensorErrorResponseBuilder {
         return desc;
     }
 
-    public SensorErrorResponseBuilder desc(String desc) {
+    public ErrorResponseBuilder desc(String desc) {
         this.desc = desc;
         return this;
     }
@@ -67,7 +67,7 @@ public class SensorErrorResponseBuilder {
         return eventTimestamp;
     }
 
-    public SensorErrorResponseBuilder eventTimestamp(OffsetDateTime eventTimestamp) {
+    public ErrorResponseBuilder eventTimestamp(OffsetDateTime eventTimestamp) {
         this.eventTimestamp = eventTimestamp;
         return this;
     }
@@ -91,7 +91,7 @@ public class SensorErrorResponseBuilder {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SensorErrorResponseBuilder that = (SensorErrorResponseBuilder) o;
+        ErrorResponseBuilder that = (ErrorResponseBuilder) o;
         return Objects.equals(sensorException, that.sensorException) && Objects.equals(eventId, that.eventId)
                 && Objects.equals(eventName, that.eventName) && Objects.equals(desc, that.desc)
                 && Objects.equals(eventTimestamp, that.eventTimestamp);
