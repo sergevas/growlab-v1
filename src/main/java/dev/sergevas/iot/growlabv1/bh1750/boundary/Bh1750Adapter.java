@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
 
 public class Bh1750Adapter {
     private static final Logger LOG = Logger.getLogger(Bh1750Adapter.class.getName());
+    public static String INSTANCE_ID = "i2c-bus-GY-302-BH1750";
     public static final int GY_302_BH1750_ADDR = 0x23; // Default address for the GY-302 BH1750 chip
     public static final byte GY_302_BH1750_POWER_DOWN = 0x00;
     public static final byte GY_302_BH1750_POWER_ON = 0x01;
@@ -20,7 +21,7 @@ public class Bh1750Adapter {
 
     public Double getLightIntensity() {
         Double lightIntensity;
-        var i2cDevice = I2CDeviceFactory.create(GY_302_BH1750_ADDR);
+        var i2cDevice = I2CDeviceFactory.create(INSTANCE_ID, GY_302_BH1750_ADDR);
         try {
             Profiler.init("getLightIntensity");
             i2cDevice.write(GY_302_BH1750_POWER_ON);
@@ -35,7 +36,6 @@ public class Bh1750Adapter {
             i2cDevice.write(GY_302_BH1750_POWER_DOWN);
             lightIntensity = fromRawReadingsToLightIntensity(readings);
             LOG.info(Profiler.getCurrentMsg("getLightIntensity", "fromRawReadingsToLightIntensity(readings)"));
-            i2cDevice.getDevice();
         } catch (Exception e) {
             throw new SensorException("E-BH1750-0001", SensorType.LIGHT, "BH1750 data read error", e);
         }
