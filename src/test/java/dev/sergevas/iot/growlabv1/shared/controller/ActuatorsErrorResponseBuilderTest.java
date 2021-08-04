@@ -14,7 +14,7 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SensorErrorResponseBuilderTest {
+class ActuatorsErrorResponseBuilderTest {
 
     private static OffsetDateTime eventTimestamp;
     private static SensorException sensorException;

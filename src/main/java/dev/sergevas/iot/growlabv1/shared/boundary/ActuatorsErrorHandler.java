@@ -1,6 +1,8 @@
 package dev.sergevas.iot.growlabv1.shared.boundary;
 
+import dev.sergevas.iot.growlabv1.shared.controller.ActuatorsErrorResponseBuilder;
 import dev.sergevas.iot.growlabv1.shared.controller.SensorsErrorResponseBuilder;
+import dev.sergevas.iot.growlabv1.shared.exception.ActuatorException;
 import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
 import io.helidon.common.http.Http;
 import io.helidon.webserver.ErrorHandler;
@@ -11,11 +13,11 @@ import javax.json.JsonObject;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-public class SensorsErrorHandler implements ErrorHandler<SensorException> {
+public class ActuatorsErrorHandler implements ErrorHandler<ActuatorException> {
     @Override
-    public void accept(ServerRequest req, ServerResponse res, SensorException ex) {
-        JsonObject returnObject = new SensorsErrorResponseBuilder()
-                .sensorException(ex)
+    public void accept(ServerRequest req, ServerResponse res, ActuatorException ex) {
+        JsonObject returnObject = new ActuatorsErrorResponseBuilder()
+                .actuatorException(ex)
                 .eventTimestamp(OffsetDateTime.now(ZoneOffset.UTC))
                 .buildJsonObject();
         res.status(Http.Status.INTERNAL_SERVER_ERROR_500).send(returnObject);

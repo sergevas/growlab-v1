@@ -1,7 +1,5 @@
 package dev.sergevas.iot.growlabv1.shared.exception;
 
-import dev.sergevas.iot.growlabv1.shared.model.SensorType;
-
 public class ActuatorException extends RuntimeException {
 
     private String eventId;

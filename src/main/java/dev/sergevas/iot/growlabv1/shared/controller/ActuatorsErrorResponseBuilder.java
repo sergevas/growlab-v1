@@ -1,5 +1,7 @@
 package dev.sergevas.iot.growlabv1.shared.controller;
 
+import dev.sergevas.iot.growlabv1.shared.exception.ActuatorException;
+
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
@@ -9,30 +11,27 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 
-import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
-
-public class ErrorResponseBuilder {
+public class ActuatorsErrorResponseBuilder {
 
     private static final String EVENT_ID = "event_id";
     private static final String EVENT_NAME = "event_name";
     private static final String EVENT_TIMESTAMP = "event_timestamp";
     private static final String EVENT_DESCRIPTION = "desc";
-    private static final String S_TYPE = "s_type";
 
     private static final JsonBuilderFactory JSON = Json.createBuilderFactory(Collections.emptyMap());
 
-    private SensorException sensorException;
+    private ActuatorException actuatorException;
     private String eventId;
     private String eventName;
     private String desc;
     private OffsetDateTime eventTimestamp;
 
-    public SensorException getSensorException() {
-        return sensorException;
+    public ActuatorException getActuatorException() {
+        return actuatorException;
     }
 
-    public ErrorResponseBuilder sensorException(SensorException sensorException) {
-        this.sensorException = sensorException;
+    public ActuatorsErrorResponseBuilder actuatorException(ActuatorException actuatorException) {
+        this.actuatorException = actuatorException;
         return this;
     }
 
@@ -40,7 +39,7 @@ public class ErrorResponseBuilder {
         return eventId;
     }
 
-    public ErrorResponseBuilder eventId(String eventId) {
+    public ActuatorsErrorResponseBuilder eventId(String eventId) {
         this.eventId = eventId;
         return this;
     }
@@ -49,7 +48,7 @@ public class ErrorResponseBuilder {
         return eventName;
     }
 
-    public ErrorResponseBuilder eventName(String eventName) {
+    public ActuatorsErrorResponseBuilder eventName(String eventName) {
         this.eventName = eventName;
         return this;
     }
@@ -58,7 +57,7 @@ public class ErrorResponseBuilder {
         return desc;
     }
 
-    public ErrorResponseBuilder desc(String desc) {
+    public ActuatorsErrorResponseBuilder desc(String desc) {
         this.desc = desc;
         return this;
     }
@@ -67,7 +66,7 @@ public class ErrorResponseBuilder {
         return eventTimestamp;
     }
 
-    public ErrorResponseBuilder eventTimestamp(OffsetDateTime eventTimestamp) {
+    public ActuatorsErrorResponseBuilder eventTimestamp(OffsetDateTime eventTimestamp) {
         this.eventTimestamp = eventTimestamp;
         return this;
     }
@@ -75,14 +74,12 @@ public class ErrorResponseBuilder {
     public JsonObject buildJsonObject() {
         return JSON.createObjectBuilder()
                 .add(EVENT_ID, Optional.ofNullable(this.eventId)
-                        .orElse(sensorException.getEventId()))
+                        .orElse(actuatorException.getEventId()))
                 .add(EVENT_NAME, Optional.ofNullable(this.eventName)
-                        .orElse(sensorException.getMessage()))
-                .add(S_TYPE, Optional.ofNullable(sensorException.getSensorType())
-                        .map(Enum::toString).orElse("UNKNOWN"))
+                        .orElse(actuatorException.getMessage()))
                 .add(EVENT_DESCRIPTION, this.desc != null
-                        ? Json.createValue(this.desc) : ExceptionUtils.getStackTrace(sensorException) != null
-                            ? Json.createValue(ExceptionUtils.getStackTrace(sensorException)) : JsonValue.NULL)
+                        ? Json.createValue(this.desc) : ExceptionUtils.getStackTrace(actuatorException) != null
+                            ? Json.createValue(ExceptionUtils.getStackTrace(actuatorException)) : JsonValue.NULL)
                 .add(EVENT_TIMESTAMP, this.eventTimestamp.toString())
                 .build();
     }
@@ -91,21 +88,21 @@ public class ErrorResponseBuilder {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ErrorResponseBuilder that = (ErrorResponseBuilder) o;
-        return Objects.equals(sensorException, that.sensorException) && Objects.equals(eventId, that.eventId)
-                && Objects.equals(eventName, that.eventName) && Objects.equals(desc, that.desc)
-                && Objects.equals(eventTimestamp, that.eventTimestamp);
+        ActuatorsErrorResponseBuilder that = (ActuatorsErrorResponseBuilder) o;
+        return Objects.equals(actuatorException, that.actuatorException) && Objects.equals(eventId, that.eventId)
+                && Objects.equals(eventName, that.eventName)
+                && Objects.equals(desc, that.desc) && Objects.equals(eventTimestamp, that.eventTimestamp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sensorException, eventId, eventName, desc, eventTimestamp);
+        return Objects.hash(actuatorException, eventId, eventName, desc, eventTimestamp);
     }
 
     @Override
     public String toString() {
-        return "SensorErrorResponseBuilder{" +
-                "sensorException=" + sensorException +
+        return "ActuatorsErrorResponseBuilder{" +
+                "actuatorException=" + actuatorException +
                 ", eventId='" + eventId + '\'' +
                 ", eventName='" + eventName + '\'' +
                 ", desc='" + desc + '\'' +
