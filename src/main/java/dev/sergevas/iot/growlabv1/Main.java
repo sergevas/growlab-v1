@@ -1,6 +1,7 @@
 
 package dev.sergevas.iot.growlabv1;
 
+import dev.sergevas.iot.growlabv1.hardware.boundary.I2CDeviceFactory;
 import dev.sergevas.iot.growlabv1.shared.boundary.ActuatorsErrorHandler;
 import dev.sergevas.iot.growlabv1.shared.boundary.ActuatorsHttpService;
 import dev.sergevas.iot.growlabv1.shared.boundary.SensorsErrorHandler;
@@ -57,10 +58,12 @@ public final class Main {
                 .thenAccept(ws -> {
                     System.out.println("GrowLab server is up! http://localhost:" + ws.port() + "/growlab/api/v1");
                     ws.whenShutdown().thenRun(() -> {
+                        I2CDeviceFactory.shutdown();
                         System.out.println("GrowLab server is DOWN.");
                     });
                 })
                 .exceptionally(t -> {
+                    I2CDeviceFactory.shutdown();
                     System.err.println("Startup failed: " + t.getMessage());
                     t.printStackTrace(System.err);
                     return null;
