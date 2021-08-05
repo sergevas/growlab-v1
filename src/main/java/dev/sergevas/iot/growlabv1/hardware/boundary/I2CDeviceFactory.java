@@ -1,10 +1,8 @@
 package dev.sergevas.iot.growlabv1.hardware.boundary;
 
-import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
 import com.pi4j.io.i2c.I2C;
 import com.pi4j.io.i2c.I2CProvider;
-import dev.sergevas.iot.growlabv1.bh1750.boundary.Bh1750Adapter;
 import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
 
 import java.util.HashMap;
@@ -14,7 +12,7 @@ import java.util.logging.Logger;
 
 public class I2CDeviceFactory {
 
-    private static final Logger LOG = Logger.getLogger(Bh1750Adapter.class.getName());
+    private static final Logger LOG = Logger.getLogger(I2CDeviceFactory.class.getName());
 
     public static final int I2C_BUS = 1;
 
@@ -29,7 +27,7 @@ public class I2CDeviceFactory {
                     try {
                         Profiler.init("I2CDeviceFactory.create()");
                         Optional.ofNullable(pi4jContext).orElseGet(() -> {
-                            pi4jContext = Pi4J.newAutoContext();
+                            pi4jContext = Pi4JContextFactory.create();
                             LOG.info(Profiler.getCurrentMsg("I2CDeviceFactory.create()", "Pi4J.newAutoContext()"));
                             i2CProvider = pi4jContext.provider("pigpio-i2c");
                             LOG.info(Profiler.getCurrentMsg("I2CDeviceFactory.create()", "Pi4J.provider()"));
@@ -46,7 +44,7 @@ public class I2CDeviceFactory {
                         i2CDeviceInstances.put(instanceId, i2cDevice);
                         return i2cDevice;
                     } catch (Exception e) {
-                        throw new HardwareInitException("Unable to create I2C device", e);
+                        throw new HardwareException("Unable to create I2C device", e);
                     }
                 });
     }
@@ -55,15 +53,7 @@ public class I2CDeviceFactory {
         try {
             Optional.ofNullable(i2CDeviceInstances.get(instanceId)).ifPresent(I2C::close);
         } catch (Exception e) {
-            throw new HardwareInitException("Unable to close I2C device");
-        }
-    }
-
-    public static void shutdown() {
-        try {
-            Optional.ofNullable(pi4jContext).ifPresent(Context::shutdown);
-        } catch (Exception e) {
-            throw new HardwareInitException("Unable to shutdown Pi4J context");
+            throw new HardwareException("Unable to close I2C device");
         }
     }
 }
