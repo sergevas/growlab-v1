@@ -1,6 +1,7 @@
 package dev.sergevas.iot.growlabv1.camera.boundary;
 
 import dev.sergevas.iot.growlabv1.camera.model.CameraMode;
+import dev.sergevas.iot.growlabv1.shared.exception.ActuatorException;
 import io.helidon.common.http.Http;
 import io.helidon.webserver.Handler;
 import io.helidon.webserver.ServerRequest;
@@ -25,7 +26,7 @@ public class UpdateCameraModeRequestHandler implements Handler {
         req.content()
                 .as(JsonObject.class)
                 .thenAccept(jo -> updateCameraMode(jo, res))
-                .exceptionally(ex -> processErrors(ex, req, res));
+                .exceptionally(ex -> processUpdateErrors(ex, req, res));
     }
 
     private void updateCameraMode(JsonObject jsonObject, ServerResponse res) {
@@ -36,19 +37,15 @@ public class UpdateCameraModeRequestHandler implements Handler {
         res.status(Http.Status.OK_200).send();
     }
 
-    private static <T> T processErrors(Throwable ex, ServerRequest req, ServerResponse res) {
-        if (ex.getCause() instanceof JsonException){
-            LOG.log(Level.FINE, "Invalid JSON", ex);
+    private static <T> T processUpdateErrors(Throwable e, ServerRequest req, ServerResponse res) {
+        if (e.getCause() instanceof JsonException) {
+            LOG.log(Level.SEVERE, "Invalid JSON", e);
             JsonObject jsonErrorObject = JSON.createObjectBuilder()
-                    .add("error", "Invalid JSON")
+                    .add("error", "Invalid Request content")
                     .build();
             res.status(Http.Status.BAD_REQUEST_400).send(jsonErrorObject);
         }  else {
-            LOG.log(Level.FINE, "Internal error", ex);
-            JsonObject jsonErrorObject = JSON.createObjectBuilder()
-                    .add("error", "Internal error")
-                    .build();
-            res.status(Http.Status.INTERNAL_SERVER_ERROR_500).send(jsonErrorObject);
+            throw new ActuatorException("CAMERA-0001", "Camera mode update error", e);
         }
         return null;
     }
