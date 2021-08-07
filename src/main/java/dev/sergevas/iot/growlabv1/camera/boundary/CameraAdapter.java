@@ -8,6 +8,15 @@ public class CameraAdapter {
     private static final int CAMERA_MODE_CONTROL_PIN = 17;
     private static final String DIGITAL_OUTPUT_CAMERA_MODE = "digital-output-camera-control";
 
+    private static CameraAdapter instance;
+
+    public static CameraAdapter getInstance() {
+        if (instance == null) {
+            instance = new CameraAdapter();
+        }
+        return instance;
+    }
+
     public CameraMode getMode() {
         CameraMode mode = null;
         var digitalOutput = PiGpioFactory

@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.Objects;
 
 public class CameraModeBuilder {
-    private static final String MODE = "mode";
-    private static final String MODE_TIMESTAMP = "mode_timestamp";
+    public static final String MODE = "mode";
+    public static final String MODE_TIMESTAMP = "mode_timestamp";
 
     private static final JsonBuilderFactory JSON = Json.createBuilderFactory(Collections.emptyMap());
 

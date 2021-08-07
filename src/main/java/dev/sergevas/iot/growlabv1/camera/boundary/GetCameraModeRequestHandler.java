@@ -15,7 +15,7 @@ public class GetCameraModeRequestHandler implements Handler {
     @Override
     public void accept(ServerRequest req, ServerResponse res) {
         JsonObject returnObject = new CameraModeBuilder()
-                .mode(new CameraAdapter().getMode())
+                .mode(CameraAdapter.getInstance().getMode())
                 .modeTimestamp(OffsetDateTime.now(ZoneOffset.UTC))
                 .buildJsonObject();
         res.send(returnObject);
