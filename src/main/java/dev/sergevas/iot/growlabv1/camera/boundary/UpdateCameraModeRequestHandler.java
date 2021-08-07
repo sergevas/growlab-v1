@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_CAMERA_0002;
 
 public class UpdateCameraModeRequestHandler implements Handler {
 
@@ -45,7 +46,7 @@ public class UpdateCameraModeRequestHandler implements Handler {
                     .build();
             res.status(Http.Status.BAD_REQUEST_400).send(jsonErrorObject);
         }  else {
-            throw new ActuatorException("CAMERA-0001", "Camera mode update error", e);
+            throw new ActuatorException(E_CAMERA_0002.getId(), E_CAMERA_0002.getName(), e);
         }
         return null;
     }

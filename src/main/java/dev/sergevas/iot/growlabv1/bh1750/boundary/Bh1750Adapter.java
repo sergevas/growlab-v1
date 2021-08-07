@@ -9,6 +9,8 @@ import dev.sergevas.iot.growlabv1.shared.model.SensorType;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
+import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BH1750_0001;
+
 public class Bh1750Adapter {
     private static final Logger LOG = Logger.getLogger(Bh1750Adapter.class.getName());
     public static String INSTANCE_ID = "i2c-bus-GY-302-BH1750";
@@ -37,7 +39,7 @@ public class Bh1750Adapter {
             lightIntensity = fromRawReadingsToLightIntensity(readings);
             LOG.info(Profiler.getCurrentMsg("getLightIntensity", "fromRawReadingsToLightIntensity(readings)"));
         } catch (Exception e) {
-            throw new SensorException("E-BH1750-0001", SensorType.LIGHT, "BH1750 data read error", e);
+            throw new SensorException(E_BH1750_0001.getId(), SensorType.LIGHT, E_BH1750_0001.getName(), e);
         }
         return lightIntensity;
     }
