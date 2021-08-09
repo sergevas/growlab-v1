@@ -18,6 +18,8 @@
     <pi4j.version>2.0-SNAPSHOT</pi4j.version>
     <slf4j.version>2.0.0-alpha2</slf4j.version>
     <junit.version>5.7.2</junit.version>
+    <picam.version>2.0.2</picam.version>
+    <commons-codec.version>1.15</commons-codec.version>
     <rpi.ip>192.168.1.73</rpi.ip>
 
   </properties>
@@ -91,6 +93,17 @@
       <groupId>com.pi4j</groupId>
       <artifactId>pi4j-plugin-linuxfs</artifactId>
       <version>${pi4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>uk.co.caprica</groupId>
+      <artifactId>picam</artifactId>
+      <version>${picam.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>${commons-codec.version}</version>
     </dependency>
 
     <dependency>

@@ -87,8 +87,8 @@ public final class Main {
 
         return Routing.builder()
                 .register(health)                   // Health at "/health"
-                .register("/growlab/api/v1/sensors", new SensorsHttpService())
-                .register("/growlab/api/v1/actuators", new ActuatorsHttpService())
+                .register("/growlab/api/v1/sensors", new SensorsHttpService(config))
+                .register("/growlab/api/v1/actuators", new ActuatorsHttpService(config))
                 .error(SensorException.class, new SensorsErrorHandler())
                 .error(ActuatorException.class, new ActuatorsErrorHandler())
                 .build();

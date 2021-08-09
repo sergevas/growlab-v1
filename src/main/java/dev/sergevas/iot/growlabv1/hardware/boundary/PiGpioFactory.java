@@ -30,7 +30,6 @@ public class PiGpioFactory {
                         });
                         var ledConfig = DigitalOutput.newConfigBuilder(pi4jContext)
                                 .id(instanceId)
-//                                .name("LED Flasher")
                                 .address(pinAddress)
                                 .shutdown(DigitalState.HIGH)
                                 .initial(DigitalState.HIGH)
