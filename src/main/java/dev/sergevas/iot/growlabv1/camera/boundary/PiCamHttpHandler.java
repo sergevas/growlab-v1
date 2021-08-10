@@ -60,6 +60,34 @@ public class PiCamHttpHandler implements Handler {
                         .orElse(Encoding.JPEG)));
     }
 
+    /*
+    * #  cameraNumber: 0
+#  customSensorConfig: 0
+#  stereoscopicMode: NONE
+#  decimate: false
+#  swapEyes: false
+#  videoStabilisation: false
+#  shutterSpeed: 0
+#  exposureMeteringMode: AVERAGE
+#  exposureCompensation: 0
+#  dynamicRangeCompressionStrength: OFF
+#  automaticWhiteBalanceMode: OFF
+#  automaticWhiteBalanceRedGain: 0.0
+#  automaticWhiteBalanceBlueGain: 0.0
+#  imageEffect: NONE
+#  mirror: NONE
+#  rotation: 0
+#  cropX: 0.0
+#  cropY: 0.0
+#  cropW: 0.0
+#  cropH: 0.0
+#  colourEffect: false
+#  u: 0
+#  v: 0
+#  captureTimeout: 0
+    *
+    * */
+
     @Override
     public void accept(ServerRequest req, ServerResponse res) {
         LOG.info("Handle request... " + req);
