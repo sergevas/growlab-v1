@@ -33,14 +33,14 @@ public class PiCamAdapter implements IPiCamAdapter {
         });
     }
 
-    public CameraConfiguration createDefaultCameraConfig() {
-        return cameraConfiguration()
-                .width(1920)
-                .height(1080)
-                .automaticWhiteBalance(AutomaticWhiteBalanceMode.AUTO)
-                .encoding(Encoding.JPEG)
-                .quality(100);
-    }
+//    public CameraConfiguration createDefaultCameraConfig() {
+//        return cameraConfiguration()
+//                .width(1920)
+//                .height(1080)
+//                .automaticWhiteBalance(AutomaticWhiteBalanceMode.AUTO)
+//                .encoding(Encoding.JPEG)
+//                .quality(100);
+//    }
 
     public Camera initCamera(CameraConfiguration cameraConfiguration) {
         try {

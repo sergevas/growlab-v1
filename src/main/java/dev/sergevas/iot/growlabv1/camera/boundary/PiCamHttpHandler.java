@@ -61,7 +61,20 @@ public class PiCamHttpHandler implements Handler {
     }
 
     /*
-    * #  cameraNumber: 0
+    * camera:
+  width: 1920
+  height: 1080
+  quality: 100
+  brightness: 50
+  contrast: 0
+  saturation: 0
+  sharpness: 0
+  iso: 0
+  exposureMode: AUTO
+  automaticWhiteBalance: AUTO
+  encoding: JPEG
+
+#  cameraNumber: 0
 #  customSensorConfig: 0
 #  stereoscopicMode: NONE
 #  decimate: false
