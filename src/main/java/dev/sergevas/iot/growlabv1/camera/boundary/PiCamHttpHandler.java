@@ -36,6 +36,7 @@ public class PiCamHttpHandler implements Handler {
 
     public PiCamHttpHandler(Config config) {
         this.piCamAdapter = PiCamAdapter.getInstance();
+        this.piCamAdapter.installNativeLib();
         this.piCamAdapter.initCamera(this.piCamAdapter
                 .getCameraConfiguration()
                 .width(config.get("camera.width").asInt().orElse(1920))
@@ -104,7 +105,7 @@ public class PiCamHttpHandler implements Handler {
     @Override
     public void accept(ServerRequest req, ServerResponse res) {
         LOG.info("Handle request... " + req);
-        byte[] rawPicture = this.piCamAdapter.takePicture();
+        byte[] rawPicture = this.piCamAdapter.takePictureWithCamRecover();
         JsonObject returnObject = JSON_BUILDER_FACTORY.createObjectBuilder()
                 .add("picture", Base64.encodeBase64String(rawPicture))
                 .build();

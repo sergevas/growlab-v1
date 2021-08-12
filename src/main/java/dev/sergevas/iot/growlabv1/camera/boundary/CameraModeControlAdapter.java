@@ -6,16 +6,16 @@ import dev.sergevas.iot.growlabv1.shared.exception.ActuatorException;
 
 import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_CAMERA_0001;
 
-public class CameraAdapter {
+public class CameraModeControlAdapter {
 
     private static final int CAMERA_MODE_CONTROL_PIN = 17;
     private static final String DIGITAL_OUTPUT_CAMERA_MODE = "digital-output-camera-control";
 
-    private static CameraAdapter instance;
+    private static CameraModeControlAdapter instance;
 
-    public static CameraAdapter getInstance() {
+    public static CameraModeControlAdapter getInstance() {
         if (instance == null) {
-            instance = new CameraAdapter();
+            instance = new CameraModeControlAdapter();
         }
         return instance;
     }

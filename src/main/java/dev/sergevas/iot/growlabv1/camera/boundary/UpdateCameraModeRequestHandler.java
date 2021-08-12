@@ -34,7 +34,7 @@ public class UpdateCameraModeRequestHandler implements Handler {
         String modeStr = jsonObject.getString("mode");
         LOG.info("Camera mode: " + modeStr);
         CameraMode cameraMode = CameraMode.valueOf(modeStr);
-        CameraAdapter.getInstance().updateMode(cameraMode);
+        CameraModeControlAdapter.getInstance().updateMode(cameraMode);
         res.status(Http.Status.OK_200).send();
     }
 

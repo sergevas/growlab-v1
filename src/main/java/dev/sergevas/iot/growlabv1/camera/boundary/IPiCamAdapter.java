@@ -7,13 +7,9 @@ public interface IPiCamAdapter {
 
     public CameraConfiguration getCameraConfiguration();
 
-//    public CameraConfiguration createDefaultCameraConfig();
-
     public Camera initCamera(CameraConfiguration cameraConfiguration);
-
-    public Camera initCamera();
 
     public void closeCamera();
 
-    public byte[] takePicture();
+    public byte[] takePictureWithCamRecover();
 }
