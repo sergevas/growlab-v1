@@ -4,7 +4,7 @@ import dev.sergevas.iot.growlabv1.camera.model.CameraMode;
 import dev.sergevas.iot.growlabv1.hardware.boundary.PiGpioFactory;
 import dev.sergevas.iot.growlabv1.shared.exception.ActuatorException;
 
-import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_CAMERA_0001;
+import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_CAMERA_0002;
 
 public class CameraModeControlAdapter {
 
@@ -33,7 +33,7 @@ public class CameraModeControlAdapter {
                 mode = CameraMode.UNDEFINED;
             }
         } catch (Exception e) {
-            throw new ActuatorException(E_CAMERA_0001.getId(), E_CAMERA_0001.getName(), e);
+            throw new ActuatorException(E_CAMERA_0002.getId(), E_CAMERA_0002.getName(), e);
         }
 
         return mode;

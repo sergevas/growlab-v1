@@ -1,6 +1,7 @@
 
 package dev.sergevas.iot.growlabv1;
 
+import dev.sergevas.iot.growlabv1.camera.boundary.PiCamAdapter;
 import dev.sergevas.iot.growlabv1.hardware.boundary.Pi4JContextFactory;
 import dev.sergevas.iot.growlabv1.shared.boundary.ActuatorsErrorHandler;
 import dev.sergevas.iot.growlabv1.shared.boundary.ActuatorsHttpService;
@@ -40,26 +41,21 @@ public final class Main {
      * @return the created {@link WebServer} instance
      */
     static WebServer startServer() {
-        // load logging configuration
         LogConfig.configureRuntime();
-
-        // By default this will pick up application.yaml from the classpath
         Config config = Config.create();
 
-        // Build server with JSONP support
         WebServer server = WebServer.builder(createRouting(config))
                 .config(config.get("server"))
                 .addMediaSupport(JsonpSupport.create())
                 .build();
 
-        // Try to start the server. If successful, print some info and arrange to
-        // print a message at shutdown. If unsuccessful, print the exception.
         server.start()
                 .thenAccept(ws -> {
-                    System.out.println("GrowLab server is up! http://localhost:" + ws.port() + "/growlab/api/v1");
+                    System.out.println("GrowLab server is up! http://0.0.0.0:" + ws.port() + "/growlab/api/v1");
                     ws.whenShutdown().thenRun(() -> {
                         Pi4JContextFactory.shutdown();
-                        System.out.println("GrowLab server is DOWN.");
+                        PiCamAdapter.getInstance().closeCamera();
+                        System.out.println("GrowLab server is down.");
                     });
                 })
                 .exceptionally(t -> {
@@ -68,25 +64,16 @@ public final class Main {
                     t.printStackTrace(System.err);
                     return null;
                 });
-
-        // Server threads are not daemon. No need to block. Just react.
-
         return server;
     }
 
-    /**
-     * Creates new {@link Routing}.
-     *
-     * @return routing configured with JSON support, a health check, and a service
-     * @param config configuration of this server
-     */
     private static Routing createRouting(Config config) {
         HealthSupport health = HealthSupport.builder()
-                .addLiveness(HealthChecks.healthChecks())   // Adds a convenient set of checks
+                .addLiveness(HealthChecks.healthChecks())  // Adds a convenient set of checks
                 .build();
 
         return Routing.builder()
-                .register(health)                   // Health at "/health"
+                .register(health)  // Health at "/health"
                 .register("/growlab/api/v1/sensors", new SensorsHttpService(config))
                 .register("/growlab/api/v1/actuators", new ActuatorsHttpService(config))
                 .error(SensorException.class, new SensorsErrorHandler())

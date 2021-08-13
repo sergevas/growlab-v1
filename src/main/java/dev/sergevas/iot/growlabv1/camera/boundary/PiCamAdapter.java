@@ -1,6 +1,8 @@
 package dev.sergevas.iot.growlabv1.camera.boundary;
 
-import dev.sergevas.iot.growlabv1.camera.exception.PiCamException;
+import dev.sergevas.iot.growlabv1.hardware.boundary.HardwareException;
+import dev.sergevas.iot.growlabv1.shared.exception.ActuatorException;
+import static  dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.*;
 import io.helidon.config.Config;
 import uk.co.caprica.picam.*;
 import uk.co.caprica.picam.enums.*;
@@ -74,7 +76,7 @@ public class PiCamAdapter implements IPiCamAdapter {
         try {
             installTempLibrary();
         } catch (NativeLibraryException nle) {
-            throw new PiCamException("Unable to load picam native library", nle);
+            throw new HardwareException("Unable to load picam native library", nle);
         }
     }
 
@@ -84,7 +86,7 @@ public class PiCamAdapter implements IPiCamAdapter {
             this.camera = new Camera(this.piCamCfg);
         } catch (CameraException ce) {
             if (this.camera != null) this.camera.close();
-            throw new PiCamException("Unable to init Camera instance", ce);
+            throw new HardwareException("Unable to init Camera instance", ce);
         }
         return this.camera;
     }
@@ -104,7 +106,7 @@ public class PiCamAdapter implements IPiCamAdapter {
             try {
                 rawBytes = this.takePicture();
             } catch (CaptureFailedException cfe2) {
-                throw new PiCamException("Unable to take a picture", cfe2);
+                throw new ActuatorException(E_CAMERA_0001.getId(), E_CAMERA_0001.getName(), cfe2);
             }
         }
         return rawBytes;
