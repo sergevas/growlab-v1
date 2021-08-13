@@ -1,15 +1,18 @@
 package dev.sergevas.iot.growlabv1.camera.boundary;
 
+import io.helidon.config.Config;
 import uk.co.caprica.picam.Camera;
 import uk.co.caprica.picam.CameraConfiguration;
 
 public interface IPiCamAdapter {
 
-    public CameraConfiguration getCameraConfiguration();
+    CameraConfiguration createCameraConfiguration(Config config);
 
-    public Camera initCamera(CameraConfiguration cameraConfiguration);
+    CameraConfiguration getPiCamCfg();
 
-    public void closeCamera();
+    Camera initCamera();
 
-    public byte[] takePictureWithCamRecover();
+    void closeCamera();
+
+    byte[] takePictureWithCamRecover();
 }
