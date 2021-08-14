@@ -16,10 +16,11 @@ public class GetLightRequestHandler implements Handler {
     @Override
     public void accept(ServerRequest req, ServerResponse res) {
         JsonObject returnObject = new SensorResponseBuilder()
+                .item(new SensorResponseBuilder.Item()
                 .sType(SensorType.LIGHT)
                 .sData(new Bh1750Adapter().getLightIntensity())
-                .sTimestamp(OffsetDateTime.now(ZoneOffset.UTC))
-                .buildJsonObject();
+                .sTimestamp(OffsetDateTime.now(ZoneOffset.UTC)))
+                .buildSensorReadingsItem();
         res.send(returnObject);
 
     }

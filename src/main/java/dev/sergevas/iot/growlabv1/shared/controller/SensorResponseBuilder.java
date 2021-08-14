@@ -1,16 +1,16 @@
 package dev.sergevas.iot.growlabv1.shared.controller;
 
-import javax.json.JsonBuilderFactory;
-import javax.json.JsonObject;
-import javax.json.Json;
-import javax.json.JsonValue;
+import javax.json.*;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import dev.sergevas.iot.growlabv1.shared.model.SensorType;
 
 public class SensorResponseBuilder {
 
+    private static final String S_READINGS = "s_readings";
     private static final String S_ID = "s_id";
     private static final String S_DATA = "s_data";
     private static final String S_TYPE = "s_type";
@@ -18,54 +18,33 @@ public class SensorResponseBuilder {
 
     private static final JsonBuilderFactory JSON = Json.createBuilderFactory(Collections.emptyMap());
 
-    private String sId;
-    private String sData;
-    private SensorType sType;
-    private OffsetDateTime sTimestamp;
+    private List<Item> items = new ArrayList<>();
 
-    public String getsId() {
-        return sId;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public SensorResponseBuilder sId(String sId) {
-        this.sId = sId;
+    public SensorResponseBuilder item(Item item) {
+        this.items.add(item);
         return this;
     }
 
-    public String getsData() {
-        return sData;
-    }
-
-    public SensorResponseBuilder sData(Object sData) {
-        this.sData = String.valueOf(sData);
-        return this;
-    }
-
-    public SensorType getsType() {
-        return sType;
-    }
-
-    public SensorResponseBuilder sType(SensorType sType) {
-        this.sType = sType;
-        return this;
-    }
-
-    public OffsetDateTime getsTimestamp() {
-        return sTimestamp;
-    }
-
-    public SensorResponseBuilder sTimestamp(OffsetDateTime sTimestamp) {
-        this.sTimestamp = sTimestamp;
-        return this;
-    }
-
-    public JsonObject buildJsonObject() {
+    public JsonObjectBuilder createReadingsItem(Item item) {
         return JSON.createObjectBuilder()
-                .add(S_ID, this.sId != null ? Json.createValue(this.sId) : JsonValue.NULL)
-                .add(S_TYPE, this.sType.toString())
-                .add(S_DATA, this.sData)
-                .add(S_TIMESTAMP, this.sTimestamp.toString())
-                .build();
+                .add(S_ID, item.sId != null ? Json.createValue(item.sId) : JsonValue.NULL)
+                .add(S_TYPE, item.sType.toString())
+                .add(S_DATA, item.sData)
+                .add(S_TIMESTAMP, item.sTimestamp.toString());
+    }
+
+    public JsonObject buildSensorReadingsItem() {
+        return this.createReadingsItem(this.items.get(0)).build();
+    }
+
+    public JsonObject buildSensorReadings() {
+        JsonArrayBuilder jab = JSON.createArrayBuilder();
+        this.items.forEach(i -> jab.add(this.createReadingsItem(i)));
+        return JSON.createObjectBuilder().add(S_READINGS, jab).build();
     }
 
     @Override
@@ -73,21 +52,84 @@ public class SensorResponseBuilder {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SensorResponseBuilder that = (SensorResponseBuilder) o;
-        return Objects.equals(sId, that.sId) && Objects.equals(sData, that.sData) && sType == that.sType && Objects.equals(sTimestamp, that.sTimestamp);
+        return Objects.equals(items, that.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sId, sData, sType, sTimestamp);
+        return Objects.hash(items);
     }
 
     @Override
     public String toString() {
         return "SensorResponseBuilder{" +
-                "sId='" + sId + '\'' +
-                ", sData='" + sData + '\'' +
-                ", sType=" + sType +
-                ", sTimestamp=" + sTimestamp +
+                "items=" + items +
                 '}';
+    }
+
+    public static class Item {
+        private String sId;
+        private String sData;
+        private SensorType sType;
+        private OffsetDateTime sTimestamp;
+
+        public String getsId() {
+            return sId;
+        }
+
+        public Item sId(String sId) {
+            this.sId = sId;
+            return this;
+        }
+
+        public String getsData() {
+            return sData;
+        }
+
+        public Item sData(Object sData) {
+            this.sData = String.valueOf(sData);
+            return this;
+        }
+
+        public SensorType getsType() {
+            return sType;
+        }
+
+        public Item sType(SensorType sType) {
+            this.sType = sType;
+            return this;
+        }
+
+        public OffsetDateTime getsTimestamp() {
+            return sTimestamp;
+        }
+
+        public Item sTimestamp(OffsetDateTime sTimestamp) {
+            this.sTimestamp = sTimestamp;
+            return this;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Item item = (Item) o;
+            return Objects.equals(sId, item.sId) && Objects.equals(sData, item.sData) && sType == item.sType && Objects.equals(sTimestamp, item.sTimestamp);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(sId, sData, sType, sTimestamp);
+        }
+
+        @Override
+        public String toString() {
+            return "Item{" +
+                    "sId='" + sId + '\'' +
+                    ", sData='" + sData + '\'' +
+                    ", sType=" + sType +
+                    ", sTimestamp=" + sTimestamp +
+                    '}';
+        }
     }
 }
