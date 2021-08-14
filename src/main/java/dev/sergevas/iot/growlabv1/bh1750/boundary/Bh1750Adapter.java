@@ -14,7 +14,7 @@ import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BH1750_0001
 public class Bh1750Adapter {
     private static final Logger LOG = Logger.getLogger(Bh1750Adapter.class.getName());
     public static String INSTANCE_ID = "i2c-bus-GY-302-BH1750";
-    public static final int GY_302_BH1750_ADDR = 0x23; // Default address for the GY-302 BH1750 chip
+    public static final int GY_302_BH1750_ADDR = 0x23; // Default address for the GY-302 BH1750 module
     public static final byte GY_302_BH1750_POWER_DOWN = 0x00;
     public static final byte GY_302_BH1750_POWER_ON = 0x01;
     public static final byte GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE_2 = (byte) 0x21;

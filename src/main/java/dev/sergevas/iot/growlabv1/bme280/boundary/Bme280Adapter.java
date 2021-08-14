@@ -14,8 +14,10 @@ import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BH1750_0001
 
 public class Bme280Adapter {
     private static final Logger LOG = Logger.getLogger(Bme280Adapter.class.getName());
-    public static String INSTANCE_ID = "i2c-bus-GY-302-BH1750";
-    public static final int GY_302_BH1750_ADDR = 0x23; // Default address for the GY-302 BH1750 chip
+    public static String INSTANCE_ID = "i2c-bus-GY-BMEP280";
+    public static final int GY_BMEP280_ADDR = 0x76; // Default address for the GY-BME/P280 module
+    public static final int GY_BMEP280_ID_ADDR = 0xD0;
+    //Forced mode:
     public static final byte GY_302_BH1750_POWER_DOWN = 0x00;
     public static final byte GY_302_BH1750_POWER_ON = 0x01;
     public static final byte GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE_2 = (byte) 0x21;
@@ -26,7 +28,7 @@ public class Bme280Adapter {
     public Bme280Readings getReadings() {
         Double lightIntensity;
         Bme280Readings bme280Readings = null;
-        var i2cDevice = I2CDeviceFactory.create(INSTANCE_ID, GY_302_BH1750_ADDR);
+        var i2cDevice = I2CDeviceFactory.create(INSTANCE_ID, GY_BMEP280_ADDR);
         try {
             Profiler.init("getLightIntensity");
             i2cDevice.write(GY_302_BH1750_POWER_ON);
