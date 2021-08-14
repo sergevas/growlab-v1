@@ -1,16 +1,23 @@
 package dev.sergevas.iot.growlabv1.camera.boundary;
 
 import dev.sergevas.iot.growlabv1.hardware.boundary.HardwareException;
+import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
 import dev.sergevas.iot.growlabv1.shared.exception.ActuatorException;
-import static  dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.*;
 import io.helidon.config.Config;
 import uk.co.caprica.picam.*;
 import uk.co.caprica.picam.enums.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_CAMERA_0001;
 import static uk.co.caprica.picam.CameraConfiguration.cameraConfiguration;
 import static uk.co.caprica.picam.PicamNativeLibrary.installTempLibrary;
 
-public class PiCamAdapter implements IPiCamAdapter {
+public class PiCamAdapter {
+
+    private static final String CLASS_NAME = PiCamAdapter.class.getName();
+    private static final Logger LOG = Logger.getLogger(PiCamAdapter.class.getName());
 
     private static PiCamAdapter piCamAdapter;
     private Camera camera;
@@ -20,17 +27,15 @@ public class PiCamAdapter implements IPiCamAdapter {
     }
 
     public static synchronized PiCamAdapter getInstance() {
+        LOG.info(CLASS_NAME + " Get instance...");
         if (piCamAdapter == null) {
             piCamAdapter = new PiCamAdapter();
         }
         return piCamAdapter;
     }
 
-    public CameraConfiguration getPiCamCfg() {
-        return this.piCamCfg;
-    }
-
     public CameraConfiguration createCameraConfiguration(Config config) {
+        LOG.info(CLASS_NAME + " Create camera configuration...");
         Config hCamCfg = config.get("camera");
         piCamCfg = cameraConfiguration();
 
@@ -73,18 +78,22 @@ public class PiCamAdapter implements IPiCamAdapter {
     }
 
     public void installNativeLib() {
+        LOG.info(CLASS_NAME + " Install native lib...");
         try {
             installTempLibrary();
         } catch (NativeLibraryException nle) {
+            LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(nle));
             throw new HardwareException("Unable to load picam native library", nle);
         }
     }
 
     public Camera initCamera() {
+        LOG.info(CLASS_NAME + " Init camera...");
         try {
             this.closeCamera();
             this.camera = new Camera(this.piCamCfg);
         } catch (CameraException ce) {
+            LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(ce));
             if (this.camera != null) this.camera.close();
             throw new HardwareException("Unable to init Camera instance", ce);
         }
@@ -92,22 +101,30 @@ public class PiCamAdapter implements IPiCamAdapter {
     }
 
     public void closeCamera() {
+        LOG.info(CLASS_NAME + " Close camera...");
         if (this.camera != null) {
             this.camera.close();
         }
     }
 
     public synchronized byte[] takePictureWithCamRecover() {
+        LOG.info(CLASS_NAME + " Take picture with recover...");
         byte[] rawBytes = null;
         try {
             rawBytes = this.takePicture();
-        } catch (CaptureFailedException cfe1) {
-            this.initCamera();
+        } catch (CaptureFailedException cfe) {
+            LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(cfe));
+            LOG.info("Trying to recover...");
             try {
+                this.initCamera();
                 rawBytes = this.takePicture();
-            } catch (CaptureFailedException cfe2) {
-                throw new ActuatorException(E_CAMERA_0001.getId(), E_CAMERA_0001.getName(), cfe2);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
+                throw new ActuatorException(E_CAMERA_0001.getId(), E_CAMERA_0001.getName(), e);
             }
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
+            throw new ActuatorException(E_CAMERA_0001.getId(), E_CAMERA_0001.getName(), e);
         }
         return rawBytes;
     }
