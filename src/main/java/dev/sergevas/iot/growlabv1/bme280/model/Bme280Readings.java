@@ -4,14 +4,37 @@ import java.util.Objects;
 
 public class Bme280Readings {
 
+    private String id;
     private Double temperature;
     private Double humidity;
     private Double pressure;
 
-    public Bme280Readings(Double temperature, Double humidity, Double pressure) {
+    public Bme280Readings() {
+        super();
+    }
+
+    public Bme280Readings id(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public Bme280Readings temperature(Double temperature) {
         this.temperature = temperature;
+        return this;
+    }
+
+    public Bme280Readings humidity(Double humidity) {
         this.humidity = humidity;
+        return this;
+    }
+
+    public Bme280Readings pressure(Double pressure) {
         this.pressure = pressure;
+        return this;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Double getTemperature() {
@@ -31,18 +54,19 @@ public class Bme280Readings {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bme280Readings that = (Bme280Readings) o;
-        return Objects.equals(temperature, that.temperature) && Objects.equals(humidity, that.humidity) && Objects.equals(pressure, that.pressure);
+        return Objects.equals(id, that.id) && Objects.equals(temperature, that.temperature) && Objects.equals(humidity, that.humidity) && Objects.equals(pressure, that.pressure);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(temperature, humidity, pressure);
+        return Objects.hash(id, temperature, humidity, pressure);
     }
 
     @Override
     public String toString() {
         return "Bme280Readings{" +
-                "temperature=" + temperature +
+                "id='" + id + '\'' +
+                ", temperature=" + temperature +
                 ", humidity=" + humidity +
                 ", pressure=" + pressure +
                 '}';

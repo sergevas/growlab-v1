@@ -23,7 +23,7 @@ public class Bh1750Adapter {
 
     public Double getLightIntensity() {
         Double lightIntensity;
-        var i2cDevice = I2CDeviceFactory.create(INSTANCE_ID, GY_302_BH1750_ADDR);
+        var i2cDevice = I2CDeviceFactory.getDeviceInstance(INSTANCE_ID, GY_302_BH1750_ADDR);
         try {
             Profiler.init("getLightIntensity");
             i2cDevice.write(GY_302_BH1750_POWER_ON);

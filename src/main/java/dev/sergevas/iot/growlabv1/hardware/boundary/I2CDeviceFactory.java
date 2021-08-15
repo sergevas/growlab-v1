@@ -21,7 +21,7 @@ public class I2CDeviceFactory {
     private static Context pi4jContext;
     public static I2CProvider i2CProvider;
 
-    public static I2C create(String instanceId, int i2CDeviceAddr) {
+    public static I2C getDeviceInstance(String instanceId, int i2CDeviceAddr) {
         return Optional.ofNullable(i2CDeviceInstances.get(instanceId))
                 .orElseGet(() -> {
                     try {

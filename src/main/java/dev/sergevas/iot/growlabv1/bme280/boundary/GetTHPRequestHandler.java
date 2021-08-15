@@ -16,22 +16,25 @@ public class GetTHPRequestHandler implements Handler {
 
     @Override
     public void accept(ServerRequest req, ServerResponse res) {
-        Bme280Readings readings = new Bme280Adapter().getReadings();
+        Bme280Readings readings = new Bmep280Adapter().getThpReadings();
         OffsetDateTime sTimestamp = OffsetDateTime.now(ZoneOffset.UTC);
         JsonObject returnObject = new SensorResponseBuilder()
                 .item(new SensorResponseBuilder.Item()
-                    .sType(SensorType.TEMP)
-                    .sData(readings.getTemperature())
-                    .sTimestamp(sTimestamp))
+                        .sId(readings.getId())
+                        .sType(SensorType.TEMP)
+                        .sData(readings.getTemperature())
+                        .sTimestamp(sTimestamp))
                 .item(new SensorResponseBuilder.Item()
+                        .sId(readings.getId())
                         .sType(SensorType.HUMID)
                         .sData(readings.getHumidity())
                         .sTimestamp(sTimestamp))
                 .item(new SensorResponseBuilder.Item()
+                        .sId(readings.getId())
                         .sType(SensorType.PRESS)
                         .sData(readings.getPressure())
                         .sTimestamp(sTimestamp))
-                .buildSensorReadingsItem();
+                .buildSensorReadings();
         res.send(returnObject);
     }
 }
