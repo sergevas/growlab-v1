@@ -56,7 +56,8 @@ public class Bmep280Adapter {
                             .osrsH(Oversampling.OS_1.val()))
                     .configRegister(new ConfigRegister()
                             .spi3wEn(Spi3Wire.OFF.val())
-                            .filter(Filter.OFF.val()));
+                            .filter(Filter.OFF.val()))
+                    .configure();
         }
         return instance;
     }
@@ -85,30 +86,40 @@ public class Bmep280Adapter {
         return I2CDeviceFactory.getDeviceInstance(INSTANCE_ID, this.moduleAddress);
     }
 
-    public String readModuleId() {
-        String id = null;
-        LOG.info("Reading module id...");
-        Profiler.init("Bmep280Adapter.readModuleId");
-        byte idRaw = this.getDeviceInstance().readRegisterByte(ID_ADDR);
-        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.readModuleId", "readByte()"));
-        id = StringUtil.toHexString(idRaw);
-        LOG.info(String.format("Module id=[%s]", id));
-        return id;
-    }
-
     public void initSleepMode() {
         LOG.info("Init Sleep mode...");
         Profiler.init("Bmep280Adapter.initSleepMode");
         this.getDeviceInstance().writeRegister(CtrlMeasRegister.ADDR, Mode.SLEEP.val());
-        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.initSleepMode", "writeRegister()"));
+        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.initSleepMode", "initSleepModeComplete"));
     }
 
     public void initForcedMode() {
         LOG.info("Init Sleep mode...");
         Profiler.init("Bmep280Adapter.initForcedMode");
-        this.initSleepMode();
         this.getDeviceInstance().writeRegister(CtrlMeasRegister.ADDR, this.ctrlMeasRegister.getValue());
-        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.initForcedMode", "writeRegister()"));
+        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.initForcedMode", "initForcedModeComplete"));
+    }
+
+    public Bmep280Adapter configure() {
+        LOG.info("Congigure the adapter...");
+        Profiler.init("Bmep280Adapter.configure");
+        this.initSleepMode();
+        this.getDeviceInstance().writeRegister(CtrlHumRegister.ADDR, this.ctrlHumRegister.getValue());
+        this.getDeviceInstance().writeRegister(ConfigRegister.ADDR, this.configRegister.getValue());
+        this.getDeviceInstance().writeRegister(CtrlMeasRegister.ADDR, this.ctrlMeasRegister.getValue());
+        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.configure", "configureComlete"));
+        return this;
+    }
+
+    public String readModuleId() {
+        String id = null;
+        LOG.info("Reading module id...");
+        Profiler.init("Bmep280Adapter.readModuleId");
+        byte idRaw = this.getDeviceInstance().readRegisterByte(ID_ADDR);
+        id = StringUtil.toHexString(idRaw);
+        LOG.info(String.format("Module id=[%s]", id));
+        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.readModuleId", "readModuleIdComplete"));
+        return id;
     }
 
     public Bme280Readings getThpReadings() {
