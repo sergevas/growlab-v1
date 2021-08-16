@@ -39,3 +39,5 @@ camera:
 #    u: 0
 #    v: 0
 #  captureTimeout: 0
+bmep280:
+  moduleAddress: 0x77

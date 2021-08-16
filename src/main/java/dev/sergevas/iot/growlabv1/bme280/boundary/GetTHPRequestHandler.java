@@ -3,6 +3,7 @@ package dev.sergevas.iot.growlabv1.bme280.boundary;
 import dev.sergevas.iot.growlabv1.bme280.model.Bme280Readings;
 import dev.sergevas.iot.growlabv1.shared.controller.SensorResponseBuilder;
 import dev.sergevas.iot.growlabv1.shared.model.SensorType;
+import io.helidon.config.Config;
 import io.helidon.webserver.Handler;
 import io.helidon.webserver.ServerRequest;
 import io.helidon.webserver.ServerResponse;
@@ -14,9 +15,15 @@ import java.time.ZoneOffset;
 
 public class GetTHPRequestHandler implements Handler {
 
+    private Bmep280Adapter bmep280Adapter;
+
+    public GetTHPRequestHandler(Config config) {
+        bmep280Adapter = Bmep280Adapter.getInstance().moduleAddress(config.get("bmep280.moduleAddress").asInt().get());
+    }
+
     @Override
     public void accept(ServerRequest req, ServerResponse res) {
-        Bme280Readings readings = new Bmep280Adapter().getThpReadings();
+        Bme280Readings readings = this.bmep280Adapter.getThpReadings();
         OffsetDateTime sTimestamp = OffsetDateTime.now(ZoneOffset.UTC);
         JsonObject returnObject = new SensorResponseBuilder()
                 .item(new SensorResponseBuilder.Item()

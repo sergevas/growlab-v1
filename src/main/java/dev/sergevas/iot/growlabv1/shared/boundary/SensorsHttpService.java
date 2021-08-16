@@ -25,6 +25,6 @@ public class SensorsHttpService implements Service {
     @Override
     public void update(Routing.Rules rules) {
         rules.get("/light", new GetLightRequestHandler());
-        rules.get("/thp", new GetTHPRequestHandler());
+        rules.get("/thp", new GetTHPRequestHandler(this.config));
     }
 }
