@@ -44,6 +44,7 @@ public class Bmep280Adapter {
     private CtrlMeasRegister ctrlMeasRegister;
     private CtrlHumRegister ctrlHumRegister;
     private ConfigRegister configRegister;
+    private TrimmingParameters trimmingParameters;
 
     public static Bmep280Adapter getInstance() {
         if (instance == null) {
@@ -57,6 +58,7 @@ public class Bmep280Adapter {
                     .configRegister(new ConfigRegister()
                             .spi3wEn(Spi3Wire.OFF.val())
                             .filter(Filter.OFF.val()))
+                    .trimmingParameters(new TrimmingParameters())
                     .configure();
         }
         return instance;
@@ -82,6 +84,11 @@ public class Bmep280Adapter {
         return this;
     }
 
+    public Bmep280Adapter trimmingParameters(TrimmingParameters trimmingParameters) {
+        this.trimmingParameters = trimmingParameters;
+        return this;
+    }
+
     private I2C getDeviceInstance() {
         return I2CDeviceFactory.getDeviceInstance(INSTANCE_ID, this.moduleAddress);
     }
@@ -100,10 +107,33 @@ public class Bmep280Adapter {
         LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.initForcedMode", "initForcedModeComplete"));
     }
 
+    public void readTrimmingParameters() {
+        LOG.info("Reading Trimming Parameters...");
+        Profiler.init("Bmep280Adapter.readTrimmingParameters");
+        this.getDeviceInstance()
+                .readRegister(TrimmingParameters.DIG_T1_ADDR,
+                        this.trimmingParameters.getDigs(),
+                        TrimmingParameters.DIG_T1_OFFSET,
+                        TrimmingParameters.DIG_T1_CHUNK_LENGTH);
+        this.getDeviceInstance()
+                .readRegister(TrimmingParameters.DIG_H1_ADDR,
+                        this.trimmingParameters.getDigs(),
+                        TrimmingParameters.DIG_H1_OFFSET,
+                        TrimmingParameters.DIG_H1_CHUNK_LENGTH);
+        this.getDeviceInstance()
+                .readRegister(TrimmingParameters.DIG_H2_ADDR,
+                        this.trimmingParameters.getDigs(),
+                        TrimmingParameters.DIG_H2_OFFSET,
+                        TrimmingParameters.DIG_H2_CHUNK_LENGTH);
+        this.trimmingParameters.init();
+        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.readTrimmingParameters", "readTrimmingParametersComplete"));
+    }
+
     public Bmep280Adapter configure() {
         LOG.info("Congigure the adapter...");
         Profiler.init("Bmep280Adapter.configure");
         this.initSleepMode();
+        this.readTrimmingParameters();
         this.getDeviceInstance().writeRegister(CtrlHumRegister.ADDR, this.ctrlHumRegister.getValue());
         this.getDeviceInstance().writeRegister(ConfigRegister.ADDR, this.configRegister.getValue());
         this.getDeviceInstance().writeRegister(CtrlMeasRegister.ADDR, this.ctrlMeasRegister.getValue());
