@@ -205,6 +205,39 @@ public class TrimmingParameters {
     }
 
     public void init() {
+        digT1 = toUnsigned(digs[0], digs[1]);
+        digT2 = toSigned(digs[2], digs[3]);
+        digT3 = toSigned(digs[4], digs[5]);
+        digP1 = toUnsigned(digs[6], digs[7]);
+        digP2 = toSigned(digs[8], digs[9]);
+        digP3 = toSigned(digs[10], digs[11]);
+        digP4 = toSigned(digs[12], digs[13]);
+        digP5 = toSigned(digs[14], digs[15]);
+        digP6 = toSigned(digs[16], digs[17]);
+        digP7 = toSigned(digs[18], digs[19]);
+        digP8 = toSigned(digs[20], digs[21]);
+        digP9 = toSigned(digs[22], digs[23]);
+        digH1 = toUnsigned(digs[24]);
+        digH2 = toSigned(digs[25], digs[26]);
+        digH3 = toUnsigned(digs[27]);
+        digH4 =
+        digH5 =
+        digH6 = toSigned(digs[31]);
+    }
 
+    private int toUnsigned(byte lsb, byte msb) {
+        return Byte.toUnsignedInt(msb) << 8 | Byte.toUnsignedInt(lsb);
+    }
+
+    private int toSigned(byte lsb, byte msb) {
+        return (int)msb << 8 | Byte.toUnsignedInt(lsb);
+    }
+
+    private int toUnsigned(byte b) {
+        return Byte.toUnsignedInt(b);
+    }
+
+    private int toSigned(byte b) {
+        return (int)b;
     }
 }

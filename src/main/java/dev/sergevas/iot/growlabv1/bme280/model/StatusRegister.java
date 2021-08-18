@@ -4,30 +4,18 @@ public class StatusRegister {
 
     public static final int ADDR = 0xF3;
 
-    private byte measuring;
-    private byte imUpdate;
+    private byte val;
 
-    private byte value = -1;
-
-    public StatusRegister osrsT(byte osrsT) {
-        this.osrsT = osrsT;
+    public StatusRegister val(byte val) {
+        this.val = val;
         return this;
     }
 
-    public StatusRegister osrsP(byte osrsP) {
-        this.osrsP = osrsP;
-        return this;
+    public boolean isConversationRunning() {
+        return (0x08 & val) == 0x08;
     }
 
-    public StatusRegister mode(byte osrsMode) {
-        this.mode = osrsMode;
-        return this;
-    }
-
-    public byte getValue() {
-        if (value == -1) {
-            value = (byte)(osrsT << 5 | osrsT << 2 | mode);
-        }
-        return value;
+    public boolean isResultsTransfered() {
+        return (0x08 & val) == 0;
     }
 }
