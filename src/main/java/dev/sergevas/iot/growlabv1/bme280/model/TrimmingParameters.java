@@ -240,4 +240,8 @@ public class TrimmingParameters {
     private int toSigned(byte b) {
         return (int)b;
     }
+
+    private int toDigH4(byte lsb, byte msb) {
+        return
+    }
 }
