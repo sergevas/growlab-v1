@@ -30,9 +30,10 @@ public class Bmep280Adapter {
     private ConfigRegister configRegister;
     private TrimmingParameters trimmingParameters;
 
-    public static Bmep280Adapter getInstance() {
+    public static Bmep280Adapter getInstance(int moduleAddress) {
         if (instance == null) {
             instance = new Bmep280Adapter()
+                    .moduleAddress(moduleAddress)
                     .ctrlMeasRegister(new CtrlMeasRegister()
                             .osrsT(Oversampling.OS_1.val())
                             .osrsP(Oversampling.OS_1.val())

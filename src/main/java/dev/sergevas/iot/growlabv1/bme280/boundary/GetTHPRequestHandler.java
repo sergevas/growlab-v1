@@ -18,7 +18,7 @@ public class GetTHPRequestHandler implements Handler {
     private Bmep280Adapter bmep280Adapter;
 
     public GetTHPRequestHandler(Config config) {
-        bmep280Adapter = Bmep280Adapter.getInstance().moduleAddress(config.get("bmep280.moduleAddress").asInt().get());
+        bmep280Adapter = Bmep280Adapter.getInstance(config.get("bmep280.moduleAddress").asInt().get());
     }
 
     @Override

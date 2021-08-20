@@ -225,27 +225,27 @@ public class TrimmingParameters {
         digH6 = toSigned(digs[31]);
     }
 
-    private int toUnsigned(byte lsb, byte msb) {
+    public int toUnsigned(byte lsb, byte msb) {
         return Byte.toUnsignedInt(msb) << 8 | Byte.toUnsignedInt(lsb);
     }
 
-    private int toSigned(byte lsb, byte msb) {
+    public int toSigned(byte lsb, byte msb) {
         return (int)msb << 8 | Byte.toUnsignedInt(lsb);
     }
 
-    private int toUnsigned(byte b) {
+    public int toUnsigned(byte b) {
         return Byte.toUnsignedInt(b);
     }
 
-    private int toSigned(byte b) {
+    public int toSigned(byte b) {
         return (int)b;
     }
 
-    private int toDigH4(byte lsb, byte msb) {
+    public int toDigH4(byte lsb, byte msb) {
         return toSigned(msb) << 4 | 0x0f & toUnsigned(lsb);
     }
 
-    private int toDigH5(byte lsb, byte msb) {
+    public int toDigH5(byte lsb, byte msb) {
         return toSigned(msb) << 4 | 0x0f & toUnsigned(lsb) >> 4;
     }
 }

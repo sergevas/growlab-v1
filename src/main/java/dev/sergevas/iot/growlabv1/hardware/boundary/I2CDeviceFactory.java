@@ -12,7 +12,8 @@ import java.util.logging.Logger;
 
 public class I2CDeviceFactory {
 
-    private static final Logger LOG = Logger.getLogger(I2CDeviceFactory.class.getName());
+    private static final String CLASS_NAME = I2CDeviceFactory.class.getName();
+    private static final Logger LOG = Logger.getLogger(CLASS_NAME);
 
     public static final int I2C_BUS = 1;
 
@@ -22,6 +23,7 @@ public class I2CDeviceFactory {
     public static I2CProvider i2CProvider;
 
     public static I2C getDeviceInstance(String instanceId, int i2CDeviceAddr) {
+        LOG.info(CLASS_NAME + "getDeviceInstance(" + instanceId + ", " + i2CDeviceAddr + ")");
         return Optional.ofNullable(i2CDeviceInstances.get(instanceId))
                 .orElseGet(() -> {
                     try {
