@@ -16,30 +16,14 @@ import java.util.stream.IntStream;
 import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BMEP280_0001;
 
 public class Bmep280Adapter {
+
     private static final Logger LOG = Logger.getLogger(Bmep280Adapter.class.getName());
+
     public static String INSTANCE_ID = "i2c-bus-GY-BMEP280";
+    private int moduleAddress = 0x76; // Default address for the GY-BME/P280 module
     public static final int ID_ADDR = 0xD0;
-    public static final int CTRL_HUM_ADDR = 0xF2;
-    public static final int PRES_MSB_ADDR = 0xF7;
-    public static final int TEMP_MSB_ADDR = 0xFA;
-    public static final int HUM_MSB_ADDR = 0xFD;
-    public static final int CONFIG_ADDR = 0xF5;
-
-    public static final int MODE_FORCED = 0x01;
-    public static final int IIR_FILTER_OFF = 0x00;
-    public static final int SPI_OFF = 0x00;
-
-
-    //Forced mode:
-    public static final byte GY_302_BH1750_POWER_DOWN = 0x00;
-    public static final byte GY_302_BH1750_POWER_ON = 0x01;
-    public static final byte GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE_2 = (byte) 0x21;
-    public static final byte GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE = (byte) 0x20;
-    public static final int GY_302_BH1750_READINGS_DATA_LENGTH = 2;
 
     private static  Bmep280Adapter instance;
-
-    private int moduleAddress = 0x76; // Default address for the GY-BME/P280 module
 
     private CtrlMeasRegister ctrlMeasRegister;
     private CtrlHumRegister ctrlHumRegister;
@@ -154,21 +138,13 @@ public class Bmep280Adapter {
 
     public Bme280Readings getThpReadings() {
         Bme280Readings bme280Readings = new Bme280Readings();
-        bme280Readings.id(this.readModuleId());
         try {
             Profiler.init("Bmep280Adapter.getThpReadings");
-            var i2cDevice = this.getDeviceInstance();
-            i2cDevice.write(GY_302_BH1750_POWER_ON);
-            Thread.sleep(1);
-            i2cDevice.write(GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE);
-            Thread.sleep(200);
-            LOG.info("Reading data from GY-302 BH1750...");
-            byte[] readings = i2cDevice.readNBytes(GY_302_BH1750_READINGS_DATA_LENGTH);
-            LOG.info("GY-302 BH1750 readings...");
-            IntStream.range(0, GY_302_BH1750_READINGS_DATA_LENGTH)
-                .forEach(i -> LOG.info("readings[" + i + "]=" + StringUtil.toHexString(readings[i])));
-            i2cDevice.write(GY_302_BH1750_POWER_DOWN);
-            LOG.info(Profiler.getCurrentMsg("getLightIntensity", "fromRawReadingsToLightIntensity(readings)"));
+            bme280Readings.id(this.readModuleId());
+            byte[] digs = this.trimmingParameters.getDigs();
+            IntStream.range(0, digs.length)
+                    .forEach(i -> LOG.info("digs[" + i + "]=" + StringUtil.toHexString(digs[i])));
+            LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.getThpReadings", "getThpReadingsComplete"));
         } catch (Exception e) {
             LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
             throw new SensorException(E_BMEP280_0001.getId(), SensorType.THP, E_BMEP280_0001.getName(), e);

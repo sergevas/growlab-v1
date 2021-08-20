@@ -220,8 +220,8 @@ public class TrimmingParameters {
         digH1 = toUnsigned(digs[24]);
         digH2 = toSigned(digs[25], digs[26]);
         digH3 = toUnsigned(digs[27]);
-        digH4 =
-        digH5 =
+        digH4 = toDigH4(digs[29], digs[28]);
+        digH5 = toDigH5(digs[29], digs[30]);
         digH6 = toSigned(digs[31]);
     }
 
@@ -242,6 +242,10 @@ public class TrimmingParameters {
     }
 
     private int toDigH4(byte lsb, byte msb) {
-        return
+        return toSigned(msb) << 4 | 0x0f & toUnsigned(lsb);
+    }
+
+    private int toDigH5(byte lsb, byte msb) {
+        return toSigned(msb) << 4 | 0x0f & toUnsigned(lsb) >> 4;
     }
 }
