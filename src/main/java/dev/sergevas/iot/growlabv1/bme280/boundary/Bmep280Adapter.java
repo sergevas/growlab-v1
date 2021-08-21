@@ -55,6 +55,7 @@ public class Bmep280Adapter {
                             .filter(Filter.OFF.val()))
                     .trimmingParameters(new TrimmingParameters())
                     .statusRegister(new StatusRegister())
+                    .bme280RawReadings(new Bme280RawReadings())
                     .configure();
         }
         return instance;
