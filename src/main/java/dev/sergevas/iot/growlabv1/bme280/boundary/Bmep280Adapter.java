@@ -5,36 +5,45 @@ import com.pi4j.util.StringUtil;
 import dev.sergevas.iot.growlabv1.bme280.model.*;
 import dev.sergevas.iot.growlabv1.hardware.boundary.I2CDeviceFactory;
 import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
+import dev.sergevas.iot.growlabv1.shared.controller.ConfigHandler;
 import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
 import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
 import dev.sergevas.iot.growlabv1.shared.model.SensorType;
 
+import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BMEP280_0001;
+import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BMEP280_0002;
 
 public class Bmep280Adapter {
 
     private static final Logger LOG = Logger.getLogger(Bmep280Adapter.class.getName());
 
     public static String INSTANCE_ID = "i2c-bus-GY-BMEP280";
-    private int moduleAddress = 0x76; // Default address for the GY-BME/P280 module
     public static final int ID_ADDR = 0xD0;
 
     private static  Bmep280Adapter instance;
+
+    private ConfigHandler configHandler;
+
+    private Integer moduleAddress;
+    private Long forcedModeTimeout;
 
     private CtrlMeasRegister ctrlMeasRegister;
     private CtrlHumRegister ctrlHumRegister;
     private ConfigRegister configRegister;
     private TrimmingParameters trimmingParameters;
     private Bme280RawReadings bme280RawReadings;
+    private StatusRegister statusRegister;
 
-    public static Bmep280Adapter getInstance(int moduleAddress) {
+    public static Bmep280Adapter getInstance(Map<String, String> config) {
         if (instance == null) {
             instance = new Bmep280Adapter()
-                    .moduleAddress(moduleAddress)
+                    .configHandler(new ConfigHandler().configMap(config))
                     .ctrlMeasRegister(new CtrlMeasRegister()
                             .osrsT(Oversampling.OS_1.val())
                             .osrsP(Oversampling.OS_1.val())
@@ -45,14 +54,27 @@ public class Bmep280Adapter {
                             .spi3wEn(Spi3Wire.OFF.val())
                             .filter(Filter.OFF.val()))
                     .trimmingParameters(new TrimmingParameters())
+                    .statusRegister(new StatusRegister())
                     .configure();
         }
         return instance;
     }
 
-    public Bmep280Adapter moduleAddress(int moduleAddress) {
-        this.moduleAddress = moduleAddress;
+    public Bmep280Adapter configHandler(ConfigHandler configHandler) {
+        this.configHandler = configHandler;
         return this;
+    }
+
+    public Integer getModuleAddress() {
+        this.moduleAddress = Optional.ofNullable(this.moduleAddress)
+                .orElse(this.configHandler.getAsInteger("moduleAddress"));
+        return moduleAddress;
+    }
+
+    public Long getForcedModeTimeout() {
+        this.forcedModeTimeout = Optional.ofNullable(this.forcedModeTimeout)
+                .orElse(this.configHandler.getAsLong("forcedModeTimeout"));
+        return forcedModeTimeout;
     }
 
     public Bmep280Adapter ctrlMeasRegister(CtrlMeasRegister ctrlMeasRegister) {
@@ -80,8 +102,13 @@ public class Bmep280Adapter {
         return this;
     }
 
+    public Bmep280Adapter statusRegister(StatusRegister statusRegister) {
+        this.statusRegister = statusRegister;
+        return this;
+    }
+
     private I2C getDeviceInstance() {
-        return I2CDeviceFactory.getDeviceInstance(INSTANCE_ID, this.moduleAddress);
+        return I2CDeviceFactory.getDeviceInstance(INSTANCE_ID, this.getModuleAddress());
     }
 
     public void initSleepMode() {
@@ -117,6 +144,9 @@ public class Bmep280Adapter {
                         TrimmingParameters.DIG_H2_OFFSET,
                         TrimmingParameters.DIG_H2_CHUNK_LENGTH);
         this.trimmingParameters.init();
+        byte[] digs = this.trimmingParameters.getDigs();
+        IntStream.range(0, digs.length)
+                .forEach(i -> LOG.info("digs[" + i + "]=" + StringUtil.toHexString(digs[i])));
         LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.readTrimmingParameters", "readTrimmingParametersComplete"));
     }
 
@@ -143,39 +173,48 @@ public class Bmep280Adapter {
         return id;
     }
 
+    public boolean isMeasurementInProgress() {
+        return this.statusRegister
+                .val(this.getDeviceInstance().readRegisterByte(StatusRegister.ADDR))
+                .isConversationRunning();
+    }
+
     public void readRawData() {
         this.initForcedMode();
-        //TODO: implement a loop which waits the reading status change
         LOG.info("Burst read raw data...");
         Profiler.init("Bmep280Adapter.readRawData");
-        this.getDeviceInstance().readRegister(Bme280RawReadings.ADDR, this.bme280RawReadings.getReadings());
-        LOG.info(String.format("Raw readings=[%s]", StringUtil.toHexString(this.bme280RawReadings.getReadings())));
-        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.readRawData", "readRawDataComplete"));
+        Long timeoutStartTime = System.currentTimeMillis();
+        try {
+            while (this.isMeasurementInProgress()) {
+                if ((System.currentTimeMillis() - timeoutStartTime) > this.getForcedModeTimeout()) {
+                    throw new SensorException(E_BMEP280_0002.getId(), SensorType.THP, E_BMEP280_0001.getName());
+                }
+                Thread.sleep(1L);
+            }
+            this.getDeviceInstance().readRegister(Bme280RawReadings.ADDR, this.bme280RawReadings.getReadings());
+            LOG.info(String.format("Raw readings=[%s]", StringUtil.toHexString(this.bme280RawReadings.getReadings())));
+            LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.readRawData", "readRawDataComplete"));
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
+            if (e instanceof SensorException) {
+                throw (SensorException)e;
+            } else {
+                throw new SensorException(E_BMEP280_0001.getId(), SensorType.THP, E_BMEP280_0001.getName(), e);
+            }
+        }
     }
 
     public Bme280Readings getThpReadings() {
         Bme280Readings bme280Readings = new Bme280Readings();
+        this.readRawData();
+        Profiler.init("Bmep280Adapter.getThpReadings");
         try {
-            this.readRawData();
-            Profiler.init("Bmep280Adapter.getThpReadings");
             bme280Readings.id(this.readModuleId());
-            byte[] digs = this.trimmingParameters.getDigs();
-            IntStream.range(0, digs.length)
-                    .forEach(i -> LOG.info("digs[" + i + "]=" + StringUtil.toHexString(digs[i])));
-            LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.getThpReadings", "getThpReadingsComplete"));
         } catch (Exception e) {
             LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
             throw new SensorException(E_BMEP280_0001.getId(), SensorType.THP, E_BMEP280_0001.getName(), e);
         }
+        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.getThpReadings", "getThpReadingsComplete"));
         return bme280Readings;
-    }
-
-    public double fromRawReadingsToLightIntensity(byte[] i2cReadings) {
-        Profiler.init("fromRawReadingsToLightIntensity");
-        double lightIntensity = Math.round((Byte.toUnsignedInt(i2cReadings[0]) << 8
-                | Byte.toUnsignedInt(i2cReadings[1])) / 1.2 * 100.0) / 100.0;
-        LOG.info("Light intensity: " + lightIntensity + " lux");
-        LOG.info(Profiler.getCurrentMsg("fromRawReadingsToLightIntensity", "lightIntensity"));
-        return lightIntensity;
     }
 }

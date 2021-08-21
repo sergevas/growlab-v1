@@ -41,3 +41,4 @@ camera:
 #  captureTimeout: 0
 bmep280:
   moduleAddress: 0x77
+  forcedModeTimeout: 2000

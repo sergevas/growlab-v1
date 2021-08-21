@@ -5,9 +5,9 @@ public class Bme280RawReadings {
     public static final int ADDR = 0xF7;
     public static final int READINGS_LENGTH = 8;
 
-    public int abcTemperature;
-    public int abcHumidity;
-    public int abcPressure;
+    public int adcTemperature;
+    public int adcHumidity;
+    public int adcPressure;
 
     private byte[] readings = new byte[READINGS_LENGTH];
 
@@ -15,35 +15,38 @@ public class Bme280RawReadings {
         return readings;
     }
 
-    public Bme280RawReadings init() {
+    public Bme280RawReadings computeAdcValues() {
+        this.computeTemperature();
+        this.computeHumidity();
+        this.computePressure();
         return this;
 
     }
 
-    public int getAbcTemperature() {
-        return this.abcTemperature;
+    public int getAdcTemperature() {
+        return this.adcTemperature;
     }
 
-    public int getAbcHumidity() {
-        return this.abcHumidity;
+    public int getAdcHumidity() {
+        return this.adcHumidity;
     }
 
-    public int getAbcPressure() {
-        return this.abcPressure;
+    public int getAdcPressure() {
+        return this.adcPressure;
     }
 
     public void computeTemperature() {
-        this.abcTemperature = Byte.toUnsignedInt(readings[3]) << 12
+        this.adcTemperature = Byte.toUnsignedInt(readings[3]) << 12
                 | Byte.toUnsignedInt(readings[4]) << 4
                 | Byte.toUnsignedInt(readings[5]) >> 4;
     }
 
     public void computeHumidity() {
-        this.abcHumidity = Byte.toUnsignedInt(readings[6]) << 8 | Byte.toUnsignedInt(readings[7]);
+        this.adcHumidity = Byte.toUnsignedInt(readings[6]) << 8 | Byte.toUnsignedInt(readings[7]);
     }
 
     public void computePressure() {
-        this.abcPressure = Byte.toUnsignedInt(readings[0]) << 12
+        this.adcPressure = Byte.toUnsignedInt(readings[0]) << 12
                 | Byte.toUnsignedInt(readings[1]) << 4
                 | Byte.toUnsignedInt(readings[2]) >> 4;
     }

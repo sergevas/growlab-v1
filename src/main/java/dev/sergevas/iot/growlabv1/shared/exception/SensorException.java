@@ -28,6 +28,14 @@ public class SensorException extends RuntimeException {
         this.sensorType = sensorType;
     }
 
+    public SensorException(String eventId, SensorType sensorType, String message) {
+        super(message);
+        this.eventId = eventId;
+        this.sensorType = sensorType;
+    }
+
+
+
     public SensorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
