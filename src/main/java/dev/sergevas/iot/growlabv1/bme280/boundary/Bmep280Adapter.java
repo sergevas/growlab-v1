@@ -29,6 +29,7 @@ public class Bmep280Adapter {
     private CtrlHumRegister ctrlHumRegister;
     private ConfigRegister configRegister;
     private TrimmingParameters trimmingParameters;
+    private Bme280RawReadings bme280RawReadings;
 
     public static Bmep280Adapter getInstance(int moduleAddress) {
         if (instance == null) {
@@ -74,6 +75,11 @@ public class Bmep280Adapter {
         return this;
     }
 
+    public Bmep280Adapter bme280RawReadings(Bme280RawReadings bme280RawReadings) {
+        this.bme280RawReadings = bme280RawReadings;
+        return this;
+    }
+
     private I2C getDeviceInstance() {
         return I2CDeviceFactory.getDeviceInstance(INSTANCE_ID, this.moduleAddress);
     }
@@ -116,9 +122,9 @@ public class Bmep280Adapter {
 
     public Bmep280Adapter configure() {
         LOG.info("Congigure the adapter...");
-        Profiler.init("Bmep280Adapter.configure");
         this.initSleepMode();
         this.readTrimmingParameters();
+        Profiler.init("Bmep280Adapter.configure");
         this.getDeviceInstance().writeRegister(CtrlHumRegister.ADDR, this.ctrlHumRegister.getValue());
         this.getDeviceInstance().writeRegister(ConfigRegister.ADDR, this.configRegister.getValue());
         this.getDeviceInstance().writeRegister(CtrlMeasRegister.ADDR, this.ctrlMeasRegister.getValue());
@@ -137,9 +143,20 @@ public class Bmep280Adapter {
         return id;
     }
 
+    public void readRawData() {
+        this.initForcedMode();
+        //TODO: implement a loop which waits the reading status change
+        LOG.info("Burst read raw data...");
+        Profiler.init("Bmep280Adapter.readRawData");
+        this.getDeviceInstance().readRegister(Bme280RawReadings.ADDR, this.bme280RawReadings.getReadings());
+        LOG.info(String.format("Raw readings=[%s]", StringUtil.toHexString(this.bme280RawReadings.getReadings())));
+        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.readRawData", "readRawDataComplete"));
+    }
+
     public Bme280Readings getThpReadings() {
         Bme280Readings bme280Readings = new Bme280Readings();
         try {
+            this.readRawData();
             Profiler.init("Bmep280Adapter.getThpReadings");
             bme280Readings.id(this.readModuleId());
             byte[] digs = this.trimmingParameters.getDigs();
