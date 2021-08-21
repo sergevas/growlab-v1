@@ -41,6 +41,10 @@ public class Bmep280Adapter {
     private Bme280RawReadings bme280RawReadings;
     private StatusRegister statusRegister;
 
+    private Bmep280Adapter(){
+        super();
+    }
+
     public static Bmep280Adapter getInstance(Map<String, String> config) {
         if (instance == null) {
             instance = new Bmep280Adapter()

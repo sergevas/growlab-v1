@@ -3,33 +3,63 @@ package dev.sergevas.iot.growlabv1.bh1750.boundary;
 import com.pi4j.util.StringUtil;
 import dev.sergevas.iot.growlabv1.hardware.boundary.I2CDeviceFactory;
 import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
+import dev.sergevas.iot.growlabv1.shared.controller.ConfigHandler;
 import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
 import dev.sergevas.iot.growlabv1.shared.model.SensorType;
 
+import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BH1750_0001;
 
 public class Bh1750Adapter {
+
     private static final Logger LOG = Logger.getLogger(Bh1750Adapter.class.getName());
+
     public static String INSTANCE_ID = "i2c-bus-GY-302-BH1750";
-    public static final int GY_302_BH1750_ADDR = 0x23; // Default address for the GY-302 BH1750 module
     public static final byte GY_302_BH1750_POWER_DOWN = 0x00;
     public static final byte GY_302_BH1750_POWER_ON = 0x01;
-    public static final byte GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE_2 = (byte) 0x21;
     public static final byte GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE = (byte) 0x20;
     public static final int GY_302_BH1750_READINGS_DATA_LENGTH = 2;
 
+    private static Bh1750Adapter instance;
+
+    private ConfigHandler configHandler;
+    private Integer moduleAddress;
+
+    private Bh1750Adapter() {
+        super();
+    }
+
+    public static Bh1750Adapter getInstance(Map<String, String> config) {
+        if (instance == null) {
+            instance = new Bh1750Adapter()
+                    .configHandler(new ConfigHandler().configMap(config));
+        }
+        return instance;
+    }
+
+    public Bh1750Adapter configHandler(ConfigHandler configHandler) {
+        this.configHandler = configHandler;
+        return this;
+    }
+
+    public Integer getModuleAddress() {
+        this.moduleAddress = Optional.ofNullable(this.moduleAddress)
+                .orElse(this.configHandler.getAsInteger("moduleAddress"));
+        return moduleAddress;
+    }
+
     public Double getLightIntensity() {
         Double lightIntensity;
-        var i2cDevice = I2CDeviceFactory.getDeviceInstance(INSTANCE_ID, GY_302_BH1750_ADDR);
+        var i2cDevice = I2CDeviceFactory.getDeviceInstance(INSTANCE_ID, this.getModuleAddress());
         try {
             Profiler.init("getLightIntensity");
             i2cDevice.write(GY_302_BH1750_POWER_ON);
-            Thread.sleep(1);
             i2cDevice.write(GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE);
-            Thread.sleep(200);
+            Thread.sleep(120); // H-Resolution Mode typical measurement time
             LOG.info("Reading data from GY-302 BH1750...");
             byte[] readings = i2cDevice.readNBytes(GY_302_BH1750_READINGS_DATA_LENGTH);
             LOG.info("GY-302 BH1750 readings...");

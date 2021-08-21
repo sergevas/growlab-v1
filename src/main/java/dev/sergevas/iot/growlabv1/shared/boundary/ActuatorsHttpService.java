@@ -31,7 +31,7 @@ public class ActuatorsHttpService implements Service {
     @Override
     public void update(Routing.Rules rules) {
         rules.get("/camera/image", new PiCamHttpHandler(this.config));
-        rules.get("/camera/mode", new GetCameraModeRequestHandler());
-        rules.put("/camera/mode", new UpdateCameraModeRequestHandler());
+        rules.get("/camera/mode", new GetCameraModeRequestHandler(this.config));
+        rules.put("/camera/mode", new UpdateCameraModeRequestHandler(this.config));
     }
 }

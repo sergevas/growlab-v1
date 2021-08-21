@@ -1,8 +1,10 @@
 package dev.sergevas.iot.growlabv1.camera.boundary;
 
 import dev.sergevas.iot.growlabv1.camera.model.CameraMode;
+import dev.sergevas.iot.growlabv1.shared.controller.HelidonConfigHandler;
 import dev.sergevas.iot.growlabv1.shared.exception.ActuatorException;
 import io.helidon.common.http.Http;
+import io.helidon.config.Config;
 import io.helidon.webserver.Handler;
 import io.helidon.webserver.ServerRequest;
 import io.helidon.webserver.ServerResponse;
@@ -22,6 +24,13 @@ public class UpdateCameraModeRequestHandler implements Handler {
     private static final JsonBuilderFactory JSON = Json.createBuilderFactory(Collections.emptyMap());
     private static final Logger LOG = Logger.getLogger(UpdateCameraModeRequestHandler.class.getName());
 
+    private CameraModeControlAdapter cameraModeControlAdapter;
+
+    public UpdateCameraModeRequestHandler(Config config) {
+        this.cameraModeControlAdapter = CameraModeControlAdapter
+                .getInstance(HelidonConfigHandler.getConfigMap(config, "camera"));
+    }
+
     @Override
     public void accept(ServerRequest req, ServerResponse res) {
         req.content()
@@ -34,7 +43,7 @@ public class UpdateCameraModeRequestHandler implements Handler {
         String modeStr = jsonObject.getString("mode");
         LOG.info("Camera mode: " + modeStr);
         CameraMode cameraMode = CameraMode.valueOf(modeStr);
-        CameraModeControlAdapter.getInstance().updateMode(cameraMode);
+        this.cameraModeControlAdapter.updateMode(cameraMode);
         res.status(Http.Status.OK_200).send();
     }
 

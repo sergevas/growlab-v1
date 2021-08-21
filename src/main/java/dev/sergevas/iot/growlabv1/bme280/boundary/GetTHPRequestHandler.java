@@ -1,6 +1,7 @@
 package dev.sergevas.iot.growlabv1.bme280.boundary;
 
 import dev.sergevas.iot.growlabv1.bme280.model.Bme280Readings;
+import dev.sergevas.iot.growlabv1.shared.controller.HelidonConfigHandler;
 import dev.sergevas.iot.growlabv1.shared.controller.SensorResponseBuilder;
 import dev.sergevas.iot.growlabv1.shared.model.SensorType;
 import io.helidon.config.Config;
@@ -18,7 +19,7 @@ public class GetTHPRequestHandler implements Handler {
     private Bmep280Adapter bmep280Adapter;
 
     public GetTHPRequestHandler(Config config) {
-        bmep280Adapter = Bmep280Adapter.getInstance(config.get("bmep280").detach().asMap().get());
+        bmep280Adapter = Bmep280Adapter.getInstance(HelidonConfigHandler.getConfigMap(config, "bmep280"));
     }
 
     @Override
