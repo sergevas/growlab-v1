@@ -2,6 +2,7 @@ package dev.sergevas.iot.growlabv1.bme280.boundary;
 
 import com.pi4j.io.i2c.I2C;
 import com.pi4j.util.StringUtil;
+import dev.sergevas.iot.growlabv1.bme280.controller.ReadingsProcessor;
 import dev.sergevas.iot.growlabv1.bme280.model.*;
 import dev.sergevas.iot.growlabv1.hardware.boundary.I2CDeviceFactory;
 import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
@@ -206,10 +207,15 @@ public class Bmep280Adapter {
     }
 
     public Bme280Readings getThpReadings() {
-        Bme280Readings bme280Readings = new Bme280Readings();
+        Bme280Readings bme280Readings = null;
         this.readRawData();
         Profiler.init("Bmep280Adapter.getThpReadings");
         try {
+            this.bme280RawReadings.computeAdcValues();
+            ReadingsProcessor readingsProcessor = new ReadingsProcessor()
+                    .bme280RawReadings(this.bme280RawReadings)
+                    .trimmingParameters(this.trimmingParameters);
+            bme280Readings = readingsProcessor.compensateReadings();
             bme280Readings.id(this.readModuleId());
         } catch (Exception e) {
             LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
