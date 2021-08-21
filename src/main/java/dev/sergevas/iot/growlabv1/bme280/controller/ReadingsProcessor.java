@@ -29,71 +29,48 @@ public class ReadingsProcessor {
         return bme280Readings;
     }
 
-    public Double compensateTemperatureReadings() {
-        Double temp = null;
+    // Returns temperature in DegC, double precision. Output value of “51.23” equals 51.23 DegC.
+    public double compensateTemperatureReadings() {
         double var1 = (rawR.getAdcT() / 16384.0 - trP.getDigT1() / 1024.0) * trP.getDigT2();
-        double var2 = ((rawR.getAdcT() / 131072.0 - trP.getDigT1() / 8192.0) * (rawR.getAdcT() / 131072.0 - trP.getDigT1() / 8192.0)) * trP.getDigT3();
+        double var2 = ((rawR.getAdcT() / 131072.0 - trP.getDigT1() / 8192.0)
+                * (rawR.getAdcT() / 131072.0 - trP.getDigT1() / 8192.0)) * trP.getDigT3();
         double varsSum = var1 + var2;
         this.tFine = (int)varsSum;
-        temp = varsSum / 5120.0;
+        double temp = varsSum / 5120.0;
         return temp;
     }
 
+    // Returns humidity in %rH as double. Output value of “46.332” represents 46.332 %rH
     public Double compensateHumidityReadings() {
-        Double humid = null;
+        double humid = this.tFine - 76800.0;
+        humid = (rawR.getAdcH() - (trP.getDigH4() * 64.0 + trP.getDigH5() / 16384.0 * humid))
+                * (trP.getDigH2() / 65536.0 * (1.0 + trP.getDigH6() / 67108864.0 * humid
+                * (1.0 + trP.getDigH3() / 67108864.0 * humid)));
+        humid = humid * (1.0 - trP.getDigH1() * humid / 524288.0);
+        if (humid > 100.0) {
+            humid = 100.0;
+        } else if (humid < 0.0) {
+            humid = 0.0;
+        }
         return humid;
     }
 
-    public Double compensatePressureReadings() {
-        Double press = null;
+    // Returns pressure in Pa as double. Output value of “96386.2” equals 96386.2 Pa = 963.862 hPa
+    public double compensatePressureReadings() {
         double var1 = this.tFine / 2.0 - 64000.0;
         double var2 = var1 * var1 * trP.getDigP6() / 32768.0;
         var2 = var2 + var1 * trP.getDigP5() * 2.0;
         var2 = var2 / 4.0 + trP.getDigP4() * 65536.0;
+        var1 = (trP.getDigP3() * var1 * var1 / 524288.0 + trP.getDigP2() * var1) / 524288.0;
+        var1 = (1.0 + var1 / 32768.0) * trP.getDigP1();
+        if (var1 == 0.0) {
+            return 0.0; // avoid exception caused by division by zero
+        }
+        double press = 1048576.0 - rawR.getAdcP();
+        press = (press - var2 / 4096.0) * 6250.0 / var1;
+        var1 = trP.getDigP9() * press * press / 2147483648.0;
+        var2 = press * trP.getDigP8() / 32768.0;
+        press = press + (var1 + var2 + trP.getDigP7()) / 16.0;
         return press;
     }
 }
-
-/*
-
-// Returns pressure in Pa as double. Output value of “96386.2” equals 96386.2 Pa = 963.862 hPa
-double BME280_compensate_P_double(BME280_S32_t adc_P)
-{
-double var1, var2, p;
-var1 = ((double)t_fine/2.0) – 64000.0;
-var2 = var1 * var1 * ((double)dig_P6) / 32768.0;
-var2 = var2 + var1 * ((double)dig_P5) * 2.0;
-var2 = (var2/4.0)+(((double)dig_P4) * 65536.0);
-var1 = (((double)dig_P3) * var1 * var1 / 524288.0 + ((double)dig_P2) * var1) / 524288.0;
-var1 = (1.0 + var1 / 32768.0)*((double)dig_P1);
-if (var1 == 0.0)
-{
-return 0; // avoid exception caused by division by zero
-}
-p = 1048576.0 – (double)adc_P;
-p = (p – (var2 / 4096.0)) * 6250.0 / var1;
-var1 = ((double)dig_P9) * p * p / 2147483648.0;
-var2 = p * ((double)dig_P8) / 32768.0;
-p = p + (var1 + var2 + ((double)dig_P7)) / 16.0;
-return p;
-}
-// Returns humidity in %rH as as double. Output value of “46.332” represents
-46.332 %rH
-double bme280_compensate_H_double(BME280_S32_t adc_H);
-{
-double var_H;
-var_H = (((double)t_fine) – 76800.0);
-var_H = (adc_H – (((double)dig_H4) * 64.0 + ((double)dig_H5) / 16384.0 *
-var_H)) * (((double)dig_H2) / 65536.0 * (1.0 + ((double)dig_H6) /
-67108864.0 * var_H *
-(1.0 + ((double)dig_H3) / 67108864.0 * var_H)));
-var_H = var_H * (1.0 – ((double)dig_H1) * var_H / 524288.0);
-if (var_H > 100.0)
-var_H = 100.0;
-else if (var_H < 0.0)
-var_H = 0.0;
-return var_H;
-}
-Modifications reser
-*
-* */

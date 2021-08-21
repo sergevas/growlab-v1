@@ -27,11 +27,11 @@ public class Bme280RawReadings {
         return this.adcTemperature;
     }
 
-    public int getAdcHumidity() {
+    public int getAdcH() {
         return this.adcHumidity;
     }
 
-    public int getAdcPressure() {
+    public int getAdcP() {
         return this.adcPressure;
     }
 
