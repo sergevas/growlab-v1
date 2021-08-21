@@ -23,7 +23,7 @@ public class Bme280RawReadings {
 
     }
 
-    public int getAdcTemperature() {
+    public int getAdcT() {
         return this.adcTemperature;
     }
 
