@@ -4,11 +4,13 @@ import com.pi4j.util.StringUtil;
 import dev.sergevas.iot.growlabv1.hardware.boundary.I2CDeviceFactory;
 import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
 import dev.sergevas.iot.growlabv1.shared.controller.ConfigHandler;
+import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
 import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
 import dev.sergevas.iot.growlabv1.shared.model.SensorType;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
@@ -69,6 +71,7 @@ public class Bh1750Adapter {
             lightIntensity = fromRawReadingsToLightIntensity(readings);
             LOG.info(Profiler.getCurrentMsg("getLightIntensity", "fromRawReadingsToLightIntensity(readings)"));
         } catch (Exception e) {
+            LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
             throw new SensorException(E_BH1750_0001.getId(), SensorType.LIGHT, E_BH1750_0001.getName(), e);
         }
         return lightIntensity;
