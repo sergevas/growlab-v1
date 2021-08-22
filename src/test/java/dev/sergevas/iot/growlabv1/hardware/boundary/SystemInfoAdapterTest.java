@@ -9,7 +9,7 @@ class SystemInfoAdapterTest {
     @Test
     void getCpuTemp() {
         if (System.getProperty("os.name").startsWith("Lin")) {
-            assertNotNull(SystemInfoAdapter.getInstance().getCpuTemp());
+            assertNotNull(SystemInfoAdapter.create().getCpuTemp());
         } else {
             assertTrue(true);
         }

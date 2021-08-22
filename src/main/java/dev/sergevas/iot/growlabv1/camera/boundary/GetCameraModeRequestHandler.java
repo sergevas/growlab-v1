@@ -18,7 +18,7 @@ public class GetCameraModeRequestHandler implements Handler {
 
     public GetCameraModeRequestHandler(Config config) {
         this.cameraModeControlAdapter = CameraModeControlAdapter
-                .getInstance(HelidonConfigHandler.getConfigMap(config, "camera"));
+                .create(HelidonConfigHandler.getConfigMap(config, "camera"));
     }
 
     @Override

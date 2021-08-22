@@ -45,7 +45,7 @@ public class Bmep280Adapter {
         super();
     }
 
-    public static Bmep280Adapter getInstance(Map<String, String> config) {
+    public static Bmep280Adapter create(Map<String, String> config) {
         if (instance == null) {
             instance = new Bmep280Adapter()
                     .configHandler(new ConfigHandler().configMap(config))

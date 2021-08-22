@@ -19,7 +19,7 @@ public class GetTHPRequestHandler implements Handler {
     private Bmep280Adapter bmep280Adapter;
 
     public GetTHPRequestHandler(Config config) {
-        bmep280Adapter = Bmep280Adapter.getInstance(HelidonConfigHandler.getConfigMap(config, "bmep280"));
+        bmep280Adapter = Bmep280Adapter.create(HelidonConfigHandler.getConfigMap(config, "bmep280"));
     }
 
     @Override

@@ -26,8 +26,8 @@ public class PiCamAdapter {
     private PiCamAdapter() {
     }
 
-    public static synchronized PiCamAdapter getInstance() {
-        LOG.info(CLASS_NAME + " Get instance...");
+    public static synchronized PiCamAdapter create() {
+        LOG.info(CLASS_NAME + " Create instance...");
         if (piCamAdapter == null) {
             piCamAdapter = new PiCamAdapter();
         }

@@ -11,8 +11,6 @@ import java.util.logging.Logger;
 
 public class ActuatorsHttpService implements Service {
 
-    private static final Logger LOG = Logger.getLogger(ActuatorsHttpService.class.getName());
-
     private Config config;
 
     public ActuatorsHttpService() {

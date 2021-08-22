@@ -10,9 +10,9 @@ class Bh1750AdapterTest {
 
     @Test
     void fromRawReadingsToLightIntensityTest() {
-        assertEquals(51030, Bh1750Adapter.getInstance(new HashMap<>())
+        assertEquals(51030, Bh1750Adapter.create(new HashMap<>())
                 .fromRawReadingsToLightIntensity(new byte[]{(byte)0xef, (byte)0x34}));
-        assertEquals(1000, Bh1750Adapter.getInstance(new HashMap<>())
+        assertEquals(1000, Bh1750Adapter.create(new HashMap<>())
                 .fromRawReadingsToLightIntensity(new byte[]{(byte)0x04, (byte)0xb0}));
     }
 }

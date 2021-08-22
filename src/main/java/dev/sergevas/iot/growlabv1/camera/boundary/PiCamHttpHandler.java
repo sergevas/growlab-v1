@@ -15,7 +15,7 @@ public class PiCamHttpHandler implements Handler {
     private PiCamAdapter piCamAdapter;
 
     public PiCamHttpHandler(Config config) {
-        this.piCamAdapter = PiCamAdapter.getInstance();
+        this.piCamAdapter = PiCamAdapter.create();
         this.piCamAdapter.installNativeLib();
         this.piCamAdapter.createCameraConfiguration(config);
     }

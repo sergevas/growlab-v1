@@ -18,7 +18,7 @@ public class GetLightRequestHandler implements Handler {
     private Bh1750Adapter bh1750Adapter;
 
     public GetLightRequestHandler(Config config) {
-        bh1750Adapter = Bh1750Adapter.getInstance(HelidonConfigHandler.getConfigMap(config, "bh1750"));
+        bh1750Adapter = Bh1750Adapter.create(HelidonConfigHandler.getConfigMap(config, "bh1750"));
     }
 
     @Override

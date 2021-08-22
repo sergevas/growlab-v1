@@ -3,6 +3,7 @@ package dev.sergevas.iot.growlabv1;
 
 import dev.sergevas.iot.growlabv1.camera.boundary.PiCamAdapter;
 import dev.sergevas.iot.growlabv1.hardware.boundary.Pi4JContextFactory;
+import dev.sergevas.iot.growlabv1.hardware.boundary.SystemInfoHealthCheck;
 import dev.sergevas.iot.growlabv1.shared.boundary.ActuatorsErrorHandler;
 import dev.sergevas.iot.growlabv1.shared.boundary.ActuatorsHttpService;
 import dev.sergevas.iot.growlabv1.shared.boundary.SensorsErrorHandler;
@@ -17,14 +18,8 @@ import io.helidon.media.jsonp.JsonpSupport;
 import io.helidon.webserver.Routing;
 import io.helidon.webserver.WebServer;
 
-/**
- * The application main class.
- */
 public final class Main {
 
-    /**
-     * Cannot be instantiated.
-     */
     private Main() {
     }
 
@@ -54,7 +49,7 @@ public final class Main {
                     System.out.println("GrowLab server is up! http://0.0.0.0:" + ws.port() + "/growlab/api/v1");
                     ws.whenShutdown().thenRun(() -> {
                         Pi4JContextFactory.shutdown();
-                        PiCamAdapter.getInstance().closeCamera();
+                        PiCamAdapter.create().closeCamera();
                         System.out.println("GrowLab server is down.");
                     });
                 })
@@ -69,7 +64,8 @@ public final class Main {
 
     private static Routing createRouting(Config config) {
         HealthSupport health = HealthSupport.builder()
-                .addLiveness(HealthChecks.healthChecks())  // Adds a convenient set of checks
+                .addLiveness(HealthChecks.healthChecks())
+                .addLiveness(SystemInfoHealthCheck.create())
                 .build();
 
         return Routing.builder()

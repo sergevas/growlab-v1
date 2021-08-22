@@ -35,7 +35,7 @@ public class Bh1750Adapter {
         super();
     }
 
-    public static Bh1750Adapter getInstance(Map<String, String> config) {
+    public static Bh1750Adapter create(Map<String, String> config) {
         if (instance == null) {
             instance = new Bh1750Adapter()
                     .configHandler(new ConfigHandler().configMap(config));

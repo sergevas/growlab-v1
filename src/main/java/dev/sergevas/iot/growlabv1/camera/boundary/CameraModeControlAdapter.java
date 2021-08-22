@@ -23,7 +23,7 @@ public class CameraModeControlAdapter {
         super();
     }
 
-    public static CameraModeControlAdapter getInstance(Map<String, String> config) {
+    public static CameraModeControlAdapter create(Map<String, String> config) {
         if (instance == null) {
             instance = new CameraModeControlAdapter()
                     .configHandler(new ConfigHandler().configMap(config));
