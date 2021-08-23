@@ -15,6 +15,7 @@ import io.helidon.config.Config;
 import io.helidon.health.HealthSupport;
 import io.helidon.health.checks.HealthChecks;
 import io.helidon.media.jsonp.JsonpSupport;
+import io.helidon.openapi.OpenAPISupport;
 import io.helidon.webserver.Routing;
 import io.helidon.webserver.WebServer;
 
@@ -69,7 +70,8 @@ public final class Main {
                 .build();
 
         return Routing.builder()
-                .register(health)  // Health at "/health"
+                .register("/growlab/api/v1", health)
+                .register("/growlab/api/v1", OpenAPISupport.create(config.get(OpenAPISupport.Builder.CONFIG_KEY)))
                 .register("/growlab/api/v1/sensors", new SensorsHttpService(config))
                 .register("/growlab/api/v1/actuators", new ActuatorsHttpService(config))
                 .error(SensorException.class, new SensorsErrorHandler())

@@ -16,7 +16,6 @@ import static uk.co.caprica.picam.PicamNativeLibrary.installTempLibrary;
 
 public class PiCamAdapter {
 
-    private static final String CLASS_NAME = PiCamAdapter.class.getName();
     private static final Logger LOG = Logger.getLogger(PiCamAdapter.class.getName());
 
     private static PiCamAdapter piCamAdapter;
@@ -27,7 +26,6 @@ public class PiCamAdapter {
     }
 
     public static synchronized PiCamAdapter create() {
-        LOG.info(CLASS_NAME + " Create instance...");
         if (piCamAdapter == null) {
             piCamAdapter = new PiCamAdapter();
         }
@@ -35,7 +33,6 @@ public class PiCamAdapter {
     }
 
     public CameraConfiguration createCameraConfiguration(Config config) {
-        LOG.info(CLASS_NAME + " Create camera configuration...");
         Config hCamCfg = config.get("camera");
         piCamCfg = cameraConfiguration();
 
@@ -78,7 +75,6 @@ public class PiCamAdapter {
     }
 
     public void installNativeLib() {
-        LOG.info(CLASS_NAME + " Install native lib...");
         try {
             installTempLibrary();
         } catch (NativeLibraryException nle) {
@@ -88,7 +84,6 @@ public class PiCamAdapter {
     }
 
     public Camera initCamera() {
-        LOG.info(CLASS_NAME + " Init camera...");
         try {
             this.closeCamera();
             this.camera = new Camera(this.piCamCfg);
@@ -101,20 +96,18 @@ public class PiCamAdapter {
     }
 
     public void closeCamera() {
-        LOG.info(CLASS_NAME + " Close camera...");
         if (this.camera != null) {
             this.camera.close();
         }
     }
 
     public synchronized byte[] takePictureWithCamRecover() {
-        LOG.info(CLASS_NAME + " Take picture with recover...");
         byte[] rawBytes = null;
         try {
             rawBytes = this.takePicture();
         } catch (CaptureFailedException cfe) {
             LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(cfe));
-            LOG.info("Trying to recover...");
+            LOG.log(Level.FINE, "Trying to recover...");
             try {
                 this.initCamera();
                 rawBytes = this.takePicture();

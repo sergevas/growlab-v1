@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.IntStream;
 
 import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BMEP280_0001;
 import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BMEP280_0002;
@@ -118,21 +117,21 @@ public class Bmep280Adapter {
     }
 
     public void initSleepMode() {
-        LOG.info("Init Sleep mode...");
+        LOG.log(Level.FINE, "Init Sleep mode...");
         Profiler.init("Bmep280Adapter.initSleepMode");
         this.getDeviceInstance().writeRegister(CtrlMeasRegister.ADDR, Mode.SLEEP.val());
-        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.initSleepMode", "initSleepModeComplete"));
+        LOG.log(Level.FINE, Profiler.getCurrentMsg("Bmep280Adapter.initSleepMode", "initSleepModeComplete"));
     }
 
     public void initForcedMode() {
-        LOG.info("Init Sleep mode...");
+        LOG.log(Level.FINE, "Init Sleep mode...");
         Profiler.init("Bmep280Adapter.initForcedMode");
         this.getDeviceInstance().writeRegister(CtrlMeasRegister.ADDR, this.ctrlMeasRegister.getValue());
-        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.initForcedMode", "initForcedModeComplete"));
+        LOG.log(Level.FINE, Profiler.getCurrentMsg("Bmep280Adapter.initForcedMode", "initForcedModeComplete"));
     }
 
     public void readTrimmingParameters() {
-        LOG.info("Reading Trimming Parameters...");
+        LOG.log(Level.FINE, "Reading Trimming Parameters...");
         Profiler.init("Bmep280Adapter.readTrimmingParameters");
         this.getDeviceInstance()
                 .readRegister(TrimmingParameters.DIG_T1_ADDR,
@@ -151,31 +150,30 @@ public class Bmep280Adapter {
                         TrimmingParameters.DIG_H2_CHUNK_LENGTH);
         this.trimmingParameters.init();
         byte[] digs = this.trimmingParameters.getDigs();
-        IntStream.range(0, digs.length)
-                .forEach(i -> LOG.info("digs[" + i + "]=" + StringUtil.toHexString(digs[i])));
-        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.readTrimmingParameters", "readTrimmingParametersComplete"));
+        LOG.log(Level.FINE, "Digs: " + StringUtil.toHexString(digs));
+        LOG.log(Level.FINE, Profiler.getCurrentMsg("Bmep280Adapter.readTrimmingParameters", "readTrimmingParametersComplete"));
     }
 
     public Bmep280Adapter configure() {
-        LOG.info("Congigure the adapter...");
+        LOG.log(Level.FINE,"Congigure the adapter...");
         this.initSleepMode();
         this.readTrimmingParameters();
         Profiler.init("Bmep280Adapter.configure");
         this.getDeviceInstance().writeRegister(CtrlHumRegister.ADDR, this.ctrlHumRegister.getValue());
         this.getDeviceInstance().writeRegister(ConfigRegister.ADDR, this.configRegister.getValue());
         this.getDeviceInstance().writeRegister(CtrlMeasRegister.ADDR, this.ctrlMeasRegister.getValue());
-        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.configure", "configureComlete"));
+        LOG.log(Level.FINE, Profiler.getCurrentMsg("Bmep280Adapter.configure", "configureComlete"));
         return this;
     }
 
     public String readModuleId() {
         String id = null;
-        LOG.info("Reading module id...");
+        LOG.log(Level.FINE, "Reading module id...");
         Profiler.init("Bmep280Adapter.readModuleId");
         byte idRaw = this.getDeviceInstance().readRegisterByte(ID_ADDR);
         id = StringUtil.toHexString(idRaw);
-        LOG.info(String.format("Module id=[%s]", id));
-        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.readModuleId", "readModuleIdComplete"));
+        LOG.log(Level.FINE, String.format("Module id=[%s]", id));
+        LOG.log(Level.FINE, Profiler.getCurrentMsg("Bmep280Adapter.readModuleId", "readModuleIdComplete"));
         return id;
     }
 
@@ -187,7 +185,7 @@ public class Bmep280Adapter {
 
     public void readRawData() {
         this.initForcedMode();
-        LOG.info("Burst read raw data...");
+        LOG.log(Level.FINE, "Burst read raw data...");
         Profiler.init("Bmep280Adapter.readRawData");
         Long timeoutStartTime = System.currentTimeMillis();
         try {
@@ -198,8 +196,8 @@ public class Bmep280Adapter {
                 Thread.sleep(1L);
             }
             this.getDeviceInstance().readRegister(Bme280RawReadings.ADDR, this.bme280RawReadings.getReadings());
-            LOG.info(String.format("Raw readings=[%s]", StringUtil.toHexString(this.bme280RawReadings.getReadings())));
-            LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.readRawData", "readRawDataComplete"));
+            LOG.log(Level.FINE, String.format("Raw readings=[%s]", StringUtil.toHexString(this.bme280RawReadings.getReadings())));
+            LOG.log(Level.FINE, Profiler.getCurrentMsg("Bmep280Adapter.readRawData", "readRawDataComplete"));
         } catch (Exception e) {
             LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
             if (e instanceof SensorException) {
@@ -225,7 +223,7 @@ public class Bmep280Adapter {
             LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
             throw new SensorException(E_BMEP280_0001.getId(), SensorType.THP, E_BMEP280_0001.getName(), e);
         }
-        LOG.info(Profiler.getCurrentMsg("Bmep280Adapter.getThpReadings", "getThpReadingsComplete"));
+        LOG.log(Level.FINE, Profiler.getCurrentMsg("Bmep280Adapter.getThpReadings", "getThpReadingsComplete"));
         return bme280Readings;
     }
 }

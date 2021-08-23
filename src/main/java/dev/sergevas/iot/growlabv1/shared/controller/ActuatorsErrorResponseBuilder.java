@@ -26,26 +26,14 @@ public class ActuatorsErrorResponseBuilder {
     private String desc;
     private OffsetDateTime eventTimestamp;
 
-    public ActuatorException getActuatorException() {
-        return actuatorException;
-    }
-
     public ActuatorsErrorResponseBuilder actuatorException(ActuatorException actuatorException) {
         this.actuatorException = actuatorException;
         return this;
     }
 
-    public String getEventId() {
-        return eventId;
-    }
-
     public ActuatorsErrorResponseBuilder eventId(String eventId) {
         this.eventId = eventId;
         return this;
-    }
-
-    public String getEventName() {
-        return eventName;
     }
 
     public ActuatorsErrorResponseBuilder eventName(String eventName) {
@@ -60,10 +48,6 @@ public class ActuatorsErrorResponseBuilder {
     public ActuatorsErrorResponseBuilder desc(String desc) {
         this.desc = desc;
         return this;
-    }
-
-    public OffsetDateTime getEventTimestamp() {
-        return eventTimestamp;
     }
 
     public ActuatorsErrorResponseBuilder eventTimestamp(OffsetDateTime eventTimestamp) {

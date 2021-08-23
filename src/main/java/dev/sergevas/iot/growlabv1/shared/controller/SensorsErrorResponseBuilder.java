@@ -27,26 +27,14 @@ public class SensorsErrorResponseBuilder {
     private String desc;
     private OffsetDateTime eventTimestamp;
 
-    public SensorException getSensorException() {
-        return sensorException;
-    }
-
     public SensorsErrorResponseBuilder sensorException(SensorException sensorException) {
         this.sensorException = sensorException;
         return this;
     }
 
-    public String getEventId() {
-        return eventId;
-    }
-
     public SensorsErrorResponseBuilder eventId(String eventId) {
         this.eventId = eventId;
         return this;
-    }
-
-    public String getEventName() {
-        return eventName;
     }
 
     public SensorsErrorResponseBuilder eventName(String eventName) {
@@ -61,10 +49,6 @@ public class SensorsErrorResponseBuilder {
     public SensorsErrorResponseBuilder desc(String desc) {
         this.desc = desc;
         return this;
-    }
-
-    public OffsetDateTime getEventTimestamp() {
-        return eventTimestamp;
     }
 
     public SensorsErrorResponseBuilder eventTimestamp(OffsetDateTime eventTimestamp) {

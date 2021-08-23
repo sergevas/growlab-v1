@@ -20,10 +20,6 @@ public class SensorResponseBuilder {
 
     private List<Item> items = new ArrayList<>();
 
-    public List<Item> getItems() {
-        return items;
-    }
-
     public SensorResponseBuilder item(Item item) {
         this.items.add(item);
         return this;
@@ -82,26 +78,14 @@ public class SensorResponseBuilder {
             return this;
         }
 
-        public String getsData() {
-            return sData;
-        }
-
         public Item sData(Object sData) {
             this.sData = String.valueOf(sData);
             return this;
         }
 
-        public SensorType getsType() {
-            return sType;
-        }
-
         public Item sType(SensorType sType) {
             this.sType = sType;
             return this;
-        }
-
-        public OffsetDateTime getsTimestamp() {
-            return sTimestamp;
         }
 
         public Item sTimestamp(OffsetDateTime sTimestamp) {

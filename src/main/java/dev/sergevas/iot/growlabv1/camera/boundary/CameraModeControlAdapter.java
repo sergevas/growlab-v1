@@ -3,14 +3,19 @@ package dev.sergevas.iot.growlabv1.camera.boundary;
 import dev.sergevas.iot.growlabv1.camera.model.CameraMode;
 import dev.sergevas.iot.growlabv1.hardware.boundary.PiGpioFactory;
 import dev.sergevas.iot.growlabv1.shared.controller.ConfigHandler;
+import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
 import dev.sergevas.iot.growlabv1.shared.exception.ActuatorException;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_CAMERA_0002;
 
 public class CameraModeControlAdapter {
+
+    private static final Logger LOG = Logger.getLogger(CameraModeControlAdapter.class.getName());
 
     private static final String DIGITAL_OUTPUT_CAMERA_MODE = "digital-output-camera-control";
 
@@ -55,6 +60,7 @@ public class CameraModeControlAdapter {
                 mode = CameraMode.UNDEFINED;
             }
         } catch (Exception e) {
+            LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
             throw new ActuatorException(E_CAMERA_0002.getId(), E_CAMERA_0002.getName(), e);
         }
 

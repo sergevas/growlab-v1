@@ -1,5 +1,6 @@
 package dev.sergevas.iot.growlabv1.hardware.boundary;
 
+import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
 import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
 import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
 import dev.sergevas.iot.growlabv1.shared.model.SensorType;
@@ -40,16 +41,20 @@ public class SystemInfoAdapter {
     }
 
     public String getCpuTemp() {
+        Profiler.init("SystemInfoAdapter.getCpuTemp()");
         String cpuTemp = null;
         try {
             Process process = this.getProcessBuilder().start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            LOG.info(Profiler.getCurrentMsg("SystemInfoAdapter.getCpuTemp()", "createBufferedReader"));
             String cpuTempStr = reader.readLine();
             cpuTemp = String.valueOf(Double.parseDouble(cpuTempStr) / 1000.0);
+            LOG.info(Profiler.getCurrentMsg("SystemInfoAdapter.getCpuTemp()", "calcCpuTemp"));
         } catch (Exception e) {
             LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
             throw new SensorException(E_SYSTEM_0001.getId(), SensorType.LIGHT, E_SYSTEM_0001.getName(), e);
         }
+        LOG.info(Profiler.getCurrentMsg("SystemInfoAdapter.getCpuTemp()", "getCpuTempComplete"));
         return cpuTemp;
     }
 }

@@ -7,15 +7,9 @@ import io.helidon.config.Config;
 import io.helidon.webserver.Routing;
 import io.helidon.webserver.Service;
 
-import java.util.logging.Logger;
-
 public class ActuatorsHttpService implements Service {
 
     private Config config;
-
-    public ActuatorsHttpService() {
-        super();
-    }
 
     public ActuatorsHttpService(Config config) {
         super();

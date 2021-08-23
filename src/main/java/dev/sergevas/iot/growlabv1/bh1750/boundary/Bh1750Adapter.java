@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.IntStream;
 
 import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BH1750_0001;
 
@@ -55,34 +54,34 @@ public class Bh1750Adapter {
     }
 
     public Double getLightIntensity() {
-        Double lightIntensity;
+        Double lightIntensity = null;
         var i2cDevice = I2CDeviceFactory.getDeviceInstance(INSTANCE_ID, this.getModuleAddress());
         try {
-            Profiler.init("getLightIntensity");
+            Profiler.init("Bh1750Adapter.getLightIntensity()");
             i2cDevice.write(GY_302_BH1750_POWER_ON);
             i2cDevice.write(GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE);
             Thread.sleep(120); // H-Resolution Mode typical measurement time
-            LOG.info("Reading data from GY-302 BH1750...");
+            LOG.log(Level.FINE, "Reading data from GY-302 BH1750...");
             byte[] readings = i2cDevice.readNBytes(GY_302_BH1750_READINGS_DATA_LENGTH);
-            LOG.info("GY-302 BH1750 readings...");
-            IntStream.range(0, GY_302_BH1750_READINGS_DATA_LENGTH)
-                .forEach(i -> LOG.info("readings[" + i + "]=" + StringUtil.toHexString(readings[i])));
+            LOG.log(Level.FINE, "GY-302 BH1750 readings: " + StringUtil.toHexString(readings));
             i2cDevice.write(GY_302_BH1750_POWER_DOWN);
             lightIntensity = fromRawReadingsToLightIntensity(readings);
-            LOG.info(Profiler.getCurrentMsg("getLightIntensity", "fromRawReadingsToLightIntensity(readings)"));
         } catch (Exception e) {
             LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
             throw new SensorException(E_BH1750_0001.getId(), SensorType.LIGHT, E_BH1750_0001.getName(), e);
         }
+        LOG.log(Level.FINE, Profiler.getCurrentMsg("Bh1750Adapter.getLightIntensity()",
+                "getLightIntensityComplete"));
         return lightIntensity;
     }
 
     public double fromRawReadingsToLightIntensity(byte[] i2cReadings) {
-        Profiler.init("fromRawReadingsToLightIntensity");
+        Profiler.init("Bh1750Adapter.fromRawReadingsToLightIntensity()");
         double lightIntensity = Math.round((Byte.toUnsignedInt(i2cReadings[0]) << 8
                 | Byte.toUnsignedInt(i2cReadings[1])) / 1.2 * 100.0) / 100.0;
-        LOG.info("Light intensity: " + lightIntensity + " lux");
-        LOG.info(Profiler.getCurrentMsg("fromRawReadingsToLightIntensity", "lightIntensity"));
+        LOG.log(Level.FINE, "Light intensity: " + lightIntensity + " lux");
+        LOG.log(Level.FINE, Profiler.getCurrentMsg("Bh1750Adapter.fromRawReadingsToLightIntensity()",
+                "fromRawReadingsToLightIntensityComplete"));
         return lightIntensity;
     }
 }
