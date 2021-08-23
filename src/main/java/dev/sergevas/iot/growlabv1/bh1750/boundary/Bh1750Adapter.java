@@ -60,7 +60,7 @@ public class Bh1750Adapter {
             Profiler.init("Bh1750Adapter.getLightIntensity()");
             i2cDevice.write(GY_302_BH1750_POWER_ON);
             i2cDevice.write(GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE);
-            Thread.sleep(120); // H-Resolution Mode typical measurement time
+            Thread.sleep(180); // H-Resolution Mode max measurement time
             LOG.log(Level.FINE, "Reading data from GY-302 BH1750...");
             byte[] readings = i2cDevice.readNBytes(GY_302_BH1750_READINGS_DATA_LENGTH);
             LOG.log(Level.FINE, "GY-302 BH1750 readings: " + StringUtil.toHexString(readings));
