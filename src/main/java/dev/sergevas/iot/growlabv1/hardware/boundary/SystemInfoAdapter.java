@@ -46,15 +46,15 @@ public class SystemInfoAdapter {
         try {
             Process process = this.getProcessBuilder().start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            LOG.info(Profiler.getCurrentMsg("SystemInfoAdapter.getCpuTemp()", "createBufferedReader"));
+            LOG.log(Level.FINE, Profiler.getCurrentMsg("SystemInfoAdapter.getCpuTemp()", "createBufferedReader"));
             String cpuTempStr = reader.readLine();
             cpuTemp = String.valueOf(Double.parseDouble(cpuTempStr) / 1000.0);
-            LOG.info(Profiler.getCurrentMsg("SystemInfoAdapter.getCpuTemp()", "calcCpuTemp"));
+            LOG.log(Level.FINE, Profiler.getCurrentMsg("SystemInfoAdapter.getCpuTemp()", "calcCpuTemp"));
         } catch (Exception e) {
             LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
             throw new SensorException(E_SYSTEM_0001.getId(), SensorType.LIGHT, E_SYSTEM_0001.getName(), e);
         }
-        LOG.info(Profiler.getCurrentMsg("SystemInfoAdapter.getCpuTemp()", "getCpuTempComplete"));
+        LOG.log(Level.FINE, Profiler.getCurrentMsg("SystemInfoAdapter.getCpuTemp()", "getCpuTempComplete"));
         return cpuTemp;
     }
 }
