@@ -21,6 +21,7 @@ public class PiCamAdapter {
     private static PiCamAdapter piCamAdapter;
     private Camera camera;
     private CameraConfiguration piCamCfg;
+    private int delay;
 
     private PiCamAdapter() {
     }
@@ -30,6 +31,10 @@ public class PiCamAdapter {
             piCamAdapter = new PiCamAdapter();
         }
         return piCamAdapter;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
     }
 
     public CameraConfiguration createCameraConfiguration(Config config) {
@@ -71,6 +76,7 @@ public class PiCamAdapter {
                         p.get("u").asInt().get(),
                         p.get("v").asInt().get()));
         hCamCfg.get("captureTimeout").ifExists(p -> piCamCfg.captureTimeout(p.asInt().get()));
+        hCamCfg.get("delay").ifExists(p -> this.setDelay(p.asInt().get()));
         return piCamCfg;
     }
 
@@ -128,7 +134,7 @@ public class PiCamAdapter {
         if (this.camera == null) {
             this.camera = this.initCamera();
         }
-        this.camera.takePicture(pictureCaptureHandler);
+        this.camera.takePicture(pictureCaptureHandler,this.delay);
         rawBytes = pictureCaptureHandler.result();
         return rawBytes;
     }
