@@ -5,7 +5,7 @@ server:
 camera:
   width: 2592
   height: 1944
-  quality: 100
+  quality: 70
   brightness: 50
   contrast: 0
   saturation: 0
