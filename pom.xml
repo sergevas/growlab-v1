@@ -15,7 +15,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <mainClass>dev.sergevas.iot.growlabv1.Main</mainClass>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
-    <pi4j.version>2.0-SNAPSHOT</pi4j.version>
+    <pi4j.version>2.0</pi4j.version>
     <slf4j.version>2.0.0-alpha2</slf4j.version>
     <junit.version>5.7.2</junit.version>
     <picam.version>2.0.2</picam.version>
