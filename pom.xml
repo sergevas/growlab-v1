@@ -19,7 +19,7 @@
     <slf4j.version>2.0.0-alpha2</slf4j.version>
     <junit.version>5.7.2</junit.version>
     <picam.version>2.0.2</picam.version>
-    <rpi.ip>192.168.1.73</rpi.ip>
+    <rpi.ip>192.168.1.72</rpi.ip>
 
   </properties>
 

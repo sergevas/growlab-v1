@@ -73,6 +73,8 @@ The application jar and [Helidon](https://helidon.io/#/) ``libs`` directory cont
 
 See the application's [pom.xml](https://github.com/sergevas/growlab-v1/blob/main/pom.xml) for the details.
 
+The device authentication profile has to be added into ``servers`` element of Maven's ``settings.xml`` file
+
 ### Linux service for Java application
 
 #### Describes how to configure Linux service, running the Java application deployed as a jar file.
