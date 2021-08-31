@@ -1,6 +1,6 @@
 ## Connected Garden application inspired by the [#Growlab](https://github.com/alexellis/growlab) contest, initiated by [Alex Ellis](https://twitter.com/alexellisuk)
 
-This repo contains application, intended to be installed to the Raspberry Pi.
+This repo contains an application, intended to be installed on the Raspberry Pi.
 
 Also, a few dependencies should be installed before the application deployment:
 
@@ -16,6 +16,8 @@ See [Maven Settings](https://pi4j.com/architecture/about-the-code/maven-settings
 See [Raspberry Pi pinout](https://pi4j.com/getting-started/understanding-the-pins/)
 
 ### Mosquitto MQTT
+
+#### Note: current implementation doesn't use Mosquitto
 
 Mosquitto server can be installed from the Debian repository.
 
@@ -61,3 +63,46 @@ Restart "mosquitto" system service:
 ```bash
 sudo systemctl restart mosquitto
 ```
+### Deployment
+
+The process implemented with [Wagon Maven Plugin](http://www.mojohaus.org/wagon-maven-plugin/)
+
+The application jar and [Helidon](https://helidon.io/#/) ``libs`` directory content are copied into the device using the plugin:
+
+``scp://${rpi.ip}/home/pi/growlabv1/app/helidon``
+
+See the application's [pom.xml](https://github.com/sergevas/growlab-v1/blob/main/pom.xml) for the details.
+
+### Linux service for Java application
+
+#### Describes how to configure Linux service, running the Java application deployed as a jar file.
+
+The device OS has to be prepared to run the application.
+See discussion on [Pi4J v2](https://github.com/Pi4J/pi4j-v2) issue [#60](https://github.com/Pi4J/pi4j-v2/issues/60)
+
+Main points:
+  - the default [pigpio](http://abyz.me.uk/rpi/pigpio/faq.html#Cant_initialise_pigpio_library) daemon has to be stopped
+    ```bash
+    sudo killall pigpiod
+    sudo systemctl disable pigpiod
+    ```
+  - the application has to be run using ``sudo``
+
+To run the application as ``systemctl`` Linux service:
+ - put [growlabv1.service](https://github.com/sergevas/growlab-v1/blob/main/src/main/resources/system/growlabv1.service) into ``/etc/systemd/system``
+ - reload systemd manager configuration
+   ```bash
+   systemctl daemon-reload
+   ```
+ - start growlabv1.service
+   ```bash
+   systemctl start growlabv1.service
+   ```
+ - enable growlabv1.service
+   ```bash
+   systemctl enable growlabv1.service
+   ```
+ - see the application logs
+   ```bash
+   journalctl --unit=growlabv1.service -f
+   ```
