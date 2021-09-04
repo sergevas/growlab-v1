@@ -121,15 +121,15 @@ public class PiCamAdapter {
                 LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
                 throw new ActuatorException(E_CAMERA_0001.getId(), E_CAMERA_0001.getName(), e);
             }
-        } catch (Exception e) {
-            LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
-            throw new ActuatorException(E_CAMERA_0001.getId(), E_CAMERA_0001.getName(), e);
+        } catch (Throwable t) {
+            LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(t));
+            throw new ActuatorException(E_CAMERA_0001.getId(), E_CAMERA_0001.getName(), t);
         }
         return rawBytes;
     }
 
     private byte[] takePicture() throws CaptureFailedException {
-        byte[] rawBytes = null;
+        byte[] rawBytes;
         ByteArrayPictureCaptureHandler pictureCaptureHandler = new ByteArrayPictureCaptureHandler(1024);
         if (this.camera == null) {
             this.camera = this.initCamera();

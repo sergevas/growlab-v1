@@ -5,7 +5,7 @@ server:
 camera:
   width: 2592
   height: 1944
-  quality: 70
+  quality: 100
   brightness: 50
   contrast: 0
   saturation: 0
@@ -28,7 +28,7 @@ camera:
 #  automaticWhiteBalanceBlueGain: 0.0
 #  imageEffect: NONE
 #  mirror: NONE
-#  rotation: 0
+  rotation: 180
 #  corp:
 #    cropX: 0.0
 #    cropY: 0.0
@@ -39,7 +39,7 @@ camera:
 #    u: 0
 #    v: 0
 #  captureTimeout: 0
-  delay: 0 #delay before taking the picture, specified in milliseconds
+  delay: 2000 #delay before taking the picture, specified in milliseconds
   cameraModeControlPin: 17
 bh1750:
   moduleAddress: 0x23  #Default address for the GY-302 BH1750 module

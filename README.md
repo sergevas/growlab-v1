@@ -1,13 +1,17 @@
-## Connected Garden application inspired by the [#Growlab](https://github.com/alexellis/growlab) contest, initiated by [Alex Ellis](https://twitter.com/alexellisuk)
+# The connected Garden application
+### inspired by the [#Growlab](https://github.com/alexellis/growlab) contest, initiated by [Alex Ellis](https://twitter.com/alexellisuk)
 
 This repo contains an application, intended to be installed on the Raspberry Pi.
 
 Also, a few dependencies should be installed before the application deployment:
 
-### JDK 11  
+## JDK 11  
+
 The application runs fine with [Azul Zulu Build of OpenJDK](https://www.azul.com/downloads/?version=java-11-lts&os=linux&architecture=arm-32-bit-hf&package=jdk) for Linux ARM 32-bit.
 
-### Pi4J
+## Pi4J
+
+_Note: the current implementation depends on [Pi4J Version 2.0](https://github.com/Pi4J/pi4j-v2)_
 
 [Install](https://pi4j.com/1.4/install.html) Pi4J version 1.4
 
@@ -15,9 +19,9 @@ See [Maven Settings](https://pi4j.com/architecture/about-the-code/maven-settings
 
 See [Raspberry Pi pinout](https://pi4j.com/getting-started/understanding-the-pins/)
 
-### Mosquitto MQTT
+## Mosquitto MQTT
 
-#### Note: current implementation doesn't use Mosquitto
+_Note: current implementation doesn't use Mosquitto_
 
 Mosquitto server can be installed from the Debian repository.
 
@@ -63,7 +67,7 @@ Restart "mosquitto" system service:
 ```bash
 sudo systemctl restart mosquitto
 ```
-### Deployment
+## Deployment
 
 The process implemented with [Wagon Maven Plugin](http://www.mojohaus.org/wagon-maven-plugin/)
 
@@ -75,7 +79,7 @@ See the application's [pom.xml](https://github.com/sergevas/growlab-v1/blob/main
 
 The device authentication profile has to be added into ``servers`` element of Maven's ``settings.xml`` file
 
-### Linux service for Java application
+## Linux service for Java application
 
 #### Describes how to configure Linux service, running the Java application deployed as a jar file.
 
@@ -83,7 +87,18 @@ The device OS has to be prepared to run the application.
 See discussion on [Pi4J v2](https://github.com/Pi4J/pi4j-v2) issue [#60](https://github.com/Pi4J/pi4j-v2/issues/60)
 
 Main points:
-  - the default [pigpio](http://abyz.me.uk/rpi/pigpio/faq.html#Cant_initialise_pigpio_library) daemon has to be stopped
+  - Pi4J native libs have a dependency on [pigpio](http://abyz.me.uk/rpi/pigpio/download.html) library.
+    The installation procedure can be found here: [Download & Install](http://abyz.me.uk/rpi/pigpio/download.html)
+
+    I ran through the **Download and install the latest version** section without any issues:
+    ```bash
+    wget https://github.com/joan2937/pigpio/archive/master.zip
+    unzip master.zip
+    cd pigpio-master
+    make
+    sudo make install
+    ```
+  - the default [pigpio](http://abyz.me.uk/rpi/pigpio/faq.html#Cant_initialise_pigpio_library) daemon should be stopped
     ```bash
     sudo killall pigpiod
     sudo systemctl disable pigpiod

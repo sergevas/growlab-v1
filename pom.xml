@@ -20,7 +20,7 @@
     <junit.version>5.7.2</junit.version>
     <picam.version>2.0.2</picam.version>
     <rpi.ip>192.168.1.72</rpi.ip>
-
+    <app.root.dir>/home/pi/growlabv1/app</app.root.dir>
   </properties>
 
   <parent>
@@ -137,9 +137,22 @@
         <artifactId>wagon-maven-plugin</artifactId>
         <version>2.0.2</version>
         <executions>
+<!--          <execution>-->
+<!--            <id>uploadNativeLibs</id>-->
+<!--            <phase>install</phase>-->
+<!--            <goals>-->
+<!--              <goal>upload</goal>-->
+<!--            </goals>-->
+<!--            <configuration>-->
+<!--              <serverId>rpiAdev</serverId>-->
+<!--              <fromDir>${project.basedir}/src/main/resources</fromDir>-->
+<!--              <includes>native/*</includes>-->
+<!--              <url>scp://${rpi.ip}${app.root.dir}</url>-->
+<!--            </configuration>-->
+<!--          </execution>-->
           <execution>
             <id>uploadApp</id>
-            <phase>package</phase>
+            <phase>install</phase>
             <goals>
               <goal>upload</goal>
               <goal>sshexec</goal>
@@ -148,7 +161,7 @@
                 <serverId>rpiAdev</serverId>
                 <fromDir>${project.build.directory}</fromDir>
                 <includes>libs/*,${project.build.finalName}.${project.packaging}</includes>
-                <url>scp://${rpi.ip}/home/pi/growlabv1/app/helidon</url>
+                <url>scp://${rpi.ip}${app.root.dir}/helidon</url>
                 <commands>
                   <command>systemctl restart growlabv1.service</command>
                 </commands>
