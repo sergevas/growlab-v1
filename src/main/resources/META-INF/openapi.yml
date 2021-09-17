@@ -96,6 +96,8 @@ paths:
         '200':
           content:
             application/json:
+              schema:
+                $ref: https://raw.githubusercontent.com/eclipse/microprofile-health/3.1/tck/src/main/resources/health-check-schema.json
               examples:
                 health_check_example1:
                   value:
@@ -135,6 +137,8 @@ paths:
                         data:
                           cpuTemp: '37.932'
           description: The runtime health information
+        '500':
+          $ref: '#/components/responses/sensor_error'
       operationId: getHealthChecks
       summary: Can be used to get health checks
       description: Can be used to get the health information of the runtime
@@ -334,7 +338,10 @@ components:
   responses:
     image_response:
       content:
-        application/octet-stream: {}
+        application/octet-stream:
+          schema:
+            type: string
+            format: binary
       description: A camera inage binary content
     sensor_error:
       content:
