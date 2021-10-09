@@ -1,5 +1,5 @@
 # The connected Garden application
-### inspired by the [#Growlab](https://github.com/alexellis/growlab) contest, initiated by [Alex Ellis](https://twitter.com/alexellisuk)
+### Inspired by the [#Growlab](https://github.com/alexellis/growlab) contest, initiated by [Alex Ellis](https://twitter.com/alexellisuk)
 
 This repo contains an application, intended to be installed on the Raspberry Pi.
 
