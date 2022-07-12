@@ -51,7 +51,7 @@ paths:
           description: The light intensity sensor readings
         '500':
           $ref: '#/components/responses/sensor_error'
-      operationId: GetLightIntensity
+      operationId: getLightIntensity
       summary: Get light intensity readings
       description: Can be used to get readings the light intensity sensor
   /actuators/camera/mode:
@@ -101,16 +101,13 @@ paths:
               examples:
                 health_check_example1:
                   value:
-                    outcome: UP
                     status: UP
                     checks:
                       -
                         name: deadlock
-                        state: UP
                         status: UP
                       -
                         name: diskSpace
-                        state: UP
                         status: UP
                         data:
                           free: 3.92 GB
@@ -120,7 +117,6 @@ paths:
                           totalBytes: 7434330112
                       -
                         name: heapMemory
-                        state: UP
                         status: UP
                         data:
                           free: 21.38 MB
@@ -132,7 +128,6 @@ paths:
                           totalBytes: 32571392
                       -
                         name: systemInfo
-                        state: UP
                         status: UP
                         data:
                           cpuTemp: '37.932'
@@ -179,7 +174,7 @@ paths:
             the environmental data sensor, e.g. BME280
         '500':
           $ref: '#/components/responses/sensor_error'
-      operationId: GetThp
+      operationId: getThp
       summary: 'Get temperature, humidity and pressure readings'
       description: |-
         Can be used to get readings of temperature, humidity, and pressure readings,
