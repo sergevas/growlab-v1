@@ -44,5 +44,5 @@ camera:
 bh1750:
   moduleAddress: 0x23  #Default address for the GY-302 BH1750 module
 bmep280:
-  moduleAddress: 0x76
+  moduleAddress: 0x77
   forcedModeTimeout: 2000
