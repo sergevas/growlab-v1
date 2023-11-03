@@ -4,5 +4,6 @@ public enum SensorType {
     THP, TEMP, HUMID, PRESS, CO2,
     SOIL_TEMP, SOIL_HUMID,
     LIGHT,
-    CAMERA;
+    CAMERA,
+    CPU_TEMP;
 }

@@ -1,9 +1,10 @@
 package dev.sergevas.iot.growlabv1.bme280.model;
 
+import dev.sergevas.iot.growlabv1.bme280.domain.TrimmingParameters;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TrimmingParametersTest {
 
@@ -66,38 +67,38 @@ class TrimmingParametersTest {
     static void setup() {
         trimmingParameters = new TrimmingParameters();
         byte[] digs = trimmingParameters.getDigs();
-        digs[0]=(byte)0x4E;
-        digs[1]=(byte)0x6D;
-        digs[2]=(byte)0x2D;
-        digs[3]=(byte)0x67;
-        digs[4]=(byte)0x32;
-        digs[5]=(byte)0x00;
-        digs[6]=(byte)0x80;
-        digs[7]=(byte)0x94;
-        digs[8]=(byte)0xCF;
-        digs[9]=(byte)0xD5;
-        digs[10]=(byte)0xD0;
-        digs[11]=(byte)0x0B;
-        digs[12]=(byte)0x11;
-        digs[13]=(byte)0x1A;
-        digs[14]=(byte)0xD4;
-        digs[15]=(byte)0xFF;
-        digs[16]=(byte)0xF9;
-        digs[17]=(byte)0xFF;
-        digs[18]=(byte)0xAC;
-        digs[19]=(byte)0x26;
-        digs[20]=(byte)0x0A;
-        digs[21]=(byte)0xD8;
-        digs[22]=(byte)0xBD;
-        digs[23]=(byte)0x10;
-        digs[24]=(byte)0x4B;
-        digs[25]=(byte)0x6F;
-        digs[26]=(byte)0x01;
-        digs[27]=(byte)0x00;
-        digs[28]=(byte)0x13;
-        digs[29]=(byte)0x02;
-        digs[30]=(byte)0x00;
-        digs[31]=(byte)0x1E;
+        digs[0] = (byte) 0x4E;
+        digs[1] = (byte) 0x6D;
+        digs[2] = (byte) 0x2D;
+        digs[3] = (byte) 0x67;
+        digs[4] = (byte) 0x32;
+        digs[5] = (byte) 0x00;
+        digs[6] = (byte) 0x80;
+        digs[7] = (byte) 0x94;
+        digs[8] = (byte) 0xCF;
+        digs[9] = (byte) 0xD5;
+        digs[10] = (byte) 0xD0;
+        digs[11] = (byte) 0x0B;
+        digs[12] = (byte) 0x11;
+        digs[13] = (byte) 0x1A;
+        digs[14] = (byte) 0xD4;
+        digs[15] = (byte) 0xFF;
+        digs[16] = (byte) 0xF9;
+        digs[17] = (byte) 0xFF;
+        digs[18] = (byte) 0xAC;
+        digs[19] = (byte) 0x26;
+        digs[20] = (byte) 0x0A;
+        digs[21] = (byte) 0xD8;
+        digs[22] = (byte) 0xBD;
+        digs[23] = (byte) 0x10;
+        digs[24] = (byte) 0x4B;
+        digs[25] = (byte) 0x6F;
+        digs[26] = (byte) 0x01;
+        digs[27] = (byte) 0x00;
+        digs[28] = (byte) 0x13;
+        digs[29] = (byte) 0x02;
+        digs[30] = (byte) 0x00;
+        digs[31] = (byte) 0x1E;
         trimmingParameters.init();
     }
 
@@ -106,8 +107,8 @@ class TrimmingParametersTest {
         TrimmingParameters tp = new TrimmingParameters();
         byte[] digs = tp.getDigs();
         // -78 FFB2 1111 1111 1011 0010
-        digs[28] = (byte)0b1111_1011;
-        digs[29] = (byte)0b1111_0010;
+        digs[28] = (byte) 0b1111_1011;
+        digs[29] = (byte) 0b1111_0010;
         tp.init();
         assertEquals(-78, tp.getDigH4());
     }
@@ -117,8 +118,8 @@ class TrimmingParametersTest {
         TrimmingParameters tp = new TrimmingParameters();
         byte[] digs = tp.getDigs();
         // -78 FFB2 1111 1111 1011 0010
-        digs[29] = (byte)0b0010_1111;
-        digs[30] = (byte)0b1111_1011;
+        digs[29] = (byte) 0b0010_1111;
+        digs[30] = (byte) 0b1111_1011;
         tp.init();
         assertEquals(-78, tp.getDigH5());
     }
@@ -126,27 +127,27 @@ class TrimmingParametersTest {
     @Test
     void toSignedOneParam() {
         TrimmingParameters tp = new TrimmingParameters();
-        assertEquals(127, tp.toSigned((byte)0x7F));
-        assertEquals(-1, tp.toSigned((byte)0xFF));
+        assertEquals(127, tp.toSigned((byte) 0x7F));
+        assertEquals(-1, tp.toSigned((byte) 0xFF));
     }
 
     @Test
     void toUnsignedSingleOneParam() {
         TrimmingParameters tp = new TrimmingParameters();
-        assertEquals(255, tp.toUnsigned((byte)0xFF));
+        assertEquals(255, tp.toUnsigned((byte) 0xFF));
     }
 
     @Test
     void toSignedTwoParams() {
         TrimmingParameters tp = new TrimmingParameters();
-        assertEquals(32766, tp.toSigned((byte)0xFE, (byte)0x7F));
-        assertEquals(-2, tp.toSigned((byte)0xFE, (byte)0xFF));
+        assertEquals(32766, tp.toSigned((byte) 0xFE, (byte) 0x7F));
+        assertEquals(-2, tp.toSigned((byte) 0xFE, (byte) 0xFF));
     }
 
     @Test
     void toUnignedTwoParams() {
         TrimmingParameters tp = new TrimmingParameters();
-        assertEquals(65534, tp.toUnsigned((byte)0xFE, (byte)0xFF));
+        assertEquals(65534, tp.toUnsigned((byte) 0xFE, (byte) 0xFF));
     }
 
     @Test

@@ -2,6 +2,7 @@ package dev.sergevas.iot.growlabv1.bh1750.adapter.in;
 
 import dev.sergevas.iot.growlabv1.bh1750.application.port.in.Bh1750UseCase;
 import dev.sergevas.iot.growlabv1.shared.domain.SensorReadingsItemType;
+import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 import io.quarkus.logging.Log;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -17,11 +18,11 @@ public class Bh1750Resource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public SensorReadingsItemType getBH1750AmbientLightIntensity() {
+        var sensorReadingsItemTypeForBh1750 = bh1750UseCase.getSensorReadingsItemTypeForBh1750();
         SensorReadingsItemType sensorReadingsType = new SensorReadingsItemType()
                 .sType(SensorType.LIGHT.name())
-                .sName(SensorName.BH1750.getName())
-                .sTimestamp(OffsetDateTime.now(ZoneOffset.UTC))
-                .sData(String.valueOf(bh1750UseCase.getSensorReadingsItemTypeForBh1750().getLightIntensity()));
+                .sTimestamp(sensorReadingsItemTypeForBh1750.lightIntensityTimestamp())
+                .sData(String.valueOf(sensorReadingsItemTypeForBh1750.lightIntensity()));
         Log.info(sensorReadingsType);
         return sensorReadingsType;
     }
