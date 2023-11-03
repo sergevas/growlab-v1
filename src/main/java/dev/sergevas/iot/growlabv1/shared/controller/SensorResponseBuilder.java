@@ -1,12 +1,13 @@
 package dev.sergevas.iot.growlabv1.shared.controller;
 
+import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
+
 import javax.json.*;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import dev.sergevas.iot.growlabv1.shared.model.SensorType;
 
 public class SensorResponseBuilder {
 

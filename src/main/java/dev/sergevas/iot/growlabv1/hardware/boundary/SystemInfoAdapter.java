@@ -1,9 +1,9 @@
 package dev.sergevas.iot.growlabv1.hardware.boundary;
 
 import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
+import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
 import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
-import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
-import dev.sergevas.iot.growlabv1.shared.model.SensorType;
+import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,13 +11,13 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_SYSTEM_0001;
+import static dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId.E_SYSTEM_0001;
 
 public class SystemInfoAdapter {
 
     private static final Logger LOG = Logger.getLogger(SystemInfoAdapter.class.getName());
 
-    public static final String[] FETCH_CPU_TEMP_CMD = new String[] {"cat", "/sys/class/thermal/thermal_zone0/temp"};
+    public static final String[] FETCH_CPU_TEMP_CMD = new String[]{"cat", "/sys/class/thermal/thermal_zone0/temp"};
 
     private static SystemInfoAdapter instance;
 

@@ -1,4 +1,4 @@
-package dev.sergevas.iot.growlabv1.shared.exception;
+package dev.sergevas.iot.growlabv1.shared.application.port.out;
 
 public class ActuatorException extends RuntimeException {
 

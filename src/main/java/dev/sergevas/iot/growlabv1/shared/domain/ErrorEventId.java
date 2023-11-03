@@ -1,4 +1,4 @@
-package dev.sergevas.iot.growlabv1.shared.model;
+package dev.sergevas.iot.growlabv1.shared.domain;
 
 public enum ErrorEventId {
     E_BH1750_0001("E-BH1750-0001", "BH1750 data read error"),
@@ -12,8 +12,8 @@ public enum ErrorEventId {
 
     E_SYSTEM_0001("E_SYSTEM_0001", "CPU temperature read error");
 
-    private String id;
-    private String name;
+    private final String id;
+    private final String name;
 
     private ErrorEventId(String id, String name) {
         this.id = id;

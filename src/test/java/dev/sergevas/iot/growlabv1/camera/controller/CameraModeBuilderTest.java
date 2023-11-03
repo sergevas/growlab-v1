@@ -1,6 +1,6 @@
 package dev.sergevas.iot.growlabv1.camera.controller;
 
-import dev.sergevas.iot.growlabv1.camera.model.CameraMode;
+import dev.sergevas.iot.growlabv1.camera.domain.CameraMode;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -9,8 +9,6 @@ import javax.json.JsonObject;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Collections;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CameraModeBuilderTest {
 

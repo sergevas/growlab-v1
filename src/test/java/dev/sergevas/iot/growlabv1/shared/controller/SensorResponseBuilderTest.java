@@ -1,5 +1,6 @@
 package dev.sergevas.iot.growlabv1.shared.controller;
 
+import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -7,19 +8,16 @@ import javax.json.Json;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Collections;
-import dev.sergevas.iot.growlabv1.shared.model.SensorType;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 class SensorResponseBuilderTest {
 
     private static JsonBuilderFactory JSON = Json.createBuilderFactory(Collections.emptyMap());
-    private static  JsonObject expectedReadingsItem;
-    private static  JsonObject expectedReadings;
+    private static JsonObject expectedReadingsItem;
+    private static JsonObject expectedReadings;
     private static OffsetDateTime sTimestamp;
 
     @BeforeAll
@@ -27,7 +25,7 @@ class SensorResponseBuilderTest {
         sTimestamp = OffsetDateTime.of(2021, 7, 31, 23,
                 07, 00, 00, ZoneOffset.UTC);
 
-        expectedReadingsItem =JSON.createObjectBuilder()
+        expectedReadingsItem = JSON.createObjectBuilder()
                 .add("s_id", JsonValue.NULL)
                 .add("s_type", "LIGHT")
                 .add("s_data", "25.7")
@@ -35,22 +33,22 @@ class SensorResponseBuilderTest {
                 .build();
 
         expectedReadings = JSON.createObjectBuilder()
-                .add("s_readings",JSON.createArrayBuilder()
-                .add(JSON.createObjectBuilder()
-                    .add("s_id", "0xEF")
-                    .add("s_type", "TEMP")
-                    .add("s_data", "25.7")
-                    .add("s_timestamp", sTimestamp.toString()))
-                .add(JSON.createObjectBuilder()
-                    .add("s_id", "0xEF")
-                    .add("s_type", "HUMID")
-                    .add("s_data", "60.7")
-                    .add("s_timestamp", sTimestamp.toString()))
-                .add(JSON.createObjectBuilder()
-                    .add("s_id", "0xEF")
-                    .add("s_type", "PRESS")
-                    .add("s_data", "1000.78")
-                    .add("s_timestamp", sTimestamp.toString()))
+                .add("s_readings", JSON.createArrayBuilder()
+                        .add(JSON.createObjectBuilder()
+                                .add("s_id", "0xEF")
+                                .add("s_type", "TEMP")
+                                .add("s_data", "25.7")
+                                .add("s_timestamp", sTimestamp.toString()))
+                        .add(JSON.createObjectBuilder()
+                                .add("s_id", "0xEF")
+                                .add("s_type", "HUMID")
+                                .add("s_data", "60.7")
+                                .add("s_timestamp", sTimestamp.toString()))
+                        .add(JSON.createObjectBuilder()
+                                .add("s_id", "0xEF")
+                                .add("s_type", "PRESS")
+                                .add("s_data", "1000.78")
+                                .add("s_timestamp", sTimestamp.toString()))
                 ).build();
     }
 
@@ -58,9 +56,9 @@ class SensorResponseBuilderTest {
     void buildSensorReadingsItem() {
         JsonObject actual = new SensorResponseBuilder()
                 .item(new SensorResponseBuilder.Item()
-                .sType(SensorType.LIGHT)
-                .sData("25.7")
-                .sTimestamp(sTimestamp))
+                        .sType(SensorType.LIGHT)
+                        .sData("25.7")
+                        .sTimestamp(sTimestamp))
                 .buildSensorReadingsItem();
         assertEquals(expectedReadingsItem, actual);
     }

@@ -3,6 +3,7 @@ package dev.sergevas.iot.growlabv1.hardware.boundary;
 import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.DigitalOutput;
 import com.pi4j.io.gpio.digital.DigitalState;
+import dev.sergevas.iot.growlabv1.hardware.application.port.out.HardwareException;
 import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
 import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
 

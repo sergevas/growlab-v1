@@ -1,5 +1,7 @@
 package dev.sergevas.iot.growlabv1.shared.controller;
 
+import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
+
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
@@ -8,8 +10,6 @@ import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
-
-import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
 
 public class SensorsErrorResponseBuilder {
 
@@ -66,7 +66,7 @@ public class SensorsErrorResponseBuilder {
                         .map(Enum::toString).orElse("UNKNOWN"))
                 .add(EVENT_DESCRIPTION, this.desc != null
                         ? Json.createValue(this.desc) : ExceptionUtils.getStackTrace(sensorException) != null
-                            ? Json.createValue(ExceptionUtils.getStackTrace(sensorException)) : JsonValue.NULL)
+                        ? Json.createValue(ExceptionUtils.getStackTrace(sensorException)) : JsonValue.NULL)
                 .add(EVENT_TIMESTAMP, this.eventTimestamp.toString())
                 .build();
     }

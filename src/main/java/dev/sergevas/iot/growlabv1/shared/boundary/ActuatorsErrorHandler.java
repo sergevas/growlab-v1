@@ -1,7 +1,7 @@
 package dev.sergevas.iot.growlabv1.shared.boundary;
 
+import dev.sergevas.iot.growlabv1.shared.application.port.out.ActuatorException;
 import dev.sergevas.iot.growlabv1.shared.controller.ActuatorsErrorResponseBuilder;
-import dev.sergevas.iot.growlabv1.shared.exception.ActuatorException;
 import io.helidon.common.http.Http;
 import io.helidon.webserver.ErrorHandler;
 import io.helidon.webserver.ServerRequest;

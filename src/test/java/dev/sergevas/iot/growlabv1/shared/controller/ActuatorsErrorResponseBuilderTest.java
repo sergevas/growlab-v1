@@ -1,7 +1,7 @@
 package dev.sergevas.iot.growlabv1.shared.controller;
 
-import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
-import dev.sergevas.iot.growlabv1.shared.model.SensorType;
+import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
+import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ActuatorsErrorResponseBuilderTest {
 

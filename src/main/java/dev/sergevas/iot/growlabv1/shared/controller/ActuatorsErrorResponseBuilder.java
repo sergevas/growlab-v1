@@ -1,6 +1,6 @@
 package dev.sergevas.iot.growlabv1.shared.controller;
 
-import dev.sergevas.iot.growlabv1.shared.exception.ActuatorException;
+import dev.sergevas.iot.growlabv1.shared.application.port.out.ActuatorException;
 
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
@@ -63,7 +63,7 @@ public class ActuatorsErrorResponseBuilder {
                         .orElse(actuatorException.getMessage()))
                 .add(EVENT_DESCRIPTION, this.desc != null
                         ? Json.createValue(this.desc) : ExceptionUtils.getStackTrace(actuatorException) != null
-                            ? Json.createValue(ExceptionUtils.getStackTrace(actuatorException)) : JsonValue.NULL)
+                        ? Json.createValue(ExceptionUtils.getStackTrace(actuatorException)) : JsonValue.NULL)
                 .add(EVENT_TIMESTAMP, this.eventTimestamp.toString())
                 .build();
     }

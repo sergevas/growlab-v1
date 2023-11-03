@@ -3,17 +3,17 @@ package dev.sergevas.iot.growlabv1.bh1750.boundary;
 import com.pi4j.util.StringUtil;
 import dev.sergevas.iot.growlabv1.hardware.boundary.I2CDeviceFactory;
 import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
+import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
 import dev.sergevas.iot.growlabv1.shared.controller.ConfigHandler;
 import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
-import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
-import dev.sergevas.iot.growlabv1.shared.model.SensorType;
+import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BH1750_0001;
+import static dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId.E_BH1750_0001;
 
 public class Bh1750Adapter {
 

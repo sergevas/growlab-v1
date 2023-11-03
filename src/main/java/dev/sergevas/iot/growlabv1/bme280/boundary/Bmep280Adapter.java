@@ -6,18 +6,18 @@ import dev.sergevas.iot.growlabv1.bme280.controller.ReadingsProcessor;
 import dev.sergevas.iot.growlabv1.bme280.model.*;
 import dev.sergevas.iot.growlabv1.hardware.boundary.I2CDeviceFactory;
 import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
+import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
 import dev.sergevas.iot.growlabv1.shared.controller.ConfigHandler;
 import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
-import dev.sergevas.iot.growlabv1.shared.exception.SensorException;
-import dev.sergevas.iot.growlabv1.shared.model.SensorType;
+import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BMEP280_0001;
-import static dev.sergevas.iot.growlabv1.shared.model.ErrorEventId.E_BMEP280_0002;
+import static dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId.E_BMEP280_0001;
+import static dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId.E_BMEP280_0002;
 
 public class Bmep280Adapter {
 
@@ -26,7 +26,7 @@ public class Bmep280Adapter {
     public static String INSTANCE_ID = "i2c-bus-GY-BMEP280";
     public static final int ID_ADDR = 0xD0;
 
-    private static  Bmep280Adapter instance;
+    private static Bmep280Adapter instance;
 
     private ConfigHandler configHandler;
 
@@ -40,7 +40,7 @@ public class Bmep280Adapter {
     private Bme280RawReadings bme280RawReadings;
     private StatusRegister statusRegister;
 
-    private Bmep280Adapter(){
+    private Bmep280Adapter() {
         super();
     }
 
@@ -155,7 +155,7 @@ public class Bmep280Adapter {
     }
 
     public Bmep280Adapter configure() {
-        LOG.log(Level.FINE,"Congigure the adapter...");
+        LOG.log(Level.FINE, "Congigure the adapter...");
         this.initSleepMode();
         this.readTrimmingParameters();
         Profiler.init("Bmep280Adapter.configure");
@@ -201,7 +201,7 @@ public class Bmep280Adapter {
         } catch (Exception e) {
             LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
             if (e instanceof SensorException) {
-                throw (SensorException)e;
+                throw (SensorException) e;
             } else {
                 throw new SensorException(E_BMEP280_0001.getId(), SensorType.THP, E_BMEP280_0001.getName(), e);
             }

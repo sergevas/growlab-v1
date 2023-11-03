@@ -2,6 +2,7 @@ package dev.sergevas.iot.growlabv1.hardware.boundary;
 
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
+import dev.sergevas.iot.growlabv1.hardware.application.port.out.HardwareException;
 import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
 
 import java.util.Optional;
@@ -23,8 +24,8 @@ public class Pi4JContextFactory {
                         LOG.log(Level.SEVERE, ExceptionUtils.getStackTrace(e));
                         throw new HardwareException("Unable to create a new Pi4J context");
                     }
-                return pi4jContext;
-        });
+                    return pi4jContext;
+                });
     }
 
     public static void shutdown() {

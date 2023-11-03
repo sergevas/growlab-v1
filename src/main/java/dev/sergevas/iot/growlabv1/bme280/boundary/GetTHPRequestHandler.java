@@ -3,7 +3,7 @@ package dev.sergevas.iot.growlabv1.bme280.boundary;
 import dev.sergevas.iot.growlabv1.bme280.model.Bme280Readings;
 import dev.sergevas.iot.growlabv1.shared.controller.HelidonConfigHandler;
 import dev.sergevas.iot.growlabv1.shared.controller.SensorResponseBuilder;
-import dev.sergevas.iot.growlabv1.shared.model.SensorType;
+import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 import io.helidon.config.Config;
 import io.helidon.webserver.Handler;
 import io.helidon.webserver.ServerRequest;

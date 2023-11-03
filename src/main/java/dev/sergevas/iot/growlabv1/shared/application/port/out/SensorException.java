@@ -1,6 +1,6 @@
-package dev.sergevas.iot.growlabv1.shared.exception;
+package dev.sergevas.iot.growlabv1.shared.application.port.out;
 
-import dev.sergevas.iot.growlabv1.shared.model.SensorType;
+import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 
 public class SensorException extends RuntimeException {
 
@@ -33,7 +33,6 @@ public class SensorException extends RuntimeException {
         this.eventId = eventId;
         this.sensorType = sensorType;
     }
-
 
 
     public SensorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {

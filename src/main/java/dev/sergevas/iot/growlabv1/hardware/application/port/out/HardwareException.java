@@ -1,4 +1,4 @@
-package dev.sergevas.iot.growlabv1.hardware.boundary;
+package dev.sergevas.iot.growlabv1.hardware.application.port.out;
 
 public class HardwareException extends RuntimeException {
 
