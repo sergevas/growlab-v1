@@ -4,7 +4,7 @@ import com.pi4j.context.Context;
 import com.pi4j.io.i2c.I2C;
 import com.pi4j.io.i2c.I2CProvider;
 import dev.sergevas.iot.growlabv1.hardware.application.port.out.HardwareException;
-import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
+import dev.sergevas.iot.growlabv1.performance.Profiler;
 import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
 
 import java.util.HashMap;

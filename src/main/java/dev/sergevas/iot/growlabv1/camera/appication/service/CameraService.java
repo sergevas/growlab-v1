@@ -8,6 +8,9 @@ import dev.sergevas.iot.growlabv1.camera.domain.CameraPicture;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+
 @ApplicationScoped
 public class CameraService implements CameraUseCase {
 
@@ -23,11 +26,12 @@ public class CameraService implements CameraUseCase {
 
     @Override
     public CameraMode getMode() {
-        return cameraModeControl.getMode();
+        return new CameraMode(cameraModeControl.getMode(), OffsetDateTime.now(ZoneOffset.UTC));
+
     }
 
     @Override
-    public void updateMode(CameraMode mode) {
-        cameraModeControl.updateMode(mode);
+    public void updateMode(CameraMode cameraMode) {
+        cameraModeControl.updateMode(cameraMode.mode());
     }
 }

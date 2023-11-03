@@ -5,7 +5,7 @@ import com.pi4j.util.StringUtil;
 import dev.sergevas.iot.growlabv1.bme280.controller.ReadingsProcessor;
 import dev.sergevas.iot.growlabv1.bme280.model.*;
 import dev.sergevas.iot.growlabv1.hardware.boundary.I2CDeviceFactory;
-import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
+import dev.sergevas.iot.growlabv1.performance.Profiler;
 import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
 import dev.sergevas.iot.growlabv1.shared.controller.ConfigHandler;
 import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;

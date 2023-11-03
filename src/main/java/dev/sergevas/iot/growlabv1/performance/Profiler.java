@@ -1,10 +1,10 @@
-package dev.sergevas.iot.growlabv1.performance.controller;
+package dev.sergevas.iot.growlabv1.performance;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Profiler {
-    private static Map<String, Long> points = new HashMap<>();
+    private static final Map<String, Long> points = new HashMap<>();
 
     public static Long init(String aPointName) {
         return points.put(aPointName, System.currentTimeMillis());

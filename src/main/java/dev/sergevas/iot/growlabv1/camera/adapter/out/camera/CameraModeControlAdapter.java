@@ -1,7 +1,7 @@
 package dev.sergevas.iot.growlabv1.camera.adapter.out.camera;
 
 import dev.sergevas.iot.growlabv1.camera.appication.port.out.CameraModeControl;
-import dev.sergevas.iot.growlabv1.camera.domain.CameraMode;
+import dev.sergevas.iot.growlabv1.camera.domain.CameraMode.Mode;
 import dev.sergevas.iot.growlabv1.hardware.application.port.out.HardwareException;
 import dev.sergevas.iot.growlabv1.shared.application.port.out.ActuatorException;
 import io.quarkiverse.jef.java.embedded.framework.linux.gpio.GpioPin;
@@ -32,16 +32,16 @@ public class CameraModeControlAdapter implements CameraModeControl {
         }
     }
 
-    public CameraMode getMode() {
-        CameraMode mode;
+    public Mode getMode() {
+        Mode mode;
         try {
             var state = cameraModeControlPin.read();
             if (GpioPin.State.HIGH.equals(state)) {
-                mode = CameraMode.NORM;
+                mode = Mode.NORM;
             } else if (GpioPin.State.LOW.equals(state)) {
-                mode = CameraMode.NIGHT;
+                mode = Mode.NIGHT;
             } else {
-                mode = CameraMode.UNDEFINED;
+                mode = Mode.UNDEFINED;
             }
         } catch (IOException e) {
             Log.error(e);
@@ -50,11 +50,11 @@ public class CameraModeControlAdapter implements CameraModeControl {
         return mode;
     }
 
-    public void updateMode(CameraMode mode) {
+    public void updateMode(Mode mode) {
         try {
-            if (CameraMode.NORM.equals(mode)) {
+            if (Mode.NORM.equals(mode)) {
                 cameraModeControlPin.write(GpioPin.State.HIGH);
-            } else if (CameraMode.NIGHT.equals(mode)) {
+            } else if (Mode.NIGHT.equals(mode)) {
                 cameraModeControlPin.write(GpioPin.State.LOW);
             }
         } catch (IOException e) {

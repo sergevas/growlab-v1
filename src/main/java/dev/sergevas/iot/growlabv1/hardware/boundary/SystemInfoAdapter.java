@@ -1,6 +1,6 @@
 package dev.sergevas.iot.growlabv1.hardware.boundary;
 
-import dev.sergevas.iot.growlabv1.performance.controller.Profiler;
+import dev.sergevas.iot.growlabv1.performance.Profiler;
 import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
 import dev.sergevas.iot.growlabv1.shared.controller.ExceptionUtils;
 import dev.sergevas.iot.growlabv1.shared.domain.SensorType;

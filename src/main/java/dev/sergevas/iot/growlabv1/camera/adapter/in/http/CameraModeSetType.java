@@ -12,7 +12,10 @@ public class CameraModeSetType {
     private ModeEnum mode;
 
     /**
-     * The Raspberry Pi IR-CUT camera operation mode. Possible values:  - NORM - normal mode  - NIGHT - night mode
+     * The Raspberry Pi IR-CUT camera operation mode.
+     * Possible values:
+     *   - NORM - normal mode
+     *   - NIGHT - night mode
      **/
     public CameraModeSetType mode(ModeEnum mode) {
         this.mode = mode;
