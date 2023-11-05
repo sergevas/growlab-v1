@@ -5,5 +5,5 @@ public enum SensorType {
     SOIL_TEMP, SOIL_HUMID,
     LIGHT,
     CAMERA,
-    CPU_TEMP;
+    CPU_TEMP, DISK_SPACE;
 }

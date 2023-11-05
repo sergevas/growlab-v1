@@ -9,7 +9,7 @@ public class Bme280RawReadings {
     public int adcHumidity;
     public int adcPressure;
 
-    private byte[] readings = new byte[READINGS_LENGTH];
+    private final byte[] readings = new byte[READINGS_LENGTH];
 
     public byte[] getReadings() {
         return readings;

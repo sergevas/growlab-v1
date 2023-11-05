@@ -5,4 +5,6 @@ import dev.sergevas.iot.growlabv1.health.domain.SystemInfo;
 public interface SystemInfoUseCase {
 
     SystemInfo getSystemInfo();
+
+
 }

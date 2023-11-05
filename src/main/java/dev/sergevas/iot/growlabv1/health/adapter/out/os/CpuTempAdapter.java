@@ -1,6 +1,6 @@
 package dev.sergevas.iot.growlabv1.health.adapter.out.os;
 
-import dev.sergevas.iot.growlabv1.health.application.port.out.CpuTemp;
+import dev.sergevas.iot.growlabv1.health.application.port.out.CpuTempFetcher;
 import dev.sergevas.iot.growlabv1.performance.Profiler;
 import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
 import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import static dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId.E_SYSTEM_0001;
 
 @ApplicationScoped
-public class CpuTempAdapter implements CpuTemp {
+public class CpuTempAdapter implements CpuTempFetcher {
 
     public static final String[] FETCH_CPU_TEMP_CMD = new String[]{"cat", "/sys/class/thermal/thermal_zone0/temp"};
     private final ProcessBuilder processBuilder;

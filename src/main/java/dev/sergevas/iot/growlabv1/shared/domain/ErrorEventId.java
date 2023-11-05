@@ -10,7 +10,8 @@ public enum ErrorEventId {
     E_BMEP280_0001("E-BMEP280-0001", "BMEP280 THP data read error"),
     E_BMEP280_0002("E-BMEP280-0002", "BMEP280 THP raw data burst read timeout"),
 
-    E_SYSTEM_0001("E_SYSTEM_0001", "CPU temperature read error");
+    E_SYSTEM_0001("E_SYSTEM_0001", "CPU temperature read error"),
+    E_SYSTEM_0002("E_SYSTEM_0002", "Disk space fetch error");
 
     private final String id;
     private final String name;

@@ -1,4 +1,3 @@
-
 package dev.sergevas.iot.growlabv1;
 
 import jakarta.ws.rs.ApplicationPath;
@@ -12,7 +11,7 @@ import jakarta.ws.rs.core.Application;
 //import io.helidon.webserver.Routing;
 //import io.helidon.webserver.WebServer;
 
-@ApplicationPath("/growlab/api/v1")
+@ApplicationPath("/")
 public class GrowlabV1App extends Application {
 
 //    /**

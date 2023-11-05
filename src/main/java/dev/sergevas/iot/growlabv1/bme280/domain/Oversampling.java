@@ -9,7 +9,7 @@ public enum Oversampling {
     OS_8((byte) 0b100),
     OS_16((byte) 0b101);
 
-    private byte val;
+    private final byte val;
 
     Oversampling(byte val) {
         this.val = val;

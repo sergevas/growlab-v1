@@ -209,7 +209,7 @@ public class Bmep280Adapter {
     }
 
     public Bme280Readings getThpReadings() {
-        Bme280Readings bme280Readings = null;
+        Bme280Readings bme280Readings;
         this.readRawData();
         Profiler.init("Bmep280Adapter.getThpReadings");
         try {
