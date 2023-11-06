@@ -10,6 +10,7 @@ import io.quarkiverse.jef.java.embedded.framework.linux.i2c.I2CBus;
 import io.quarkiverse.jef.java.embedded.framework.linux.i2c.I2CInterface;
 import io.quarkiverse.jef.java.embedded.framework.linux.i2c.SMBus;
 import io.quarkiverse.jef.java.embedded.framework.runtime.i2c.I2C;
+import io.quarkus.arc.profile.IfBuildProfile;
 import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -17,6 +18,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import java.nio.ByteBuffer;
 
 @ApplicationScoped
+@IfBuildProfile("prod")
 public class Bh1750Adapter implements LightIntensity {
     public static final byte GY_302_BH1750_POWER_DOWN = 0x00;
     public static final byte GY_302_BH1750_POWER_ON = 0x01;

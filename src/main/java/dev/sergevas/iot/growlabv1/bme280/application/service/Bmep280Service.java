@@ -6,6 +6,9 @@ import dev.sergevas.iot.growlabv1.bme280.domain.Bmep280Readings;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+
 @ApplicationScoped
 public class Bmep280Service implements Bmep280UseCase {
 
@@ -14,6 +17,6 @@ public class Bmep280Service implements Bmep280UseCase {
 
     @Override
     public Bmep280Readings getThpReadings() {
-        return thpReader.readThp();
+        return thpReader.readThp().thpTimestamp(OffsetDateTime.now(ZoneOffset.UTC));
     }
 }

@@ -9,6 +9,7 @@ import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 import io.quarkiverse.jef.java.embedded.framework.linux.i2c.I2CBus;
 import io.quarkiverse.jef.java.embedded.framework.linux.i2c.SMBus;
 import io.quarkiverse.jef.java.embedded.framework.runtime.i2c.I2C;
+import io.quarkus.arc.profile.IfBuildProfile;
 import io.quarkus.logging.Log;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -22,6 +23,7 @@ import static dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId.E_BMEP280_00
 import static io.quarkiverse.jef.java.embedded.framework.linux.core.SmBusConstants.I2C_SMBUS_READ;
 
 @ApplicationScoped
+@IfBuildProfile("prod")
 public class Bmep280Adapter implements ThpReader {
     public static final int ID_ADDR = 0xD0;
     public static final int H4_H5_DATA_LENGTH = 3;
