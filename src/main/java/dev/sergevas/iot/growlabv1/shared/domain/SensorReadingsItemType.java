@@ -14,18 +14,14 @@ import java.util.Objects;
 public class SensorReadingsItemType {
 
     @Valid
-    @JsonbProperty("s_type")
     private String sType;
     @Valid
-    @JsonbProperty("s_id")
     private String sId;
     @Valid
     @NotNull
-    @JsonbProperty("s_data")
     private String sData;
     @Valid
     @NotNull
-    @JsonbProperty("s_timestamp")
     private OffsetDateTime sTimestamp;
 
     /**
@@ -36,6 +32,7 @@ public class SensorReadingsItemType {
         return this;
     }
 
+    @JsonbProperty("s_type")
     public String getSType() {
         return sType;
     }
@@ -52,6 +49,7 @@ public class SensorReadingsItemType {
         return this;
     }
 
+    @JsonbProperty("s_id")
     public String getSId() {
         return sId;
     }
@@ -68,6 +66,7 @@ public class SensorReadingsItemType {
         return this;
     }
 
+    @JsonbProperty("s_data")
     public String getSData() {
         return sData;
     }
@@ -84,6 +83,7 @@ public class SensorReadingsItemType {
         return this;
     }
 
+    @JsonbProperty("s_timestamp")
     public OffsetDateTime getSTimestamp() {
         return sTimestamp;
     }

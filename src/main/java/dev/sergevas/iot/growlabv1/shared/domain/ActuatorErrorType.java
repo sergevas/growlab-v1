@@ -13,18 +13,11 @@ import java.util.Objects;
 public class ActuatorErrorType {
 
     @NotNull
-    @JsonbProperty("event_id")
     private String eventId;
-
     @NotNull
-    @JsonbProperty("event_name")
     private String eventName;
-
-    @JsonbProperty("desc")
     private String desc;
-
     @NotNull
-    @JsonbProperty("event_timestamp")
     private OffsetDateTime eventTimestamp;
 
     /**
@@ -35,6 +28,7 @@ public class ActuatorErrorType {
         return this;
     }
 
+    @JsonbProperty("event_id")
     public String getEventId() {
         return eventId;
     }
@@ -51,6 +45,7 @@ public class ActuatorErrorType {
         return this;
     }
 
+    @JsonbProperty("event_name")
     public String getEventName() {
         return eventName;
     }
@@ -67,6 +62,7 @@ public class ActuatorErrorType {
         return this;
     }
 
+    @JsonbProperty("desc")
     public String getDesc() {
         return desc;
     }
@@ -83,6 +79,7 @@ public class ActuatorErrorType {
         return this;
     }
 
+    @JsonbProperty("event_timestamp")
     public OffsetDateTime getEventTimestamp() {
         return eventTimestamp;
     }

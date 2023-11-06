@@ -14,21 +14,16 @@ public class SensorErrorType {
 
     @Valid
     @NotNull
-    @JsonbProperty("event_id")
     private String eventId;
     @Valid
     @NotNull
-    @JsonbProperty("event_name")
     private String eventName;
     @Valid
-    @JsonbProperty("s_type")
     private String sType;
     @Valid
-    @JsonbProperty("desc")
     private String desc;
     @Valid
     @NotNull
-    @JsonbProperty("event_timestamp")
     private OffsetDateTime eventTimestamp;
 
     /**
@@ -39,6 +34,7 @@ public class SensorErrorType {
         return this;
     }
 
+    @JsonbProperty("event_id")
     public String getEventId() {
         return eventId;
     }
@@ -55,6 +51,7 @@ public class SensorErrorType {
         return this;
     }
 
+    @JsonbProperty("event_name")
     public String getEventName() {
         return eventName;
     }
@@ -71,6 +68,7 @@ public class SensorErrorType {
         return this;
     }
 
+    @JsonbProperty("s_type")
     public String getSType() {
         return sType;
     }
@@ -87,6 +85,7 @@ public class SensorErrorType {
         return this;
     }
 
+    @JsonbProperty("desc")
     public String getDesc() {
         return desc;
     }
@@ -103,6 +102,7 @@ public class SensorErrorType {
         return this;
     }
 
+    @JsonbProperty("event_timestamp")
     public OffsetDateTime getEventTimestamp() {
         return eventTimestamp;
     }
