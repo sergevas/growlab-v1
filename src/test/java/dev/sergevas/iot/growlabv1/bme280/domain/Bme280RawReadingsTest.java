@@ -1,6 +1,5 @@
-package dev.sergevas.iot.growlabv1.bme280.model;
+package dev.sergevas.iot.growlabv1.bme280.domain;
 
-import dev.sergevas.iot.growlabv1.bme280.domain.Bme280RawReadings;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -8,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Bme280RawReadingsTest {
 
-    private static Bme280RawReadings bme280RawReadings;
+    private static Bmep280RawReadings bme280RawReadings;
 
     @BeforeAll
     static void setup() {
-        bme280RawReadings = new Bme280RawReadings();
+        bme280RawReadings = new Bmep280RawReadings();
         byte[] rawReadings = bme280RawReadings.getReadings();
         rawReadings[0] = (byte) 0x53;
         rawReadings[1] = (byte) 0x0E;

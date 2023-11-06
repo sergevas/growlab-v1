@@ -1,17 +1,17 @@
-package dev.sergevas.iot.growlabv1.bme280.application.service;
+package dev.sergevas.iot.growlabv1.bme280.adapter.out.i2c;
 
-import dev.sergevas.iot.growlabv1.bme280.domain.Bme280RawReadings;
-import dev.sergevas.iot.growlabv1.bme280.domain.Bme280Readings;
+import dev.sergevas.iot.growlabv1.bme280.domain.Bmep280RawReadings;
+import dev.sergevas.iot.growlabv1.bme280.domain.Bmep280Readings;
 import dev.sergevas.iot.growlabv1.bme280.domain.TrimmingParameters;
 
 public class ReadingsProcessor {
 
-    private Bme280RawReadings rawR;
+    private Bmep280RawReadings rawR;
     private TrimmingParameters trP;
 
     private int tFine;
 
-    public ReadingsProcessor bme280RawReadings(Bme280RawReadings bme280RawReadings) {
+    public ReadingsProcessor bme280RawReadings(Bmep280RawReadings bme280RawReadings) {
         this.rawR = bme280RawReadings;
         return this;
     }
@@ -21,8 +21,8 @@ public class ReadingsProcessor {
         return this;
     }
 
-    public Bme280Readings compensateReadings() {
-        return new Bme280Readings()
+    public Bmep280Readings compensateReadings() {
+        return new Bmep280Readings()
                 .temperature(this.compensateTemperatureReadings())
                 .humidity(this.compensateHumidityReadings())
                 .pressure(this.compensatePressureReadings());

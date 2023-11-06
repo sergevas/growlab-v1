@@ -1,8 +1,8 @@
 package dev.sergevas.iot.growlabv1.health.adapter.out.os;
 
-import dev.sergevas.iot.growlabv1.hardware.application.port.out.HardwareException;
 import dev.sergevas.iot.growlabv1.health.application.port.out.DiskSpaceFetcher;
 import dev.sergevas.iot.growlabv1.health.domain.DiskSpace;
+import dev.sergevas.iot.growlabv1.shared.application.port.out.HardwareException;
 import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
 import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 import io.quarkus.logging.Log;

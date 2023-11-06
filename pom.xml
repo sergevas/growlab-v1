@@ -18,7 +18,7 @@
         <picam.version>2.0.2</picam.version>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>3.5.0</quarkus.platform.version>
+        <quarkus.platform.version>3.4.3</quarkus.platform.version>
         <skipITs>true</skipITs>
         <sbc.ip>192.168.1.72</sbc.ip>
         <app.root.dir>/home/pi/growlabv1/app</app.root.dir>

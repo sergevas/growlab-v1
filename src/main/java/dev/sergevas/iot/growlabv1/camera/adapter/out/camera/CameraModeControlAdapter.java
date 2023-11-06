@@ -2,8 +2,8 @@ package dev.sergevas.iot.growlabv1.camera.adapter.out.camera;
 
 import dev.sergevas.iot.growlabv1.camera.appication.port.out.CameraModeControl;
 import dev.sergevas.iot.growlabv1.camera.domain.CameraMode.Mode;
-import dev.sergevas.iot.growlabv1.hardware.application.port.out.HardwareException;
 import dev.sergevas.iot.growlabv1.shared.application.port.out.ActuatorException;
+import dev.sergevas.iot.growlabv1.shared.application.port.out.HardwareException;
 import io.quarkiverse.jef.java.embedded.framework.linux.gpio.GpioPin;
 import io.quarkiverse.jef.java.embedded.framework.runtime.gpio.GPIO;
 import io.quarkus.logging.Log;
@@ -18,7 +18,7 @@ import static dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId.E_CAMERA_000
 @ApplicationScoped
 public class CameraModeControlAdapter implements CameraModeControl {
 
-    @GPIO(name = "CameraModeControlPinNumber", number = 17)
+    @GPIO(name = "<default>", number = 17)
     GpioPin cameraModeControlPin;
 
     @PostConstruct

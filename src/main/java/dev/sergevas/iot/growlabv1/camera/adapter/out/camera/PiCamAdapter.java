@@ -1,7 +1,7 @@
 package dev.sergevas.iot.growlabv1.camera.adapter.out.camera;
 
 import dev.sergevas.iot.growlabv1.camera.appication.port.out.TakeCameraPicture;
-import dev.sergevas.iot.growlabv1.hardware.application.port.out.HardwareException;
+import dev.sergevas.iot.growlabv1.shared.application.port.out.HardwareException;
 import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
 import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 import io.quarkus.logging.Log;

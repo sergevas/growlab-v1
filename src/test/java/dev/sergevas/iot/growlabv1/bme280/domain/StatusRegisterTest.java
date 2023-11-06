@@ -1,6 +1,5 @@
-package dev.sergevas.iot.growlabv1.bme280.model;
+package dev.sergevas.iot.growlabv1.bme280.domain;
 
-import dev.sergevas.iot.growlabv1.bme280.domain.StatusRegister;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -10,12 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class StatusRegisterTest {
 
     static StatusRegister statusRegisterRunning;
-    static StatusRegister statusRegisterResultsTransfered;
+    static StatusRegister statusRegisterResultsTransferred;
 
     @BeforeAll
     static void setup() {
         statusRegisterRunning = new StatusRegister().val((byte) 0b01111011);
-        statusRegisterResultsTransfered = new StatusRegister().val((byte) 0b01110011);
+        statusRegisterResultsTransferred = new StatusRegister().val((byte) 0b01110011);
     }
 
     @Test
@@ -25,8 +24,8 @@ class StatusRegisterTest {
     }
 
     @Test
-    void isResultsTransfered() {
-        assertTrue(statusRegisterResultsTransfered.isResultsTransferred());
-        assertFalse(statusRegisterResultsTransfered.isConversationRunning());
+    void isResultsTransferred() {
+        assertTrue(statusRegisterResultsTransferred.isResultsTransferred());
+        assertFalse(statusRegisterResultsTransferred.isConversationRunning());
     }
 }

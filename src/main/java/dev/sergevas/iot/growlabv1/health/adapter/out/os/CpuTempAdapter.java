@@ -32,11 +32,11 @@ public class CpuTempAdapter implements CpuTempFetcher {
             String cpuTempStr = reader.readLine();
             cpuTemp = Double.parseDouble(cpuTempStr) / 1000.0;
             Log.info(Profiler.getCurrentMsg("CpuTempAdapter.getCpuTemp()", "calcCpuTemp"));
+            Log.info(Profiler.getCurrentMsg("CpuTempAdapter.getCpuTemp()", "getCpuTempComplete"));
+            return cpuTemp;
         } catch (Exception e) {
             Log.error("Unable to get CPU Temp ", e);
             throw new SensorException(E_SYSTEM_0001.getId(), SensorType.CPU_TEMP, E_SYSTEM_0001.getName(), e);
         }
-        Log.info(Profiler.getCurrentMsg("CpuTempAdapter.getCpuTemp()", "getCpuTempComplete"));
-        return cpuTemp;
     }
 }

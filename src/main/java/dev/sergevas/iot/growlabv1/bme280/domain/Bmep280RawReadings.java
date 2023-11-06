@@ -1,6 +1,6 @@
 package dev.sergevas.iot.growlabv1.bme280.domain;
 
-public class Bme280RawReadings {
+public class Bmep280RawReadings {
 
     public static final int ADDR = 0xF7;
     public static final int READINGS_LENGTH = 8;
@@ -15,7 +15,7 @@ public class Bme280RawReadings {
         return readings;
     }
 
-    public Bme280RawReadings computeAdcValues() {
+    public Bmep280RawReadings computeAdcValues() {
         this.computeTemperature();
         this.computeHumidity();
         this.computePressure();
