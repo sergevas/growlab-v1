@@ -5,6 +5,11 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+/**
+ * Some chunks of the code is from
+ * io\helidon\health\helidon-health-checks\2.3.2\helidon-health-checks-2.3.2-sources.jar!\io\helidon\health\checks\HeapMemoryHealthCheck.java
+ */
+
 public class HeapMemory extends FormattedMemoryVolume {
 
     private final long freeMemory;

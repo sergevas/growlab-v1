@@ -5,6 +5,11 @@ import dev.sergevas.iot.growlabv1.health.domain.HeapMemory;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 
+/**
+ * Some chunks of the code is from
+ * io\helidon\health\helidon-health-checks\2.3.2\helidon-health-checks-2.3.2-sources.jar!\io\helidon\health\checks\HeapMemoryHealthCheck.java
+ */
+
 @ApplicationScoped
 public class HeapMemoryAdapter implements HeapMemoryFetcher {
 
