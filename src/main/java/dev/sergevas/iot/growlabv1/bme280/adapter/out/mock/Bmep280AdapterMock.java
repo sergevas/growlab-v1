@@ -14,6 +14,6 @@ public class Bmep280AdapterMock implements ThpReader {
                 .temperature(20.35)
                 .humidity(78.75)
                 .pressure(97549.49)
-                .id("0x60");
+                .id("60");
     }
 }

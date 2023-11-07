@@ -2,6 +2,8 @@ package dev.sergevas.iot.growlabv1.shared.application.port.out;
 
 import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 
+import java.util.StringJoiner;
+
 public class SensorException extends RuntimeException {
 
     private String eventId;
@@ -45,5 +47,14 @@ public class SensorException extends RuntimeException {
 
     public SensorType getSensorType() {
         return sensorType;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", SensorException.class.getSimpleName() + "[", "]")
+                .add(super.toString())
+                .add("eventId='" + eventId + "'")
+                .add("sensorType=" + sensorType)
+                .toString();
     }
 }
