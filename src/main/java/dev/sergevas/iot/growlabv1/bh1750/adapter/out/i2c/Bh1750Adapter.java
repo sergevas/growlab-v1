@@ -25,7 +25,7 @@ public class Bh1750Adapter implements LightIntensity {
     public static final byte GY_302_BH1750_ONE_TIME_H_RESOLUTION_MODE = (byte) 0x20;
     public static final int GY_302_BH1750_READINGS_DATA_LENGTH = 2;
 
-    @I2C(name = "i2c0")
+    @I2C(name = "i2c1")
     I2CBus i2C0Bus;
     @ConfigProperty(name = "bh1750.moduleAddress")
     int bh1750ModuleAddress;

@@ -35,7 +35,7 @@ public class Bmep280Adapter implements ThpReader {
     private Bmep280RawReadings bme280RawReadings;
     private StatusRegister statusRegister;
 
-    @I2C(name = "i2c0")
+    @I2C(name = "i2c1")
     I2CBus i2C0Bus;
     @ConfigProperty(name = "bme280.moduleAddress")
     int bme280moduleAddress;
