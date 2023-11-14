@@ -3,6 +3,7 @@ package dev.sergevas.iot.growlabv1.shared.adapter.in.web;
 import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
 import dev.sergevas.iot.growlabv1.shared.application.service.ExceptionUtils;
 import dev.sergevas.iot.growlabv1.shared.domain.SensorErrorType;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
@@ -20,6 +21,9 @@ public class SensorErrorTypeMapper implements ExceptionMapper<SensorException> {
                 .eventTimestamp(OffsetDateTime.now(ZoneOffset.UTC))
                 .sType(e.getSensorType().name())
                 .desc(ExceptionUtils.getStackTrace(e.getCause()));
-        return Response.serverError().entity(sensorError).build();
+        return Response.serverError()
+                .type(MediaType.APPLICATION_JSON_TYPE)
+                .entity(sensorError)
+                .build();
     }
 }

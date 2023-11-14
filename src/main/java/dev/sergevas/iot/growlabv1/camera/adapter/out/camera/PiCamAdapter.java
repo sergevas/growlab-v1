@@ -1,7 +1,6 @@
 package dev.sergevas.iot.growlabv1.camera.adapter.out.camera;
 
 import dev.sergevas.iot.growlabv1.camera.appication.port.out.TakeCameraPicture;
-import dev.sergevas.iot.growlabv1.shared.application.port.out.HardwareException;
 import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
 import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 import io.quarkus.logging.Log;
@@ -12,7 +11,9 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import uk.co.caprica.picam.*;
 
+import static dev.sergevas.iot.growlabv1.shared.application.service.ExceptionUtils.getStackTrace;
 import static dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId.E_CAMERA_0001;
+import static dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId.E_CAMERA_0002;
 import static uk.co.caprica.picam.CameraConfiguration.cameraConfiguration;
 import static uk.co.caprica.picam.PicamNativeLibrary.installTempLibrary;
 
@@ -88,8 +89,8 @@ public class PiCamAdapter implements TakeCameraPicture {
         try {
             installTempLibrary();
         } catch (NativeLibraryException nle) {
-            Log.error(nle);
-            throw new HardwareException("Unable to load picam native library", nle);
+            Log.error(getStackTrace(nle));
+            throw new SensorException(E_CAMERA_0001.getId(), SensorType.CAMERA, E_CAMERA_0001.getName(), nle);
         }
     }
 
@@ -98,9 +99,9 @@ public class PiCamAdapter implements TakeCameraPicture {
             this.closeCamera();
             this.camera = new Camera(this.piCamCfg);
         } catch (CameraException ce) {
-            Log.error(ce);
+            Log.error(getStackTrace(ce));
             if (this.camera != null) this.camera.close();
-            throw new HardwareException("Unable to init Camera instance", ce);
+            throw new SensorException(E_CAMERA_0001.getId(), SensorType.CAMERA, E_CAMERA_0001.getName(), ce);
         }
         return this.camera;
     }
@@ -122,11 +123,11 @@ public class PiCamAdapter implements TakeCameraPicture {
                 rawBytes = this.takePictureDirect();
             } catch (Exception e) {
                 Log.error(e);
-                throw new SensorException(E_CAMERA_0001.getId(), SensorType.CAMERA, E_CAMERA_0001.getName(), e);
+                throw new SensorException(E_CAMERA_0002.getId(), SensorType.CAMERA, E_CAMERA_0002.getName(), e);
             }
         } catch (Throwable t) {
             Log.error(t);
-            throw new SensorException(E_CAMERA_0001.getId(), SensorType.CAMERA, E_CAMERA_0001.getName(), t);
+            throw new SensorException(E_CAMERA_0002.getId(), SensorType.CAMERA, E_CAMERA_0002.getName(), t);
         }
         return rawBytes;
     }
