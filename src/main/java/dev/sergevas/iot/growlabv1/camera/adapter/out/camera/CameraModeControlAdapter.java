@@ -12,7 +12,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.IOException;
 
-import static dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId.E_CAMERA_0002;
 import static dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId.E_CAMERA_0003;
 
 @ApplicationScoped
@@ -21,10 +20,14 @@ public class CameraModeControlAdapter implements CameraModeControl {
     @GPIO(name = "<default>", number = 17)
     GpioPin cameraModeControlPin;
 
+    private Mode currentMode;
+
     @PostConstruct
     public void init() {
         try {
             cameraModeControlPin.setDirection(GpioPin.Direction.OUTPUT);
+            currentMode = Mode.NORM;
+            updateMode(currentMode);
         } catch (IOException e) {
             String errorMsgFormatted = "Unable to init Camera Control pin %s";
             Log.errorf(e, errorMsgFormatted, cameraModeControlPin);
@@ -33,21 +36,7 @@ public class CameraModeControlAdapter implements CameraModeControl {
     }
 
     public Mode getMode() {
-        Mode mode;
-        try {
-            var state = cameraModeControlPin.read();
-            if (GpioPin.State.HIGH.equals(state)) {
-                mode = Mode.NORM;
-            } else if (GpioPin.State.LOW.equals(state)) {
-                mode = Mode.NIGHT;
-            } else {
-                mode = Mode.UNDEFINED;
-            }
-        } catch (IOException e) {
-            Log.error(e);
-            throw new ActuatorException(E_CAMERA_0002.getId(), E_CAMERA_0002.getName(), e);
-        }
-        return mode;
+        return currentMode;
     }
 
     public void updateMode(Mode mode) {
@@ -57,6 +46,7 @@ public class CameraModeControlAdapter implements CameraModeControl {
             } else if (Mode.NIGHT.equals(mode)) {
                 cameraModeControlPin.write(GpioPin.State.LOW);
             }
+            currentMode = mode;
         } catch (IOException e) {
             Log.error(e);
             throw new ActuatorException(E_CAMERA_0003.getId(), E_CAMERA_0003.getName(), e);

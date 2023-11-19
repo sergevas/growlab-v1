@@ -4,6 +4,7 @@ import dev.sergevas.iot.growlabv1.bme280.application.port.out.ThpReader;
 import dev.sergevas.iot.growlabv1.bme280.domain.*;
 import dev.sergevas.iot.growlabv1.performance.Profiler;
 import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
+import dev.sergevas.iot.growlabv1.shared.application.service.ExceptionUtils;
 import dev.sergevas.iot.growlabv1.shared.application.service.StringUtil;
 import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
 import io.quarkiverse.jef.java.embedded.framework.linux.i2c.I2CBus;
@@ -165,7 +166,7 @@ public class Bmep280Adapter implements ThpReader {
             Log.debug(Profiler.getCurrentMsg("Bmep280Adapter.getThpReadings", "getThpReadingsComplete"));
             return bme280Readings;
         } catch (Exception e) {
-            Log.error(e);
+            Log.error(ExceptionUtils.getStackTrace(e));
             throw new SensorException(E_BMEP280_0001.getId(), SensorType.THP, E_BMEP280_0001.getName(), e);
         }
     }

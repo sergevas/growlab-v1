@@ -3,6 +3,7 @@ package dev.sergevas.iot.growlabv1.bh1750.adapter.out.i2c;
 import dev.sergevas.iot.growlabv1.bh1750.application.port.out.LightIntensity;
 import dev.sergevas.iot.growlabv1.performance.Profiler;
 import dev.sergevas.iot.growlabv1.shared.application.port.out.SensorException;
+import dev.sergevas.iot.growlabv1.shared.application.service.ExceptionUtils;
 import dev.sergevas.iot.growlabv1.shared.application.service.StringUtil;
 import dev.sergevas.iot.growlabv1.shared.domain.ErrorEventId;
 import dev.sergevas.iot.growlabv1.shared.domain.SensorType;
@@ -48,7 +49,7 @@ public class Bh1750Adapter implements LightIntensity {
             Log.debug(Profiler.getCurrentMsg("Bh1750Adapter.getLightIntensity()", "getLightIntensityComplete"));
             return lightIntensity;
         } catch (Exception e) {
-            Log.error("Unable to get light intensity", e);
+            Log.errorf("Unable to get light intensity %s", ExceptionUtils.getStackTrace(e));
             throw new SensorException(ErrorEventId.E_BH1750_0001.getId(), SensorType.LIGHT, ErrorEventId.E_BH1750_0001.getName(), e);
         }
     }
