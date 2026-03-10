@@ -1,210 +1,217 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>dev.sergevas.iot</groupId>
-  <artifactId>growlab-v1</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>dev.sergevas.iot</groupId>
+    <artifactId>growlab-v1</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
-  <properties>
-    <compiler-plugin.version>3.8.1</compiler-plugin.version>
-    <maven.compiler.parameters>true</maven.compiler.parameters>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <mainClass>dev.sergevas.iot.growlabv1.Main</mainClass>
-    <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
-    <pi4j.version>2.0</pi4j.version>
-    <slf4j.version>2.0.0-alpha2</slf4j.version>
-    <junit.version>5.7.2</junit.version>
-    <picam.version>2.0.2</picam.version>
-    <rpi.ip>192.168.1.72</rpi.ip>
-    <app.root.dir>/home/pi/growlabv1/app</app.root.dir>
-  </properties>
+    <properties>
+        <compiler-plugin.version>3.8.1</compiler-plugin.version>
+        <maven.compiler.parameters>true</maven.compiler.parameters>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <mainClass>dev.sergevas.iot.growlabv1.Main</mainClass>
+        <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
+        <pi4j.version>2.0</pi4j.version>
+        <slf4j.version>2.0.0-alpha2</slf4j.version>
+        <junit.version>5.7.2</junit.version>
+        <picam.version>2.0.2</picam.version>
+        <rpi.ip>192.168.1.72</rpi.ip>
+        <app.root.dir>/home/pi/growlabv1/app</app.root.dir>
+    </properties>
 
-  <parent>
-    <groupId>io.helidon.applications</groupId>
-    <artifactId>helidon-se</artifactId>
-    <version>2.3.2</version>
-    <relativePath/>
-  </parent>
+    <parent>
+        <groupId>io.helidon.applications</groupId>
+        <artifactId>helidon-se</artifactId>
+        <version>2.3.2</version>
+        <relativePath/>
+    </parent>
 
-  <repositories>
-    <repository>
-      <id>oss-snapshots-repo</id>
-      <name>Sonatype OSS Maven Repository</name>
-      <url>https://oss.sonatype.org/content/groups/public</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
+    <repositories>
+        <repository>
+            <id>oss-snapshots-repo</id>
+            <name>Sonatype OSS Maven Repository</name>
+            <url>https://oss.sonatype.org/content/groups/public</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
-  <dependencies>
-    <dependency>
-      <groupId>io.helidon.webserver</groupId>
-      <artifactId>helidon-webserver</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.helidon.media</groupId>
-      <artifactId>helidon-media-jsonp</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.helidon.config</groupId>
-      <artifactId>helidon-config-yaml</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.helidon.health</groupId>
-      <artifactId>helidon-health</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.helidon.health</groupId>
-      <artifactId>helidon-health-checks</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.helidon.openapi</groupId>
-      <artifactId>helidon-openapi</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.helidon.webclient</groupId>
-      <artifactId>helidon-webclient</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.pi4j</groupId>
-      <artifactId>pi4j-core</artifactId>
-      <version>${pi4j.version}</version>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>io.helidon.webserver</groupId>
+            <artifactId>helidon-webserver</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.media</groupId>
+            <artifactId>helidon-media-jsonp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.config</groupId>
+            <artifactId>helidon-config-yaml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.health</groupId>
+            <artifactId>helidon-health</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.health</groupId>
+            <artifactId>helidon-health-checks</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.openapi</groupId>
+            <artifactId>helidon-openapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.webclient</groupId>
+            <artifactId>helidon-webclient</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.pi4j</groupId>
+            <artifactId>pi4j-core</artifactId>
+            <version>${pi4j.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>com.pi4j</groupId>
-      <artifactId>pi4j-plugin-raspberrypi</artifactId>
-      <version>${pi4j.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>com.pi4j</groupId>
+            <artifactId>pi4j-plugin-raspberrypi</artifactId>
+            <version>${pi4j.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>com.pi4j</groupId>
-      <artifactId>pi4j-plugin-pigpio</artifactId>
-      <version>${pi4j.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>com.pi4j</groupId>
+            <artifactId>pi4j-plugin-pigpio</artifactId>
+            <version>${pi4j.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>com.pi4j</groupId>
-      <artifactId>pi4j-plugin-linuxfs</artifactId>
-      <version>${pi4j.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>com.pi4j</groupId>
+            <artifactId>pi4j-plugin-linuxfs</artifactId>
+            <version>${pi4j.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>uk.co.caprica</groupId>
-      <artifactId>picam</artifactId>
-      <version>${picam.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>uk.co.caprica</groupId>
+            <artifactId>picam</artifactId>
+            <version>${picam.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.34</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
 
-  </dependencies>
-  <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh</artifactId>
-        <version>3.4.3</version>
-      </extension>
-    </extensions>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>wagon-maven-plugin</artifactId>
-        <version>2.0.2</version>
-        <executions>
-<!--          <execution>-->
-<!--            <id>uploadNativeLibs</id>-->
-<!--            <phase>install</phase>-->
-<!--            <goals>-->
-<!--              <goal>upload</goal>-->
-<!--            </goals>-->
-<!--            <configuration>-->
-<!--              <serverId>rpiAdev</serverId>-->
-<!--              <fromDir>${project.basedir}/src/main/resources</fromDir>-->
-<!--              <includes>native/*</includes>-->
-<!--              <url>scp://${rpi.ip}${app.root.dir}</url>-->
-<!--            </configuration>-->
-<!--          </execution>-->
-          <execution>
-            <id>uploadApp</id>
-            <phase>install</phase>
-            <goals>
-              <goal>upload</goal>
-              <goal>sshexec</goal>
-            </goals>
-              <configuration>
-                <serverId>rpiAdev</serverId>
-                <fromDir>${project.build.directory}</fromDir>
-                <includes>libs/*,${project.build.finalName}.${project.packaging}</includes>
-                <url>scp://${rpi.ip}${app.root.dir}/helidon</url>
-                <commands>
-                  <command>systemctl restart growlabv1.service</command>
-                </commands>
-                <displayCommandOutputs>true</displayCommandOutputs>
-              </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${compiler-plugin.version}</version>
-        <configuration>
-          <parameters>${maven.compiler.parameters}</parameters>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-libs</id>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>io.helidon.build-tools</groupId>
-        <artifactId>helidon-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>third-party-license-report</id>
-          </execution>
-        </executions>
-      </plugin>
-<!--      <plugin>-->
-<!--        <artifactId>maven-surefire-plugin</artifactId>-->
-<!--        <version>${surefire-plugin.version}</version>-->
-<!--        <configuration>-->
-<!--          <systemPropertyVariables>-->
-<!--            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>-->
-<!--            <maven.home>${maven.home}</maven.home>-->
-<!--          </systemPropertyVariables>-->
-<!--        </configuration>-->
-<!--      </plugin>-->
-    </plugins>
-  </build>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>3.4.3</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>2.0.2</version>
+                <executions>
+                    <!--          <execution>-->
+                    <!--            <id>uploadNativeLibs</id>-->
+                    <!--            <phase>install</phase>-->
+                    <!--            <goals>-->
+                    <!--              <goal>upload</goal>-->
+                    <!--            </goals>-->
+                    <!--            <configuration>-->
+                    <!--              <serverId>rpiAdev</serverId>-->
+                    <!--              <fromDir>${project.basedir}/src/main/resources</fromDir>-->
+                    <!--              <includes>native/*</includes>-->
+                    <!--              <url>scp://${rpi.ip}${app.root.dir}</url>-->
+                    <!--            </configuration>-->
+                    <!--          </execution>-->
+                    <execution>
+                        <id>uploadApp</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>upload</goal>
+                            <goal>sshexec</goal>
+                        </goals>
+                        <configuration>
+                            <serverId>rpiAdev</serverId>
+                            <fromDir>${project.build.directory}</fromDir>
+                            <includes>libs/*,${project.build.finalName}.${project.packaging}</includes>
+                            <url>scp://${rpi.ip}${app.root.dir}/helidon</url>
+                            <commands>
+                                <command>systemctl restart growlabv1.service</command>
+                            </commands>
+                            <displayCommandOutputs>true</displayCommandOutputs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin.version}</version>
+                <configuration>
+                    <parameters>${maven.compiler.parameters}</parameters>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-libs</id>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.helidon.build-tools</groupId>
+                <artifactId>helidon-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>third-party-license-report</id>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--      <plugin>-->
+            <!--        <artifactId>maven-surefire-plugin</artifactId>-->
+            <!--        <version>${surefire-plugin.version}</version>-->
+            <!--        <configuration>-->
+            <!--          <systemPropertyVariables>-->
+            <!--            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>-->
+            <!--            <maven.home>${maven.home}</maven.home>-->
+            <!--          </systemPropertyVariables>-->
+            <!--        </configuration>-->
+            <!--      </plugin>-->
+        </plugins>
+    </build>
 </project>
