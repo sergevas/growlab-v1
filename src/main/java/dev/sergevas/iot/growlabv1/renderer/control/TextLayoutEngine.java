@@ -13,26 +13,30 @@ import java.util.List;
 public class TextLayoutEngine {
 
     public static List<TextLayout> layoutText(
-            String text,
+            List<String> lines,
             Font font,
             FontRenderContext frc,
             float maxWidth
     ) {
-
-        AttributedString attributed = new AttributedString(text);
-        attributed.addAttribute(TextAttribute.FONT, font);
-
-        AttributedCharacterIterator it = attributed.getIterator();
-
-        LineBreakMeasurer measurer =
-                new LineBreakMeasurer(it, frc);
-
         List<TextLayout> layouts = new ArrayList<>();
+        for (String line : lines) {
+            AttributedString attributed;
+            if (line.isEmpty()) {
+                // Пустая строка – используем zero-width space, чтобы получить высоту строки
+                attributed = new AttributedString("\u200B");
+            } else {
+                attributed = new AttributedString(line);
+            }
+            attributed.addAttribute(TextAttribute.FONT, font);
 
-        while (measurer.getPosition() < it.getEndIndex()) {
-            layouts.add(measurer.nextLayout(maxWidth));
+            AttributedCharacterIterator it = attributed.getIterator();
+            LineBreakMeasurer measurer = new LineBreakMeasurer(it, frc);
+
+            // Если строка слишком длинная, она всё равно будет разбита по ширине
+            while (measurer.getPosition() < it.getEndIndex()) {
+                layouts.add(measurer.nextLayout(maxWidth));
+            }
         }
-
         return layouts;
     }
 }

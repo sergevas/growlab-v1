@@ -6,6 +6,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 public class ImageOverlayService {
@@ -18,9 +19,9 @@ public class ImageOverlayService {
         this.textColor = textColor;
     }
 
-    public void render(String input, String output, String message) throws Exception {
+    public void render(InputStream input, String output, List<String> message) throws Exception {
 
-        BufferedImage img = ImageIO.read(new File(input));
+        BufferedImage img = ImageIO.read(input);
 
         Graphics2D g = img.createGraphics();
 
@@ -39,7 +40,7 @@ public class ImageOverlayService {
         int x = 40;
         int y = 60;
 
-        int boxWidth = (int) maxWidth + 40;
+        int boxWidth = (int) maxWidth;
         int boxHeight = (int) (lines.size() * lineHeight) + 40;
 
         BufferedImage region = img.getSubimage(x, y, boxWidth, boxHeight);
