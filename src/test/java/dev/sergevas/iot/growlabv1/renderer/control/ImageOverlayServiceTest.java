@@ -20,7 +20,7 @@ class ImageOverlayServiceTest {
         ImageOverlayService renderer =
                 new ImageOverlayService(
                         font,
-                        Color.LIGHT_GRAY
+                        Color.WHITE
                 );
 
         renderer.render(Objects.requireNonNull(getClass().getResourceAsStream("/image/response.jpg")), "response_mod.jpg",
