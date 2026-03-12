@@ -24,7 +24,7 @@ class ImageOverlayServiceTest {
                 );
 
         renderer.render(Objects.requireNonNull(getClass().getResourceAsStream("/image/response.jpg")), "response_mod.jpg",
-                Arrays.asList("Окружающая среда Луковки", "Температура: 22.4°C", "Относительная влажность: 55%",
+                Arrays.asList("Луковка онлайн", "Температура: 22.4°C", "Относительная влажность: 55%",
                         "Давление: 101300 Па", "Количество света: 420 лк"));
     }
 }

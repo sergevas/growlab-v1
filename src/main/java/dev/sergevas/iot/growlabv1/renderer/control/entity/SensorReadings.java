@@ -1,6 +1,9 @@
 package dev.sergevas.iot.growlabv1.renderer.control.entity;
 
 import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 
 public class SensorReadings {
@@ -25,6 +28,11 @@ public class SensorReadings {
 
     public Instant getTime() {
         return time;
+    }
+
+    public String getMoscowTime() {
+        return DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm:ss", new Locale("ru"))
+                .format(time.atOffset(ZoneOffset.of("+03:00")));
     }
 
     public void setTime(Instant time) {

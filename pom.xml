@@ -105,11 +105,11 @@
             <version>${picam.version}</version>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>2.3.34</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.slf4j</groupId>
