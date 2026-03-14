@@ -73,7 +73,10 @@
         <dependency>
             <groupId>io.helidon.webclient</groupId>
             <artifactId>helidon-webclient</artifactId>
-            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.scheduling</groupId>
+            <artifactId>helidon-scheduling</artifactId>
         </dependency>
         <dependency>
             <groupId>com.pi4j</groupId>

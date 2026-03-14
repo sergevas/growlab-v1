@@ -15,30 +15,30 @@ camera:
   automaticWhiteBalance: AUTO
   encoding: JPEG
 
-#  stereoscopic:
-#    stereoscopicMode: NONE
-#    decimate: false
-#    swapEyes: false
-#  videoStabilisation: false
-#  shutterSpeed: 0
+  #  stereoscopic:
+  #    stereoscopicMode: NONE
+  #    decimate: false
+  #    swapEyes: false
+  #  videoStabilisation: false
+  #  shutterSpeed: 0
   exposureMeteringMode: MATRIX
-#  exposureCompensation: 0
-#  dynamicRangeCompressionStrength: OFF
-#  automaticWhiteBalanceRedGain: 0.0
-#  automaticWhiteBalanceBlueGain: 0.0
-#  imageEffect: NONE
-#  mirror: NONE
+  #  exposureCompensation: 0
+  #  dynamicRangeCompressionStrength: OFF
+  #  automaticWhiteBalanceRedGain: 0.0
+  #  automaticWhiteBalanceBlueGain: 0.0
+  #  imageEffect: NONE
+  #  mirror: NONE
   rotation: 180
-#  corp:
-#    cropX: 0.0
-#    cropY: 0.0
-#    cropW: 0.0
-#    cropH: 0.0
-#  colourEffect
-#    enable: false
-#    u: 0
-#    v: 0
-#  captureTimeout: 0
+  #  corp:
+  #    cropX: 0.0
+  #    cropY: 0.0
+  #    cropW: 0.0
+  #    cropH: 0.0
+  #  colourEffect
+  #    enable: false
+  #    u: 0
+  #    v: 0
+  #  captureTimeout: 0
   delay: 2000 #delay before taking the picture, specified in milliseconds
   cameraModeControlPin: 17
 bh1750:
@@ -46,3 +46,7 @@ bh1750:
 bmep280:
   moduleAddress: 0x76
   forcedModeTimeout: 2000
+file:
+  basePath: /home/pi/growlab
+scheduler:
+  period: 600
