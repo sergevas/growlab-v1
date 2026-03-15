@@ -18,6 +18,8 @@ public class SensorDataFileDumpAdapter {
 
     private static final Logger LOG = Logger.getLogger(SensorDataFileDumpAdapter.class.getName());
 
+    public static final String IMAGE_EXT = "jpg";
+
     private static SensorDataFileDumpAdapter instance;
 
     private ConfigHandler configHandler;
