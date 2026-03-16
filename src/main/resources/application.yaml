@@ -28,7 +28,7 @@ camera:
   #  automaticWhiteBalanceBlueGain: 0.0
   #  imageEffect: NONE
   #  mirror: NONE
-  rotation: 180
+  rotation: 0
   #  corp:
   #    cropX: 0.0
   #    cropY: 0.0
@@ -49,4 +49,4 @@ bmep280:
 file:
   basePath: /home/pi/growlab
 scheduler:
-  period: 600
+  period: 60

@@ -4,13 +4,16 @@ import dev.sergevas.iot.growlabv1.hardware.boundary.HardwareException;
 import dev.sergevas.iot.growlabv1.sender.entity.SensorReadings;
 import dev.sergevas.iot.growlabv1.shared.controller.ConfigHandler;
 
+import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.stream.JsonGenerator;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -37,11 +40,12 @@ public class SensorDataFileDumpAdapter {
         return this;
     }
 
-    public void writeDataToFile(SensorReadings readings, byte[] image) {
+    public void writeDataToFile(SensorReadings readings, BufferedImage image) {
         LOG.info("Enter writeDataToFile with readings: " + readings);
         var filePath = configHandler.getAsString("basePath");
-        try (var fos = Files.newOutputStream(Path.of(filePath, "data",
-                LocalDate.now().toString(), LocalTime.now() + ".json"))) {
+        var currentDate = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now());
+        var currentTime = DateTimeFormatter.ofPattern("HHmmss").format(LocalTime.now());
+        try (var fos = Files.newOutputStream(Path.of(filePath, "data", currentDate, currentTime + ".json"))) {
             JsonGenerator jsonGenerator = Json.createGenerator(fos);
             jsonGenerator.writeStartObject();
             jsonGenerator.write("temperature", readings.getTemperature());
@@ -57,8 +61,8 @@ public class SensorDataFileDumpAdapter {
         }
         if (image != null) {
             try {
-                Files.write(Path.of(filePath, "images",
-                        LocalDate.now().toString(), LocalTime.now() + ".jpg"), image);
+                var imageFile = Path.of(filePath, "images", currentDate, currentTime + "." + IMAGE_EXT).toFile();
+                ImageIO.write(image, IMAGE_EXT, imageFile);
             } catch (IOException e) {
                 throw new HardwareException("Failed to write image data to file", e);
             }

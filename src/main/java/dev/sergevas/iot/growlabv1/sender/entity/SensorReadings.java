@@ -3,6 +3,8 @@ package dev.sergevas.iot.growlabv1.sender.entity;
 import dev.sergevas.iot.growlabv1.camera.model.CameraMode;
 
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class SensorReadings {
@@ -72,5 +74,16 @@ public class SensorReadings {
                 ", timestamp=" + timestamp +
                 ", cameraMode=" + cameraMode +
                 '}';
+    }
+
+    public List<String> toStringFormatted() {
+        return Arrays.asList(
+                "Луковка онлайн: " + (timestamp != null ? timestamp.toString() : "нет данных"),
+                "Температура: " + (temperature != null ? String.format("%.2f °C", temperature) : "нет данных"),
+                "Влажность: " + (humidity != null ? String.format("%.2f %%", humidity) : "нет данных"),
+                "Давление: " + (pressure != null ? String.format("%.2f hPa", pressure) : "нет данных"),
+                "Количество света: " + (light != null ? String.format("%.2f lx", light) : "нет данных"),
+                "Режим камеры: " + (cameraMode != null ? cameraMode.getDescription() : "нет данных")
+        );
     }
 }

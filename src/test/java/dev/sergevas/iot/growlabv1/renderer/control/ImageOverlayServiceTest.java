@@ -12,18 +12,8 @@ class ImageOverlayServiceTest {
 
     @Test
     void givenImage_whenRender_thenShouldReturnSuccessfully() throws Exception {
-        Font font = Font.createFont(
-                Font.TRUETYPE_FONT,
-                Objects.requireNonNull(getClass().getResourceAsStream("/fonts/NotoSans-Regular.ttf"))
-        ).deriveFont(52f);
-
-        ImageOverlayService renderer =
-                new ImageOverlayService(
-                        font,
-                        Color.WHITE
-                );
-
-        renderer.render(Objects.requireNonNull(getClass().getResourceAsStream("/image/response.jpg")), "response_mod.jpg",
+        ImageOverlayService renderer = new ImageOverlayService(Color.WHITE);
+        renderer.render(Objects.requireNonNull(getClass().getResourceAsStream("/image/response.jpg").readAllBytes()),
                 Arrays.asList("Луковка онлайн", "Температура: 22.4°C", "Относительная влажность: 55%",
                         "Давление: 101300 Па", "Количество света: 420 лк"));
     }
