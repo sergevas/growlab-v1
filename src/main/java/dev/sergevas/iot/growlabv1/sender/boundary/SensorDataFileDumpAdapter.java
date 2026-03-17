@@ -4,10 +4,7 @@ import dev.sergevas.iot.growlabv1.hardware.boundary.HardwareException;
 import dev.sergevas.iot.growlabv1.sender.entity.SensorReadings;
 import dev.sergevas.iot.growlabv1.shared.controller.ConfigHandler;
 
-import javax.imageio.ImageIO;
 import javax.json.Json;
-import javax.json.stream.JsonGenerator;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,8 +17,6 @@ import java.util.logging.Logger;
 public class SensorDataFileDumpAdapter {
 
     private static final Logger LOG = Logger.getLogger(SensorDataFileDumpAdapter.class.getName());
-
-    public static final String IMAGE_EXT = "jpg";
 
     private static SensorDataFileDumpAdapter instance;
 
@@ -40,13 +35,21 @@ public class SensorDataFileDumpAdapter {
         return this;
     }
 
-    public void writeDataToFile(SensorReadings readings, BufferedImage image) {
+    public void writeDataToFile(SensorReadings readings, byte[] image) {
         LOG.info("Enter writeDataToFile with readings: " + readings);
-        var filePath = configHandler.getAsString("basePath");
+        var basePath = configHandler.getAsString("basePath");
         var currentDate = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now());
         var currentTime = DateTimeFormatter.ofPattern("HHmmss").format(LocalTime.now());
-        try (var fos = Files.newOutputStream(Path.of(filePath, "data", currentDate, currentTime + ".json"))) {
-            JsonGenerator jsonGenerator = Json.createGenerator(fos);
+        var dataFilePath = Path.of(basePath, "data", currentDate, currentTime + ".json");
+        var imageFilePath = Path.of(basePath, "images", currentDate, currentTime + ".jpeg");
+        try {
+            Files.createDirectories(dataFilePath.getParent());
+            Files.createDirectories(imageFilePath.getParent());
+        } catch (IOException e) {
+            throw new HardwareException("Failed to create directory for data or row image dump", e);
+        }
+        try (var jsonGenerator = Json.createGenerator(Files.newOutputStream(dataFilePath));
+             var imageOutputStream = Files.newOutputStream(imageFilePath)) {
             jsonGenerator.writeStartObject();
             jsonGenerator.write("temperature", readings.getTemperature());
             jsonGenerator.write("humidity", readings.getHumidity());
@@ -55,17 +58,11 @@ public class SensorDataFileDumpAdapter {
             jsonGenerator.write("timestamp", readings.getTimestamp().toString());
             jsonGenerator.write("cameraMode", readings.getCameraMode().toString());
             jsonGenerator.writeEnd();
-            LOG.info("Successfully wrote sensor data to file: " + filePath);
+            LOG.info("Successfully wrote sensor data to file: " + dataFilePath);
+            imageOutputStream.write(image);
+            LOG.info("Successfully wrote raw image to file: " + imageFilePath);
         } catch (IOException e) {
             throw new HardwareException("Failed to write sensor data to file", e);
-        }
-        if (image != null) {
-            try {
-                var imageFile = Path.of(filePath, "images", currentDate, currentTime + "." + IMAGE_EXT).toFile();
-                ImageIO.write(image, IMAGE_EXT, imageFile);
-            } catch (IOException e) {
-                throw new HardwareException("Failed to write image data to file", e);
-            }
         }
     }
 }

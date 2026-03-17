@@ -6,7 +6,7 @@ TimeoutStartSec=180
 SuccessExitStatus=143
 User=root
 Type=simple
-ExecStart=/usr/lib/jvm/zulu11.86.21-ca-jdk11.0.30-linux_aarch32hf/bin/java -Djava.awt.headless=true -Xms32m -Xmx64m -server -jar /home/pi/growlabv1/app/helidon/growlab-v1.jar
+ExecStart=/usr/lib/jvm/zulu11.86.21-ca-jdk11.0.30-linux_aarch32hf/bin/java -Xms32m -Xmx64m -server -jar /home/pi/growlabv1/app/helidon/growlab-v1.jar
 ExecStop=/bin/kill -15 $MAINPID
 
 [Install]

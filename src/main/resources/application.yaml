@@ -47,6 +47,6 @@ bmep280:
   moduleAddress: 0x76
   forcedModeTimeout: 2000
 file:
-  basePath: /home/pi/growlab
+  basePath: /home/pi/growlab/raw
 scheduler:
-  period: 60
+  period: 600
